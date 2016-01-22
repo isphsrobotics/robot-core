@@ -55,7 +55,7 @@ public class K9TeleOp extends OpMode {
 //	final static double CLAW_MAX_RANGE  = 0.7;
 
 	// position of the arm servo.
-//	double armPosition;
+	double armPosition = 0.0;
 
 	// amount to change the arm servo position.
 //	double armDelta = 0.1;
@@ -69,8 +69,10 @@ public class K9TeleOp extends OpMode {
 	DcMotor motorRight;
 	DcMotor motorLeft;
 	DcMotor motorTurbo;
-	Servo claw;
-	Servo arm;
+	DcMotor middleRelease;
+	Servo arm1;
+	Servo arm2;
+	Servo leftServo;
 
 	/**
 	 * Constructor
@@ -109,7 +111,13 @@ public class K9TeleOp extends OpMode {
 		motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
 		motorTurbo = hardwareMap.dcMotor.get("mMid");
-		
+		middleRelease = hardwareMap.dcMotor.get("mRelease");
+
+		leftServo = hardwareMap.servo.get("lservo");
+
+		arm1 = hardwareMap.servo.get("lowerServo");
+		arm2 = hardwareMap.servo.get("upperServo");
+
 		//arm = hardwareMap.servo.get("servo_1");
 		//claw = hardwareMap.servo.get("servo_6");
 
@@ -138,7 +146,7 @@ public class K9TeleOp extends OpMode {
 		// direction: left_stick_x ranges from -1 to 1, where -1 is full left
 		// and 1 is full right
 
-		float right = gamepad1.left_stick_y;
+		float right = gamepad1.right_stick_y;
 		float left = gamepad1.left_stick_y;
 
 		// clip the right/left values so that the values never exceed +/- 1
@@ -154,21 +162,38 @@ public class K9TeleOp extends OpMode {
 		motorRight.setPower(right);
 		motorLeft.setPower(left);
 
+
+
+
 		// update the position of the arm.
 		if (gamepad1.right_bumper) {
-			motorTurbo.setPower(1.0);
+			motorTurbo.setPower(-1.0);
+		}else{
+			motorTurbo.setPower(0.0);
 		}
+
+		leftServo.setPosition(armPosition);
+
+	if (gamepad1.y) {
+//			// if the Y button is pushed on gamepad1, decrease the position of
+		// the arm servo.
+
+		armPosition +=0.5;
+	}
+
+	// update the position of the claw
+	if (gamepad1.b) {
+		armPosition -= 0.5;
+	}
+
+        if(armPosition > 1.00){
+            armPosition = 1.00;
+        }
+
+        if(armPosition < 0.00){
+            armPosition = 0.00;
+        }
 //
-//		if (gamepad1.y) {
-////			// if the Y button is pushed on gamepad1, decrease the position of
-////			// the arm servo.
-////		 	armPosition -= armDelta;
-////		}
-////
-////		// update the position of the claw
-////		if (gamepad1.x) {
-////			clawPosition += clawDelta;
-////		}
 ////
 ////		if (gamepad1.b) {
 ////			clawPosition -= clawDelta;
