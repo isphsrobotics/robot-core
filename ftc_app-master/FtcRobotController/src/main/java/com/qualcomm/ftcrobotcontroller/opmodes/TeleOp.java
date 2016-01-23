@@ -104,6 +104,8 @@ public class TeleOp extends OpMode {
 		 * Right bumper: turbo (full/none)
 		 * Y button: increases leftServoPosition
 		 * B button: decreases leftServoPosition
+		 * A button: decreases release motor
+		 * X button: increases release motor
 		 * Left arrow: tapeMotor forward
 		 * Right arrow: tapeMotor backward
 		 * Up arrow: lift tape
@@ -154,7 +156,16 @@ public class TeleOp extends OpMode {
         if (leftServoPosition < 0.00) {
             leftServoPosition = 0.00;
         }
-
+        if (gamepad1.a) {
+            middleRelease.setPower(1.0);
+        } else {
+            middleRelease.setPower(0.0);
+        }
+        if (gamepad1.x) {
+            middleRelease.setPower(-1.0);
+        } else {
+            middleRelease.setPower(0.0);
+        }
 
         if (gamepad1.dpad_left) {
             tapeMotor.setPower(1.0);
@@ -187,7 +198,7 @@ public class TeleOp extends OpMode {
         // TODO: Telemetry
 
 		/*
-		 * Send telemetry data back to driver station. Note that if we are using
+         * Send telemetry data back to driver station. Note that if we are using
 		 * a legacy NXT-compatible motor controller, then the getPower() method
 		 * will return a null value. The legacy NXT-compatible motor controllers
 		 * are currently write only.
