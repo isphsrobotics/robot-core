@@ -43,33 +43,16 @@ import com.qualcomm.robotcore.util.Range;
  */
 public class K9TeleOp extends OpMode {
 	
-	/*
-	 * Note: the configuration of the servos is such that
-	 * as the arm servo approaches 0, the arm position moves up (away from the floor).
-	 * Also, as the claw servo approaches 0, the claw opens up (drops the game element).
-	 */
-//	// TETRIX VALUES.
-//	final static double ARM_MIN_RANGE  = 0.20;
-//	final static double ARM_MAX_RANGE  = 0.90;
-//	final static double CLAW_MIN_RANGE  = 0.20;
-//	final static double CLAW_MAX_RANGE  = 0.7;
-
 	// position of the arm servo.
-	double armPosition = 0.0;
-
-	// amount to change the arm servo position.
-//	double armDelta = 0.1;
-
-	// position of the claw servo
-//	double clawPosition;
-
-	// amount to change the claw servo position by
-//	double clawDelta = 0.1;
+	double leftServoPosition = 0.0;
+	double arm1Position = 0.0;
+	double arm2Position = 1.0;
 
 	DcMotor motorRight;
 	DcMotor motorLeft;
 	DcMotor motorTurbo;
 	DcMotor middleRelease;
+	DcMotor armMotor;
 	Servo arm1;
 	Servo arm2;
 	Servo leftServo;
@@ -90,22 +73,7 @@ public class K9TeleOp extends OpMode {
 	public void init() {
 
 
-		/*
-		 * Use the hardwareMap to get the dc motors and servos by name. Note
-		 * that the names of the devices must match the names used when you
-		 * configured your robot and created the configuration file.
-		 */
-		
-		/*
-		 * For the demo Tetrix K9 bot we assume the following,
-		 *   There are two motors "motor_1" and "motor_2"
-		 *   "motor_1" is on the right side of the bot.
-		 *   "motor_2" is on the left side of the bot and reversed.
-		 *   
-		 * We also assume that there are two servos "servo_1" and "servo_6"
-		 *    "servo_1" controls the arm joint of the manipulator.
-		 *    "servo_6" controls the claw joint of the manipulator.
-		 */
+
 		motorRight = hardwareMap.dcMotor.get("mRight");
 		motorLeft = hardwareMap.dcMotor.get("mLeft");
 		motorLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -113,24 +81,16 @@ public class K9TeleOp extends OpMode {
 		motorTurbo = hardwareMap.dcMotor.get("mMid");
 		middleRelease = hardwareMap.dcMotor.get("mRelease");
 
+		armMotor = hardwareMap.dcMotor.get("mArm");
+
 		leftServo = hardwareMap.servo.get("lservo");
 
 		arm1 = hardwareMap.servo.get("lowerServo");
 		arm2 = hardwareMap.servo.get("upperServo");
 
-		//arm = hardwareMap.servo.get("servo_1");
-		//claw = hardwareMap.servo.get("servo_6");
-
-		// assign the starting position of the wrist and claw
-//		armPosition = 0.2;
-//		clawPosition = 0.2;
 	}
 
-	/*
-	 * This method will be called repeatedly in a loop
-	 * 
-	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#run()
-	 */
+
 	@Override
 	public void loop() {
 
@@ -141,10 +101,7 @@ public class K9TeleOp extends OpMode {
 		 * wrist/claw via the a,b, x, y buttons
 		 */
 
-		// throttle: left_stick_y ranges from -1 to 1, where -1 is full up, and
-		// 1 is full down
-		// direction: left_stick_x ranges from -1 to 1, where -1 is full left
-		// and 1 is full right
+
 
 		float right = gamepad1.right_stick_y;
 		float left = gamepad1.left_stick_y;
@@ -172,27 +129,58 @@ public class K9TeleOp extends OpMode {
 			motorTurbo.setPower(0.0);
 		}
 
-		leftServo.setPosition(armPosition);
+		leftServo.setPosition(leftServoPosition);
+
+
 
 	if (gamepad1.y) {
 //			// if the Y button is pushed on gamepad1, decrease the position of
 		// the arm servo.
 
-		armPosition +=0.5;
+		leftServoPosition +=0.5;
 	}
 
 	// update the position of the claw
 	if (gamepad1.b) {
-		armPosition -= 0.5;
+		leftServoPosition -= 0.5;
 	}
 
-        if(armPosition > 1.00){
-            armPosition = 1.00;
+        if(leftServoPosition > 1.00){
+            leftServoPosition = 1.00;
         }
 
-        if(armPosition < 0.00){
-            armPosition = 0.00;
+        if(leftServoPosition < 0.00){
+            leftServoPosition = 0.00;
         }
+
+
+
+		if(gamepad1.x){
+			armMotor.setPower(1.0);
+		}else{
+			armMotor.setPower(0.0);
+		}
+
+		if(gamepad1.a){
+			armMotor.setPower(-1.0);
+		}else{
+			armMotor.setPower(0.0);
+		}
+
+		if(gamepad1.dpad_up){
+			arm1Position += 0.05;
+			arm2Position -= 0.05;
+		}
+
+		if(gamepad1.dpad_down){
+			arm1Position -= 0.05;
+			arm2Position += 0.05;
+		}
+
+		arm1.setPosition(arm1Position);
+		arm2.setPosition(arm2Position);
+
+
 //
 ////
 ////		if (gamepad1.b) {
@@ -200,11 +188,11 @@ public class K9TeleOp extends OpMode {
 ////		}
 
         // clip the position values so that they never exceed their allowed range.
-//        armPosition = Range.clip(armPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
+//        leftServoPosition = Range.clip(leftServoPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
 //        clawPosition = Range.clip(clawPosition, CLAW_MIN_RANGE, CLAW_MAX_RANGE);
 //
 //		// write position values to the wrist and claw servo
-//		arm.setPosition(armPosition);
+//		arm.setPosition(leftServoPosition);
 //		claw.setPosition(clawPosition);
 
 
@@ -216,7 +204,7 @@ public class K9TeleOp extends OpMode {
 		 * are currently write only.
 		 */
         telemetry.addData("Text", "*** Robot Data***");
-//        telemetry.addData("arm", "arm:  " + String.format("%.2f", armPosition));
+//        telemetry.addData("arm", "arm:  " + String.format("%.2f", leftServoPosition));
 //        telemetry.addData("claw", "claw:  " + String.format("%.2f", clawPosition));
         telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
