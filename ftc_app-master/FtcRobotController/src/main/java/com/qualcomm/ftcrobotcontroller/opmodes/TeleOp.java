@@ -51,6 +51,7 @@ public class TeleOp extends OpMode {
 	DcMotor motorTurbo;
 	DcMotor middleRelease;
 	DcMotor armMotor;
+	DcMotor tapeMotor;
 	Servo arm2;
 	Servo leftServo;
 	Servo tapeServo;
@@ -78,6 +79,8 @@ public class TeleOp extends OpMode {
 
 		motorTurbo = hardwareMap.dcMotor.get("mMid");
 		middleRelease = hardwareMap.dcMotor.get("mRelease");
+
+		tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
 
 		armMotor = hardwareMap.dcMotor.get("mArm");
 
@@ -157,11 +160,17 @@ public class TeleOp extends OpMode {
 			armMotor.setPower(0.0);
 		}
 
-//		if(gamepad1.a){
-//			armMotor.setPower(-1.0);
-//		}else{
-//			armMotor.setPower(0.0);
-//		}
+//
+		if(gamepad1.dpad_left){
+			tapeMotor.setPower(1.0);
+		}else{
+			tapeMotor.setPower(0.0);
+		}
+		if(gamepad1.dpad_right){
+			tapeMotor.setPower(-1.0);
+		}else{
+			tapeMotor.setPower(0.0);
+		}
 
 		if(gamepad1.dpad_up){
 			tapePosition += 0.000005;
