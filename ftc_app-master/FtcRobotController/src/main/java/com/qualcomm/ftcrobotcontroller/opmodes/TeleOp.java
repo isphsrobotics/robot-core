@@ -41,7 +41,7 @@ import com.qualcomm.robotcore.util.Range;
  * Enables control of the robot via the gamepad
  */
 public class TeleOp extends OpMode {
-	
+
 	// position of the arm servo.
 	double leftServoPosition = 0.0;
 	double tapePosition = 0.0;
@@ -83,11 +83,7 @@ public class TeleOp extends OpMode {
 		// For big pull ups -- measureable muscle
 		tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
 
-<<<<<<< Updated upstream
-
-=======
 		// Lifts/lowers metal bar
->>>>>>> Stashed changes
 		leftServo = hardwareMap.servo.get("lservo");
 
 		// Lifts/lowers tape
@@ -119,7 +115,7 @@ public class TeleOp extends OpMode {
 		// the robot more precisely at slower speeds.
 		right = (float)scaleInput(right);
 		left =  (float)scaleInput(left);
-		
+
 		// write values from vars to the motors
 		motorRight.setPower(right);
 		motorLeft.setPower(left);
@@ -138,29 +134,26 @@ public class TeleOp extends OpMode {
 
 
 
-	if (gamepad1.y) {
+		if (gamepad1.y) {
 
 
-		leftServoPosition +=0.05;
-	}
+			leftServoPosition +=0.05;
+		}
 
-	// update the position of the claw
-	if (gamepad1.b) {
-		leftServoPosition -= 0.05;
-	}
+		// update the position of the claw
+		if (gamepad1.b) {
+			leftServoPosition -= 0.05;
+		}
 
-        if(leftServoPosition > 1.00){
-            leftServoPosition = 1.00;
-        }
+		if(leftServoPosition > 1.00){
+			leftServoPosition = 1.00;
+		}
 
-        if(leftServoPosition < 0.00){
-            leftServoPosition = 0.00;
-        }
-
-
+		if(leftServoPosition < 0.00){
+			leftServoPosition = 0.00;
+		}
 
 
-//
 		if(gamepad1.dpad_left){
 			tapeMotor.setPower(1.0);
 		}else{
@@ -217,7 +210,7 @@ public class TeleOp extends OpMode {
 
 	}
 
-    	
+
 	/*
 	 * This method scales the joystick input so for low joystick values, the 
 	 * scaled value is less than linear.  This is to make it easier to drive
@@ -226,10 +219,10 @@ public class TeleOp extends OpMode {
 	double scaleInput(double dVal)  {
 		double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
 				0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
-		
+
 		// get the corresponding index for the scaleInput array.
 		int index = (int) (dVal * 16.0);
-		
+
 		// index should be positive.
 		if (index < 0) {
 			index = -index;
