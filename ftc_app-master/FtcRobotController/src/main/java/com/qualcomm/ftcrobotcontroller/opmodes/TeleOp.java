@@ -38,7 +38,6 @@ import com.qualcomm.robotcore.util.Range;
 
 /**
  * TeleOp Mode
- * <p>
  * Enables control of the robot via the gamepad
  */
 public class TeleOp extends OpMode {
@@ -201,33 +200,20 @@ public class TeleOp extends OpMode {
 		arm2.setPosition(arm2Position);
 
 
-//
-////
-////		if (gamepad1.b) {
-////			clawPosition -= clawDelta;
-////		}
-
-        // clip the position values so that they never exceed their allowed range.
-//        leftServoPosition = Range.clip(leftServoPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
-//        clawPosition = Range.clip(clawPosition, CLAW_MIN_RANGE, CLAW_MAX_RANGE);
-//
-//		// write position values to the wrist and claw servo
-//		arm.setPosition(leftServoPosition);
-//		claw.setPosition(clawPosition);
-
-
-
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
 		 * a legacy NXT-compatible motor controller, then the getPower() method
 		 * will return a null value. The legacy NXT-compatible motor controllers
 		 * are currently write only.
 		 */
-        telemetry.addData("Text", "*** Robot Data***");
-//        telemetry.addData("arm", "arm:  " + String.format("%.2f", leftServoPosition));
-//        telemetry.addData("claw", "claw:  " + String.format("%.2f", clawPosition));
-        telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left));
-        telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
+        telemetry.addData("Text", "*** Servos ***");
+        telemetry.addData("leftServo pwr",  "leftServo: " + String.format("%.2f", leftServoPosition));
+        telemetry.addData("arm1 position", "arm1: " + String.format("%.2f", arm1Position));
+		telemetry.addData("arm2 position", "arm2: " + String.format("%.2f", arm2Position));
+		telemetry.addData("Motors","*** Motors ***");
+		telemetry.addData("leftMotor", "leftMotor: " + String.format("%.2f", motorLeft));
+		telemetry.addData("rightMotor", "rightMotor: " + String.format("%.2f",motorRight));
+		telemetry.addData("turbo", "turbo: " + String.format("%.2", motorTurbo));
 
 	}
 
