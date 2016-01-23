@@ -50,9 +50,7 @@ public class TeleOp extends OpMode {
 	DcMotor motorLeft;
 	DcMotor motorTurbo;
 	DcMotor middleRelease;
-	DcMotor armMotor;
 	DcMotor tapeMotor;
-	Servo arm2;
 	Servo leftServo;
 	Servo tapeServo;
 
@@ -81,7 +79,7 @@ public class TeleOp extends OpMode {
 		middleRelease = hardwareMap.dcMotor.get("mRelease");
 
 		tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
-		
+
 
 		leftServo = hardwareMap.servo.get("lservo");
 		tapeServo = hardwareMap.servo.get("tapeServo");
@@ -153,11 +151,6 @@ public class TeleOp extends OpMode {
 
 
 
-		if(gamepad1.x){
-			armMotor.setPower(0.8);
-		}else{
-			armMotor.setPower(0.0);
-		}
 
 //
 		if(gamepad1.dpad_left){
@@ -196,13 +189,13 @@ public class TeleOp extends OpMode {
 		 * will return a null value. The legacy NXT-compatible motor controllers
 		 * are currently write only.
 		 */
-        telemetry.addData("Text", "*** Servos ***");
-        telemetry.addData("leftServo pwr",  "leftServo: " + String.format("%.2f", leftServoPosition));
-		telemetry.addData("tapePosition ",  "tapePosition: " + String.format("%.2f", tapePosition));
-		telemetry.addData("Motors","*** Motors ***");
-		telemetry.addData("leftMotor", "leftMotor: " + String.format("%.2f", motorLeft));
-		telemetry.addData("rightMotor", "rightMotor: " + String.format("%.2f",motorRight));
-		telemetry.addData("turbo", "turbo: " + String.format("%.2", motorTurbo));
+//        telemetry.addData("Text", "*** Servos ***");
+//        telemetry.addData("leftServo pwr",  "leftServo: " + String.format("%.2f", leftServoPosition));
+//		telemetry.addData("tapePosition ",  "tapePosition: " + String.format("%.2f", tapePosition));
+//		telemetry.addData("Motors","*** Motors ***");
+//		telemetry.addData("leftMotor", "leftMotor: " + String.format("%.2f", motorLeft));
+//		telemetry.addData("rightMotor", "rightMotor: " + String.format("%.2f",motorRight));
+//		telemetry.addData("turbo", "turbo: " + String.format("%.2", motorTurbo));
 
 	}
 
