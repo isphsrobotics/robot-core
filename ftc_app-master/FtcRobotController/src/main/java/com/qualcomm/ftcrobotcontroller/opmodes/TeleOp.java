@@ -81,8 +81,7 @@ public class TeleOp extends OpMode {
 		middleRelease = hardwareMap.dcMotor.get("mRelease");
 
 		tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
-
-		armMotor = hardwareMap.dcMotor.get("mArm");
+		
 
 		leftServo = hardwareMap.servo.get("lservo");
 		tapeServo = hardwareMap.servo.get("tapeServo");
