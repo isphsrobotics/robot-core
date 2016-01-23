@@ -170,13 +170,13 @@ public class K9TeleOp extends OpMode {
 
 
 		if(gamepad1.dpad_up){
-			arm1Position += 0.00005;
-			arm2Position -= 0.00005;
+			arm1Position += 0.0000005;
+			arm2Position -= 0.0000005;
 		}
 
 		if(gamepad1.dpad_down){
-			arm1Position -= 0.00005;
-			arm2Position += 0.00005;
+			arm1Position -= 0.0000005;
+			arm2Position += 0.0000005;
 		}
 
 
