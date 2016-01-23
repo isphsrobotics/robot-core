@@ -44,17 +44,16 @@ public class TeleOp extends OpMode {
 	
 	// position of the arm servo.
 	double leftServoPosition = 0.0;
-	double arm1Position = 0.0;
-	double arm2Position = 1.0;
+	double tapePosition = 0.0;
 
 	DcMotor motorRight;
 	DcMotor motorLeft;
 	DcMotor motorTurbo;
 	DcMotor middleRelease;
 	DcMotor armMotor;
-	Servo arm1;
 	Servo arm2;
 	Servo leftServo;
+	Servo tapeServo;
 
 	/**
 	 * Constructor
@@ -83,9 +82,8 @@ public class TeleOp extends OpMode {
 		armMotor = hardwareMap.dcMotor.get("mArm");
 
 		leftServo = hardwareMap.servo.get("lservo");
+		tapeServo = hardwareMap.servo.get("tapeServo");
 
-		arm1 = hardwareMap.servo.get("lowerServo");
-		arm2 = hardwareMap.servo.get("upperServo");
 
 	}
 
@@ -165,38 +163,23 @@ public class TeleOp extends OpMode {
 //			armMotor.setPower(0.0);
 //		}
 
-
-
 		if(gamepad1.dpad_up){
-			arm1Position += 0.0000005;
-			arm2Position -= 0.0000005;
+			tapePosition += 0.000005;
+		}
+		if(gamepad1.dpad_up){
+			tapePosition -= 0.000005;
 		}
 
-		if(gamepad1.dpad_down){
-			arm1Position -= 0.0000005;
-			arm2Position += 0.0000005;
+		if(tapePosition > 1.00){
+			tapePosition = 1.00;
+		}
+		if(tapePosition<0.00){
+			tapePosition = 0.00;
 		}
 
+		tapeServo.setPosition(tapePosition);
 
 
-		if(arm1Position>1.00){
-			arm1Position = 1.00;
-		}
-
-		if(arm2Position>1.00){
-			arm2Position = 1.00;
-		}
-
-		if(arm1Position<0.00){
-			arm1Position = 0.00;
-		}
-
-		if(arm2Position<0.00){
-			arm2Position = 0.00;
-		}
-
-		arm1.setPosition(arm1Position);
-		arm2.setPosition(arm2Position);
 
 
 		/*
@@ -207,8 +190,7 @@ public class TeleOp extends OpMode {
 		 */
         telemetry.addData("Text", "*** Servos ***");
         telemetry.addData("leftServo pwr",  "leftServo: " + String.format("%.2f", leftServoPosition));
-        telemetry.addData("arm1 position", "arm1: " + String.format("%.2f", arm1Position));
-		telemetry.addData("arm2 position", "arm2: " + String.format("%.2f", arm2Position));
+		telemetry.addData("tapePosition ",  "tapePosition: " + String.format("%.2f", tapePosition));
 		telemetry.addData("Motors","*** Motors ***");
 		telemetry.addData("leftMotor", "leftMotor: " + String.format("%.2f", motorLeft));
 		telemetry.addData("rightMotor", "rightMotor: " + String.format("%.2f",motorRight));
