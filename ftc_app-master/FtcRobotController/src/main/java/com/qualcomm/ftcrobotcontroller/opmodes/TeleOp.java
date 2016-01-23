@@ -168,21 +168,23 @@ public class TeleOp extends OpMode {
         }
 
         if (gamepad1.dpad_left) {
-            tapeMotor.setPower(1.0);
+            tapeMotor.setPower(0.990);
         } else {
             tapeMotor.setPower(0.0);
         }
         if (gamepad1.dpad_right) {
-            tapeMotor.setPower(-1.0);
+            tapeMotor.setDirection(DcMotor.Direction.REVERSE);
+            tapeMotor.setPower(0.990);
         } else {
+            tapeMotor.setDirection(DcMotor.Direction.FORWARD);
             tapeMotor.setPower(0.0);
         }
 
         if (gamepad1.dpad_up) {
-            tapePosition += 0.000005;
+            tapePosition += 0.00005;
         }
         if (gamepad1.dpad_up) {
-            tapePosition -= 0.000005;
+            tapePosition -= 0.00005;
         }
 
         if (tapePosition > 1.00) {
