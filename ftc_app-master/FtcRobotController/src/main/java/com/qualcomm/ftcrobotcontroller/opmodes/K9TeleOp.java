@@ -137,12 +137,12 @@ public class K9TeleOp extends OpMode {
 //			// if the Y button is pushed on gamepad1, decrease the position of
 		// the arm servo.
 
-		leftServoPosition +=0.5;
+		leftServoPosition +=0.05;
 	}
 
 	// update the position of the claw
 	if (gamepad1.b) {
-		leftServoPosition -= 0.5;
+		leftServoPosition -= 0.05;
 	}
 
         if(leftServoPosition > 1.00){
@@ -156,25 +156,45 @@ public class K9TeleOp extends OpMode {
 
 
 		if(gamepad1.x){
-			armMotor.setPower(1.0);
+			armMotor.setPower(0.8);
 		}else{
 			armMotor.setPower(0.0);
 		}
 
-		if(gamepad1.a){
-			armMotor.setPower(-1.0);
-		}else{
-			armMotor.setPower(0.0);
-		}
+//		if(gamepad1.a){
+//			armMotor.setPower(-1.0);
+//		}else{
+//			armMotor.setPower(0.0);
+//		}
+
+
 
 		if(gamepad1.dpad_up){
-			arm1Position += 0.05;
-			arm2Position -= 0.05;
+			arm1Position += 0.00005;
+			arm2Position -= 0.00005;
 		}
 
 		if(gamepad1.dpad_down){
-			arm1Position -= 0.05;
-			arm2Position += 0.05;
+			arm1Position -= 0.00005;
+			arm2Position += 0.00005;
+		}
+
+
+
+		if(arm1Position>1.00){
+			arm1Position = 1.00;
+		}
+
+		if(arm2Position>1.00){
+			arm2Position = 1.00;
+		}
+
+		if(arm1Position<0.00){
+			arm1Position = 0.00;
+		}
+
+		if(arm2Position<0.00){
+			arm2Position = 0.00;
 		}
 
 		arm1.setPosition(arm1Position);
