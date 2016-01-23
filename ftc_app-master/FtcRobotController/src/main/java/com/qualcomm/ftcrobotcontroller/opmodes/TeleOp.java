@@ -69,19 +69,28 @@ public class TeleOp extends OpMode {
 	@Override
 	public void init() {
 
-
-
+		// Main motors (wheels) -- reverse one of them
 		motorRight = hardwareMap.dcMotor.get("mRight");
 		motorLeft = hardwareMap.dcMotor.get("mLeft");
 		motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
+		// Turbo motor -- the one in the middle
 		motorTurbo = hardwareMap.dcMotor.get("mMid");
+
+		// Lifts and lowers the middle turbo motor
 		middleRelease = hardwareMap.dcMotor.get("mRelease");
 
+		// For big pull ups -- measureable muscle
 		tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
 
+<<<<<<< Updated upstream
 
+=======
+		// Lifts/lowers metal bar
+>>>>>>> Stashed changes
 		leftServo = hardwareMap.servo.get("lservo");
+
+		// Lifts/lowers tape
 		tapeServo = hardwareMap.servo.get("tapeServo");
 
 
@@ -98,8 +107,7 @@ public class TeleOp extends OpMode {
 		 * wrist/claw via the a,b, x, y buttons
 		 */
 
-
-
+		// Gets values from joysticks
 		float right = gamepad1.right_stick_y;
 		float left = gamepad1.left_stick_y;
 
@@ -107,12 +115,12 @@ public class TeleOp extends OpMode {
 		right = Range.clip(right, -1, 1);
 		left = Range.clip(left, -1, 1);
 
-		// scale the joystick value to make it easier to control
+		// scale the joystick value with custom method to make it easier to control
 		// the robot more precisely at slower speeds.
 		right = (float)scaleInput(right);
 		left =  (float)scaleInput(left);
 		
-		// write the values to the motors
+		// write values from vars to the motors
 		motorRight.setPower(right);
 		motorLeft.setPower(left);
 
