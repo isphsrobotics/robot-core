@@ -42,147 +42,149 @@ import com.qualcomm.robotcore.util.Range;
  */
 public class TeleOp extends OpMode {
 
-	// position of the arm servo.
-	double leftServoPosition = 0.0;
-	double tapePosition = 0.0;
+    // position of the arm servo.
+    double leftServoPosition = 0.0;
+    double tapePosition = 0.0;
 
-	DcMotor motorRight;
-	DcMotor motorLeft;
-	DcMotor motorTurbo;
-	DcMotor middleRelease;
-	DcMotor tapeMotor;
-	Servo leftServo;
-	Servo tapeServo;
+    DcMotor motorRight;
+    DcMotor motorLeft;
+    DcMotor motorTurbo;
+    DcMotor middleRelease;
+    DcMotor tapeMotor;
+    Servo leftServo;
+    Servo tapeServo;
 
-	/**
-	 * Constructor
-	 */
-	public TeleOp() {
+    /**
+     * Constructor
+     */
+    public TeleOp() {
 
-	}
+    }
 
-	/*
-	 * Code to run when the op mode is first enabled goes here
-	 * 
-	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
-	 */
-	@Override
-	public void init() {
+    /*
+     * Code to run when the op mode is first enabled goes here
+     *
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
+     */
+    @Override
+    public void init() {
 
-		// Main motors (wheels) -- reverse one of them
-		motorRight = hardwareMap.dcMotor.get("mRight");
-		motorLeft = hardwareMap.dcMotor.get("mLeft");
-		motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        // Main motors (wheels) -- reverse one of them
+        motorRight = hardwareMap.dcMotor.get("mRight");
+        motorLeft = hardwareMap.dcMotor.get("mLeft");
+        motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
-		// Turbo motor -- the one in the middle
-		motorTurbo = hardwareMap.dcMotor.get("mMid");
+        // Turbo motor -- the one in the middle
+        motorTurbo = hardwareMap.dcMotor.get("mMid");
 
-		// Lifts and lowers the middle turbo motor
-		middleRelease = hardwareMap.dcMotor.get("mRelease");
+        // Lifts and lowers the middle turbo motor
+        middleRelease = hardwareMap.dcMotor.get("mRelease");
 
-		// For big pull ups -- measureable muscle
-		tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
+        // For big pull ups -- measureable muscle
+        tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
 
-		// Lifts/lowers metal bar
-		leftServo = hardwareMap.servo.get("lservo");
+        // Lifts/lowers metal bar
+        leftServo = hardwareMap.servo.get("lservo");
 
-		// Lifts/lowers tape
-		tapeServo = hardwareMap.servo.get("tapeServo");
-
-
-	}
+        // Lifts/lowers tape
+        tapeServo = hardwareMap.servo.get("tapeServo");
 
 
-	@Override
-	public void loop() {
+    }
+
+
+    @Override
+    public void loop() {
 
 		/*
-		 * Gamepad 1
+         * ## Gamepad 1 Controls ##
 		 * 
-		 * Gamepad 1 controls the motors via the left stick, and it controls the
-		 * wrist/claw via the a,b, x, y buttons
+		 * Right joystick: right wheel
+		 * Left joystick: left wheel
+		 * Right bumper: turbo (full/none)
+		 * Y button: increases leftServoPosition
+		 * B button: decreases leftServoPosition
+		 * Left arrow: tapeMotor forward
+		 * Right arrow: tapeMotor backward
+		 * Up arrow: lift tape
+		 * Down arrow: lower tape
 		 */
 
-		// Gets values from joysticks
-		float right = gamepad1.right_stick_y;
-		float left = gamepad1.left_stick_y;
+        // Gets values from joysticks
+        float right = gamepad1.right_stick_y;
+        float left = gamepad1.left_stick_y;
 
-		// clip the right/left values so that the values never exceed +/- 1
-		right = Range.clip(right, -1, 1);
-		left = Range.clip(left, -1, 1);
+        // clip the right/left values so that the values never exceed +/- 1
+        right = Range.clip(right, -1, 1);
+        left = Range.clip(left, -1, 1);
 
-		// scale the joystick value with custom method to make it easier to control
-		// the robot more precisely at slower speeds.
-		right = (float)scaleInput(right);
-		left =  (float)scaleInput(left);
+        // scale the joystick value with custom method to make it easier to control
+        // the robot more precisely at slower speeds.
+        right = (float) scaleInput(right);
+        left = (float) scaleInput(left);
 
-		// write values from vars to the motors
-		motorRight.setPower(right);
-		motorLeft.setPower(left);
-
-
+        // write values from vars to the motors
+        motorRight.setPower(right);
+        motorLeft.setPower(left);
 
 
-		// update the position of the arm.
-		if (gamepad1.right_bumper) {
-			motorTurbo.setPower(-1.0);
-		}else{
-			motorTurbo.setPower(0.0);
-		}
+        // update the position of the arm.
+        if (gamepad1.right_bumper) {
+            motorTurbo.setPower(-1.0);
+        } else {
+            motorTurbo.setPower(0.0);
+        }
 
-		leftServo.setPosition(leftServoPosition);
-
-
-
-		if (gamepad1.y) {
+        leftServo.setPosition(leftServoPosition);
 
 
-			leftServoPosition +=0.05;
-		}
+        if (gamepad1.y) {
+            leftServoPosition += 0.05;
+        }
 
-		// update the position of the claw
-		if (gamepad1.b) {
-			leftServoPosition -= 0.05;
-		}
+        // update the position of the claw
+        if (gamepad1.b) {
+            leftServoPosition -= 0.05;
+        }
 
-		if(leftServoPosition > 1.00){
-			leftServoPosition = 1.00;
-		}
+        if (leftServoPosition > 1.00) {
+            leftServoPosition = 1.00;
+        }
 
-		if(leftServoPosition < 0.00){
-			leftServoPosition = 0.00;
-		}
-
-
-		if(gamepad1.dpad_left){
-			tapeMotor.setPower(1.0);
-		}else{
-			tapeMotor.setPower(0.0);
-		}
-		if(gamepad1.dpad_right){
-			tapeMotor.setPower(-1.0);
-		}else{
-			tapeMotor.setPower(0.0);
-		}
-
-		if(gamepad1.dpad_up){
-			tapePosition += 0.000005;
-		}
-		if(gamepad1.dpad_up){
-			tapePosition -= 0.000005;
-		}
-
-		if(tapePosition > 1.00){
-			tapePosition = 1.00;
-		}
-		if(tapePosition<0.00){
-			tapePosition = 0.00;
-		}
-
-		tapeServo.setPosition(tapePosition);
+        if (leftServoPosition < 0.00) {
+            leftServoPosition = 0.00;
+        }
 
 
+        if (gamepad1.dpad_left) {
+            tapeMotor.setPower(1.0);
+        } else {
+            tapeMotor.setPower(0.0);
+        }
+        if (gamepad1.dpad_right) {
+            tapeMotor.setPower(-1.0);
+        } else {
+            tapeMotor.setPower(0.0);
+        }
 
+        if (gamepad1.dpad_up) {
+            tapePosition += 0.000005;
+        }
+        if (gamepad1.dpad_up) {
+            tapePosition -= 0.000005;
+        }
+
+        if (tapePosition > 1.00) {
+            tapePosition = 1.00;
+        }
+        if (tapePosition < 0.00) {
+            tapePosition = 0.00;
+        }
+
+        tapeServo.setPosition(tapePosition);
+
+
+        // TODO: Telemetry
 
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
@@ -198,51 +200,51 @@ public class TeleOp extends OpMode {
 //		telemetry.addData("rightMotor", "rightMotor: " + String.format("%.2f",motorRight));
 //		telemetry.addData("turbo", "turbo: " + String.format("%.2", motorTurbo));
 
-	}
+    }
 
-	/*
-	 * Code to run when the op mode is first disabled goes here
-	 * 
-	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
-	 */
-	@Override
-	public void stop() {
+    /*
+     * Code to run when the op mode is first disabled goes here
+     *
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
+     */
+    @Override
+    public void stop() {
 
-	}
+    }
 
 
-	/*
-	 * This method scales the joystick input so for low joystick values, the 
-	 * scaled value is less than linear.  This is to make it easier to drive
-	 * the robot more precisely at slower speeds.
-	 */
-	double scaleInput(double dVal)  {
-		double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
-				0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
+    /*
+     * This method scales the joystick input so for low joystick values, the
+     * scaled value is less than linear.  This is to make it easier to drive
+     * the robot more precisely at slower speeds.
+     */
+    double scaleInput(double dVal) {
+        double[] scaleArray = {0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
+                0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00};
 
-		// get the corresponding index for the scaleInput array.
-		int index = (int) (dVal * 16.0);
+        // get the corresponding index for the scaleInput array.
+        int index = (int) (dVal * 16.0);
 
-		// index should be positive.
-		if (index < 0) {
-			index = -index;
-		}
+        // index should be positive.
+        if (index < 0) {
+            index = -index;
+        }
 
-		// index cannot exceed size of array minus 1.
-		if (index > 16) {
-			index = 16;
-		}
+        // index cannot exceed size of array minus 1.
+        if (index > 16) {
+            index = 16;
+        }
 
-		// get value from the array.
-		double dScale = 0.0;
-		if (dVal < 0) {
-			dScale = -scaleArray[index];
-		} else {
-			dScale = scaleArray[index];
-		}
+        // get value from the array.
+        double dScale = 0.0;
+        if (dVal < 0) {
+            dScale = -scaleArray[index];
+        } else {
+            dScale = scaleArray[index];
+        }
 
-		// return scaled value.
-		return dScale;
-	}
+        // return scaled value.
+        return dScale;
+    }
 
 }
