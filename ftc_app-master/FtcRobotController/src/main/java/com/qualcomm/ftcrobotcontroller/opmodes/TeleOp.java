@@ -41,7 +41,7 @@ import com.qualcomm.robotcore.util.Range;
  * <p>
  * Enables control of the robot via the gamepad
  */
-public class K9TeleOp extends OpMode {
+public class TeleOp extends OpMode {
 	
 	// position of the arm servo.
 	double leftServoPosition = 0.0;
@@ -60,7 +60,7 @@ public class K9TeleOp extends OpMode {
 	/**
 	 * Constructor
 	 */
-	public K9TeleOp() {
+	public TeleOp() {
 
 	}
 
