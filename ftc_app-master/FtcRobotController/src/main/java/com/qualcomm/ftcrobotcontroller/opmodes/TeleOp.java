@@ -133,8 +133,7 @@ public class TeleOp extends OpMode {
 
 
 	if (gamepad1.y) {
-//			// if the Y button is pushed on gamepad1, decrease the position of
-		// the arm servo.
+
 
 		leftServoPosition +=0.05;
 	}
