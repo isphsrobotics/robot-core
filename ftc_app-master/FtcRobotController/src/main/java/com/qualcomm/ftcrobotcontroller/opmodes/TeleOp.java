@@ -82,6 +82,7 @@ public class TeleOp extends OpMode {
 
         // For big pull ups -- measureable muscle
         tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
+        tapeMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Lifts/lowers metal bar
         leftServo = hardwareMap.servo.get("lservo");
@@ -168,15 +169,11 @@ public class TeleOp extends OpMode {
         }
 
         if (gamepad1.dpad_left) {
-            tapeMotor.setPower(0.990);
+            tapeMotor.setPower(1.0);
+        }else if (gamepad1.dpad_right) {
+
+            tapeMotor.setPower(-1.0);
         } else {
-            tapeMotor.setPower(0.0);
-        }
-        if (gamepad1.dpad_right) {
-            tapeMotor.setDirection(DcMotor.Direction.REVERSE);
-            tapeMotor.setPower(0.990);
-        } else {
-            tapeMotor.setDirection(DcMotor.Direction.FORWARD);
             tapeMotor.setPower(0.0);
         }
 
