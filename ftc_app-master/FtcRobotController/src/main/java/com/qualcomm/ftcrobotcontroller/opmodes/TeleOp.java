@@ -159,10 +159,7 @@ public class TeleOp extends OpMode {
         }
         if (gamepad1.a) {
             middleRelease.setPower(1.0);
-        } else {
-            middleRelease.setPower(0.0);
-        }
-        if (gamepad1.x) {
+        } else if (gamepad1.x) {
             middleRelease.setPower(-1.0);
         } else {
             middleRelease.setPower(0.0);
