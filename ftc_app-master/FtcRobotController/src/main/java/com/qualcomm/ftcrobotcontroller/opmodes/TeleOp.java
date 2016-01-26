@@ -54,6 +54,8 @@ public class TeleOp extends OpMode {
     Servo leftServo;
     Servo tapeServo;
 
+    long nextTick = System.currentTimeMillis();
+
     /**
      * Constructor
      */
@@ -134,6 +136,8 @@ public class TeleOp extends OpMode {
         // update the position of the arm.
         if (gamepad1.right_bumper) {
             motorTurbo.setPower(-1.0);
+        }else if (gamepad1.left_bumper) {
+            motorTurbo.setPower(1.0);
         } else {
             motorTurbo.setPower(0.0);
         }
@@ -142,12 +146,18 @@ public class TeleOp extends OpMode {
 
 
         if (gamepad1.y) {
-            leftServoPosition += 0.05;
+            if(System.currentTimeMillis() > nextTick) {
+                leftServoPosition += 0.05;
+                nextTick = System.currentTimeMillis()+10;
+            }
         }
 
         // update the position of the claw
         if (gamepad1.b) {
-            leftServoPosition -= 0.05;
+            if(System.currentTimeMillis() > nextTick) {
+                leftServoPosition -= 0.05;
+                nextTick = System.currentTimeMillis()+10;
+            }
         }
 
         if (leftServoPosition > 1.00) {
@@ -175,10 +185,17 @@ public class TeleOp extends OpMode {
         }
 
         if (gamepad1.dpad_up) {
-            tapePosition += 0.00005;
+            if(System.currentTimeMillis() > nextTick) {
+                tapePosition += 0.05;
+                nextTick = System.currentTimeMillis()+10;
+            }
+
         }
         if (gamepad1.dpad_up) {
-            tapePosition -= 0.00005;
+            if(System.currentTimeMillis() > nextTick) {
+                tapePosition += 0.05;
+                nextTick = System.currentTimeMillis()+10;
+            }
         }
 
         if (tapePosition > 1.00) {
