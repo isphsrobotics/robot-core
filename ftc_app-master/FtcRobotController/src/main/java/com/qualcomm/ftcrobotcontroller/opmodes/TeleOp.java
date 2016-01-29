@@ -91,6 +91,7 @@ public class TeleOp extends OpMode {
 
         // Lifts/lowers tape
         tapeServo = hardwareMap.servo.get("tapeServo");
+        leftServo.setPosition(0.8 );
 
 
     }
@@ -147,18 +148,23 @@ public class TeleOp extends OpMode {
 
         if (gamepad1.y) {
             if(System.currentTimeMillis() > nextTick) {
-                leftServoPosition += 0.05;
-                nextTick = System.currentTimeMillis()+10;
+                if(leftServoPosition==0.8){
+                    leftServoPosition=0.35;
+                } else {
+                    leftServoPosition=0.8;
+                }
+                //leftServoPosition += 0.05;
+                nextTick = System.currentTimeMillis()+1000;
             }
         }
 
         // update the position of the claw
-        if (gamepad1.b) {
-            if(System.currentTimeMillis() > nextTick) {
-                leftServoPosition -= 0.05;
-                nextTick = System.currentTimeMillis()+10;
-            }
-        }
+//        if (gamepad1.b) {
+//            if(System.currentTimeMillis() > nextTick) {
+//                leftServoPosition -= 0.05;
+//                nextTick = System.currentTimeMillis()+10;
+//            }
+//        }
 
         if (leftServoPosition > 1.00) {
             leftServoPosition = 1.00;
