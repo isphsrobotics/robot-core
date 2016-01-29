@@ -25,6 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -35,7 +36,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * <p>
  *Enables control of the robot via the gamepad
  */
-public class AutonomousOp extends OpMode {
+public class AutonomousOp extends LinearOpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
@@ -45,8 +46,12 @@ public class AutonomousOp extends OpMode {
     Servo leftServo;
     Servo tapeServo;
 
+    /*
+       * Code to run when the op mode is first enabled goes here
+       * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
+       */
     @Override
-    public void init() {
+    public void runOpMode() {
 
         motorRight = hardwareMap.dcMotor.get("mRight");
         motorLeft = hardwareMap.dcMotor.get("mLeft");
@@ -69,23 +74,7 @@ public class AutonomousOp extends OpMode {
         tapeServo = hardwareMap.servo.get("tapeServo");
         leftServo.setPosition(0.8 );
 
-    }
-
-    /*
-       * Code to run when the op mode is first enabled goes here
-       * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
-       */
-    @Override
-    public void init_loop() {
 
     }
 
-    /*
-     * This method will be called repeatedly in a loop
-     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
-     */
-    @Override
-    public void loop() {
-
-    }
 }
