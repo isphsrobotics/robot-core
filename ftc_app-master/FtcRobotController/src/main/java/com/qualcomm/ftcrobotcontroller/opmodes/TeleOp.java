@@ -154,7 +154,7 @@ public class TeleOp extends OpMode {
                     leftServoPosition=0.8;
                 }
                 //leftServoPosition += 0.05;
-                nextTick = System.currentTimeMillis()+500;
+                nextTick = System.currentTimeMillis()+200;
             }
         }
 
