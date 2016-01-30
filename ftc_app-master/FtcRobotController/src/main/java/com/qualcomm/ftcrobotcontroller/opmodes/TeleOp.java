@@ -43,7 +43,7 @@ import com.qualcomm.robotcore.util.Range;
 public class TeleOp extends OpMode {
 
     // position of the arm servo.
-    double leftServoPosition = 0.0;
+    double leftServoPosition = 0.7;
     double tapePosition = 0.0;
 
     DcMotor motorRight;
