@@ -78,7 +78,7 @@ public class AutonomousDanny extends LinearOpMode {
 //        motorLeft.setPower(0.79);
 //        double firstTime = System.currentTimeMillis();
 //        while(true){
-//            if(firstTime + 3000 == System.currentTimeMillis()){
+//            if(firstTime + 554 == System.currentTimeMillis()){
 //                motorRight.setPower(0.0);
 //                motorLeft.setPower(0.0);
 //                break;
