@@ -71,7 +71,34 @@ public class AutonomousDanny extends LinearOpMode {
 
         // Lifts/lowers tape
         tapeServo = hardwareMap.servo.get("tapeServo");
-        leftServo.setPosition(0.8 );
+        leftServo.setPosition(0.8);
+
+
+        motorRight.setPower(1.0);
+        motorLeft.setPower(0.79);
+        double firstTime = System.currentTimeMillis();
+        while(true){
+            if(firstTime + 3000 == System.currentTimeMillis()){
+                motorRight.setPower(0.0);
+                motorLeft.setPower(0.0);
+                break;
+            }
+        }
+
+//        motorRight.setPower(1.0);
+//        motorLeft.setPower(-1.0);
+//        double secondTime = System.currentTimeMillis();
+//        while(true){
+//            if(secondTime + 2500 == System.currentTimeMillis()){
+//                motorRight.setPower(0.0);
+//                motorLeft.setPower(0.0);
+//                break;
+//            }
+//        }
+//
+
+
+
 
 
     }
