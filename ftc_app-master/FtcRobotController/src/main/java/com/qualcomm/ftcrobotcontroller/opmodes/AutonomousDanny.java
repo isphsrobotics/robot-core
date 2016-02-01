@@ -148,10 +148,38 @@ public class AutonomousDanny extends LinearOpMode {
                 break;
             }
         }
-        //move servo to right angle for tape measure
+
+        //move servo to correct angle for tape measure, move tape measure, grapple
+        tapeServo.setPosition(30.0);
+        tapeMotor.setPower(1.0);
+        double seventhTime = System.currentTimeMillis();
+        while(true) {
+            if (seventhTime + 1800 == System.currentTimeMillis()) {
+                tapeMotor.setPower(0.0);
+                break;
+            }
+        }
+        tapeServo.setPosition(28.0);
+        tapeMotor.setPower(-1.0);
+        double eigthTime = System.currentTimeMillis();
+        while(true) {
+            if (eigthTime + 3000 == System.currentTimeMillis()) {
+                tapeMotor.setPower(0.0);
+                break;
+            }
+        }
 
 
-        //extend tape measure and grapple
+
+
+
+
+
+
+
+
+
+
 
 
 
