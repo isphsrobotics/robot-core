@@ -2,9 +2,14 @@
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import android.hardware.Camera;
+import android.view.SurfaceHolder;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import java.io.IOException;
 
 
 /**
@@ -122,5 +127,25 @@ public class AutonomousOpRichard extends LinearOpMode {
         motorRight.setPower(0.0);
     }
 
+    public int getCameraColor(SurfaceHolder s){
+
+        // Attempt at using android camera libraries as sensors.
+
+        Camera c = Camera.open();
+
+        try {
+            c.setPreviewDisplay(s);
+            c.startPreview();
+            c.takePicture(null, null, new Camera.PictureCallback() {
+                @Override
+                public void onPictureTaken(byte[] data, Camera camera) {
+
+                }
+            });
+        }catch(IOException e){}
+
+        return 0;
+
+    }
 
 }

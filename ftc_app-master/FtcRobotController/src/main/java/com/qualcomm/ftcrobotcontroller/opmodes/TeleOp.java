@@ -72,8 +72,8 @@ public class TeleOp extends OpMode {
     public void init() {
 
         // Main motors (wheels) -- reverse one of them
-        motorRight = hardwareMap.dcMotor.get("mRight");
-        motorLeft = hardwareMap.dcMotor.get("mLeft");
+        motorLeft = hardwareMap.dcMotor.get("mRight");
+        motorRight = hardwareMap.dcMotor.get("mLeft");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         // Turbo motor -- the one in the middle
@@ -276,5 +276,7 @@ public class TeleOp extends OpMode {
         // return scaled value.
         return dScale;
     }
+
+
 
 }
