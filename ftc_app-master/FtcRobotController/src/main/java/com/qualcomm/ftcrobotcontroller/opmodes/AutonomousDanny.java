@@ -98,9 +98,11 @@ public class AutonomousDanny extends LinearOpMode {
 
         //        do the light stuff
         //         hit the button
+        //release the man
 
 
-//turns to be parallel
+
+//turns to be parallel with ramp
         motorRight.setPower(-1.0);
         motorLeft.setPower(1.0);
         double thirdTime = System.currentTimeMillis();
