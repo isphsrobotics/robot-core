@@ -73,7 +73,7 @@ public class AutonomousDanny extends LinearOpMode {
         tapeServo = hardwareMap.servo.get("tapeServo");
         leftServo.setPosition(0.8);
 
-
+// catches up to the spot in front of the button
         motorRight.setPower(1.0);
         motorLeft.setPower(0.79);
         double firstTime = System.currentTimeMillis();
@@ -84,9 +84,7 @@ public class AutonomousDanny extends LinearOpMode {
                 break;
             }
         }
-
-        //        do the light stuff
-
+//turns to be parallel with the wall
         motorRight.setPower(1.0);
         motorLeft.setPower(-1.0);
         double secondTime = System.currentTimeMillis();
@@ -98,7 +96,11 @@ public class AutonomousDanny extends LinearOpMode {
             }
         }
 
+        //        do the light stuff
+        //         hit the button
 
+
+//turns to be parallel
         motorRight.setPower(-1.0);
         motorLeft.setPower(1.0);
         double thirdTime = System.currentTimeMillis();
@@ -109,6 +111,53 @@ public class AutonomousDanny extends LinearOpMode {
                 break;
             }
         }
+
+
+//moves out to red side of ramp
+        motorRight.setPower(1.0);
+        motorLeft.setPower(0.79);
+        double fourthTime = System.currentTimeMillis();
+        while(true){
+            if(fourthTime + 1200 == System.currentTimeMillis()){
+                motorRight.setPower(0.0);
+                motorLeft.setPower(0.0);
+                break;
+            }
+        }
+
+        //moves to be perpendicular with ramp
+        motorRight.setPower(-1.0);
+        motorLeft.setPower(1.0);
+        double fifthTime = System.currentTimeMillis();
+        while(true){
+            if(fifthTime + 1200 == System.currentTimeMillis()){
+                motorRight.setPower(0.0);
+                motorLeft.setPower(0.0);
+                break;
+            }
+        }
+
+        //moves out to bottom of ramp
+        motorRight.setPower(1.0);
+        motorLeft.setPower(0.79);
+        double sixthTime = System.currentTimeMillis();
+        while(true){
+            if(sixthTime + 1200 == System.currentTimeMillis()){
+                motorRight.setPower(0.0);
+                motorLeft.setPower(0.0);
+                break;
+            }
+        }
+        //move servo to right angle for tape measure
+
+
+        //extend tape measure and grapple
+
+
+
+
+
+
 
 
 
