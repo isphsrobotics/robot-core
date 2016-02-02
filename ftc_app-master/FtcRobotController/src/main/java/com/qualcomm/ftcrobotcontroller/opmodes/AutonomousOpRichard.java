@@ -32,6 +32,8 @@ public class AutonomousOpRichard extends LinearOpMode {
     Servo leftServo;
     Servo tapeServo;
 
+    SurfaceHolder s;
+
     Bitmap image;
 
 
@@ -142,6 +144,11 @@ public class AutonomousOpRichard extends LinearOpMode {
     }
 
 
+    // Attempt to pass suface holder to this class
+    // If this works, there is proof that there is a god.
+    public void getSurfaceHolder(SurfaceHolder in){
+        s = in;
+    }
 
 
 

@@ -47,6 +47,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -60,6 +61,7 @@ import com.qualcomm.ftccommon.FtcRobotControllerService.FtcRobotControllerBinder
 import com.qualcomm.ftccommon.LaunchActivityConstantsList;
 import com.qualcomm.ftccommon.Restarter;
 import com.qualcomm.ftccommon.UpdateUI;
+import com.qualcomm.ftcrobotcontroller.opmodes.AutonomousOpRichard;
 import com.qualcomm.ftcrobotcontroller.opmodes.FtcOpModeRegister;
 import com.qualcomm.hardware.HardwareFactory;
 import com.qualcomm.robotcore.hardware.configuration.Utility;
@@ -86,6 +88,8 @@ public class FtcRobotControllerActivity extends Activity {
   protected Context context;
   private Utility utility;
   protected ImageButton buttonMenu;
+
+  public SurfaceHolder s;
 
   protected TextView textDeviceName;
   protected TextView textWifiDirectStatus;
@@ -149,6 +153,8 @@ public class FtcRobotControllerActivity extends Activity {
         openOptionsMenu();
       }
     });
+
+    s = (SurfaceHolder) findViewById(R.id.surfaceView);
 
     textDeviceName = (TextView) findViewById(R.id.textDeviceName);
     textWifiDirectStatus = (TextView) findViewById(R.id.textWifiDirectStatus);
@@ -328,6 +334,12 @@ public class FtcRobotControllerActivity extends Activity {
 
     controllerService.setCallback(callback);
     controllerService.setupRobot(eventLoop);
+
+
+    if(eventLoop.getOpModeManager().getActiveOpModeName().equals("R")){
+      AutonomousOpRichard r = (AutonomousOpRichard) eventLoop.getOpModeManager().getActiveOpMode();
+      r.getSurfaceHolder(s);
+    }
   }
 
   private FileInputStream fileSetup() {
