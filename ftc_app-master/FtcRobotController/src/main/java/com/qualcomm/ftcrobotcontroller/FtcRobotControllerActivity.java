@@ -74,6 +74,10 @@ import com.qualcomm.robotcore.wifi.WifiDirectAssistant;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class FtcRobotControllerActivity extends Activity {
 
@@ -92,6 +96,17 @@ public class FtcRobotControllerActivity extends Activity {
 
   public SurfaceView sv;
   public SurfaceHolder s;
+  final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+  final Runnable run = new Runnable(){
+    @Override
+    public void run() {
+      if(eventLoop.getOpModeManager().getActiveOpModeName().equals("R")){
+        AutonomousOpRichard r = (AutonomousOpRichard) eventLoop.getOpModeManager().getActiveOpMode();
+        r.getSurfaceHolder(s);
+      }
+    }
+  };
+
 
   protected TextView textDeviceName;
   protected TextView textWifiDirectStatus;
@@ -158,6 +173,9 @@ public class FtcRobotControllerActivity extends Activity {
 
     sv = (SurfaceView) findViewById(R.id.surfaceView);
     s = sv.getHolder();
+
+
+
 
     textDeviceName = (TextView) findViewById(R.id.textDeviceName);
     textWifiDirectStatus = (TextView) findViewById(R.id.textWifiDirectStatus);
@@ -339,11 +357,6 @@ public class FtcRobotControllerActivity extends Activity {
     controllerService.setupRobot(eventLoop);
 
 
-    if(eventLoop.getOpModeManager().getActiveOpModeName().equals("R")){
-      AutonomousOpRichard r = (AutonomousOpRichard) eventLoop.getOpModeManager().getActiveOpMode();
-
-      r.getSurfaceHolder(s);
-    }
   }
 
   private FileInputStream fileSetup() {
@@ -373,6 +386,8 @@ public class FtcRobotControllerActivity extends Activity {
   private void requestRobotRestart() {
     requestRobotShutdown();
     requestRobotSetup();
+
+    final ScheduledFuture handler = scheduler.scheduleAtFixedRate(run,0,20, TimeUnit.MILLISECONDS);
   }
 
   protected void hittingMenuButtonBrightensScreen() {
