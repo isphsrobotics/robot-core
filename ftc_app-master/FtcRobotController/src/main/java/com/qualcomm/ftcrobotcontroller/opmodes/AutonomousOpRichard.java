@@ -184,6 +184,9 @@ public class AutonomousOpRichard extends LinearOpMode {
 
         // Open camera
         Camera c = Camera.open();
+        if(c == null){
+            telemetry.addData("Text", "NO camera");
+        }
 
  
 
@@ -194,6 +197,10 @@ public class AutonomousOpRichard extends LinearOpMode {
 
         try {
             // Have to set a preview display somewhere, still figuring this out
+
+            if(s == null){
+                telemetry.addData("Text", "No surface holder");
+            }
 
             c.setPreviewDisplay(s);
             c.startPreview();
@@ -247,12 +254,14 @@ public class AutonomousOpRichard extends LinearOpMode {
             // If the Red value is sufficiently high, and other values relatively low (i.e. it's red, and not white)
             // TODO: Test these thresholds in a realistic environment
             if(R > 180 && (B < 50 && G < 50)){
+                telemetry.addData("Text", "RED");
                 c.release();
                 return 1;
                 // RETURN 1 means it's red
             } else if(B > 180 && (R < 50 && G < 50)){
             // Same for Blue now
             // TODO: Test threshold
+                telemetry.addData("Text", "BLU");
                 c.release();
                 return 2;
                 // RETURN 2 means it's blue
