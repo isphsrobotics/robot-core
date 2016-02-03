@@ -48,6 +48,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -89,6 +90,7 @@ public class FtcRobotControllerActivity extends Activity {
   private Utility utility;
   protected ImageButton buttonMenu;
 
+  public SurfaceView sv;
   public SurfaceHolder s;
 
   protected TextView textDeviceName;
@@ -154,7 +156,8 @@ public class FtcRobotControllerActivity extends Activity {
       }
     });
 
-    s = (SurfaceHolder) findViewById(R.id.surfaceView);
+    sv = (SurfaceView) findViewById(R.id.surfaceView);
+    s = sv.getHolder();
 
     textDeviceName = (TextView) findViewById(R.id.textDeviceName);
     textWifiDirectStatus = (TextView) findViewById(R.id.textWifiDirectStatus);
@@ -338,6 +341,7 @@ public class FtcRobotControllerActivity extends Activity {
 
     if(eventLoop.getOpModeManager().getActiveOpModeName().equals("R")){
       AutonomousOpRichard r = (AutonomousOpRichard) eventLoop.getOpModeManager().getActiveOpMode();
+
       r.getSurfaceHolder(s);
     }
   }

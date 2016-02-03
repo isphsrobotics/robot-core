@@ -118,6 +118,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       android:layout_below="@+id/textRobotStatus"
       android:text="" />
 
+    <SurfaceView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/surfaceView"
+        android:layout_gravity="right"
+        android:visibility="gone" />
+
     <TextView
       android:id="@+id/textErrorMessage"
       android:layout_width="match_parent"
@@ -130,21 +137,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       android:text="" />
 
     <TextView
-      android:id="@+id/textGamepad1"
-      android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:layout_above="@+id/textGamepad2"
-      android:layout_marginBottom="10dp"
-      android:minLines="3"
-      android:text="" />
-
-    <TextView
       android:id="@+id/textGamepad2"
       android:layout_width="match_parent"
       android:layout_height="50dp"
       android:minLines="3"
       android:layout_alignParentBottom="true"
       android:layout_marginBottom="10dp"
+      android:text="" />
+
+    <TextView
+      android:id="@+id/textGamepad1"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_above="@+id/textGamepad2"
+      android:layout_marginBottom="10dp"
+      android:minLines="3"
       android:text="" />
 
   </RelativeLayout>
