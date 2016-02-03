@@ -157,8 +157,10 @@ public class TeleOp extends OpMode {
                 nextTick = System.currentTimeMillis()+200;
             }
         }
-
-//        if (gamepad2)
+// TODO: FINISH THIS
+//        if (gamepad2.x) {
+//            int timeDown = System.currentTimeMillis();
+//        }
 
         // update the position of the claw
 //        if (gamepad1.b) {
@@ -194,28 +196,50 @@ public class TeleOp extends OpMode {
             tapeMotor.setPower(0.0);
         }
 
+//        if (gamepad1.dpad_up) {
+//            if(System.currentTimeMillis() > nextTick) {
+//                tapePosition += 0.05;
+//                nextTick = System.currentTimeMillis()+10;
+//            }
+//
+//        }
+//        if (gamepad1.dpad_up) {
+//            if(System.currentTimeMillis() > nextTick) {
+//                tapePosition += 0.05;
+//                nextTick = System.currentTimeMillis()+10;
+//            }
+//        }
+//
+//        if (tapePosition > 1.00) {
+//            tapePosition = 1.00;
+//        }
+//        if (tapePosition < 0.00) {
+//            tapePosition = 0.00;
+//        }
+//
+//        tapeServo.setPosition(tapePosition);
+//New system for tape position
+        double[] tapeServoArray = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5};
+        int tapeServoArrayCount = 5;
         if (gamepad1.dpad_up) {
-            if(System.currentTimeMillis() > nextTick) {
-                tapePosition += 0.05;
-                nextTick = System.currentTimeMillis()+10;
-            }
-
-        }
-        if (gamepad1.dpad_up) {
-            if(System.currentTimeMillis() > nextTick) {
-                tapePosition += 0.05;
-                nextTick = System.currentTimeMillis()+10;
+            if (System.currentTimeMillis() > nextTick) {
+                if (tapeServoArrayCount < tapeServoArray.length) {
+                    tapeServoArrayCount ++;
+                    tapePosition = tapeServoArray[tapeServoArrayCount];
+                    nextTick = System.currentTimeMillis() + 150;
+                }
             }
         }
-
-        if (tapePosition > 1.00) {
-            tapePosition = 1.00;
+        if (gamepad2.dpad_down) {
+            nextTick = System.currentTimeMillis();
+            if (System.currentTimeMillis() > nextTick) {
+                if (tapeServoArrayCount > 0) {
+                    tapeServoArrayCount --;
+                    tapePosition = tapeServoArray[tapeServoArrayCount];
+                    nextTick += 150;
+                }
+            }
         }
-        if (tapePosition < 0.00) {
-            tapePosition = 0.00;
-        }
-
-        tapeServo.setPosition(tapePosition);
 
 
         // TODO: Telemetry
