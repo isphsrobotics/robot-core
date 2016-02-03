@@ -198,6 +198,7 @@ public class AutonomousOpRichard extends LinearOpMode {
                 }
             });
 
+
             // If for some reason camera fails to fire, return -1
             // c.release() allows camera to be used by other apps after this (Important!)
             if(image == null){
@@ -258,6 +259,13 @@ public class AutonomousOpRichard extends LinearOpMode {
             return -1;
         }
 
+    }
+// TODO: set correct servo
+    // this pushes the button if it's red
+    public void pushButton(){
+        if(getCameraColor() == 1){
+            leftServo.setPosition(1.0);
+        }
     }
 
 }
