@@ -141,8 +141,16 @@ public class AutonomousOpRichard extends LinearOpMode {
 //
 //        motorLeft.setPower(0.0);
 //        motorRight.setPower(0.0);
+        int done = 0;
+        long time = System.currentTimeMillis();
+        while(done < 5){
+            if(System.currentTimeMillis() > time){
+                pushButton();
+                done++;
+                time = System.currentTimeMillis() + 100;
+            }
 
-        pushButton();
+        }
     }
 
 

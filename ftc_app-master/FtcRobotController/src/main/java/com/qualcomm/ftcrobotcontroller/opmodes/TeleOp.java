@@ -51,6 +51,8 @@ public class TeleOp extends OpMode {
     DcMotor motorTurbo;
     DcMotor middleRelease;
     DcMotor tapeMotor;
+    //TODO: DEFINE PLATFORM MOTOR ON PHONE
+    DcMotor platformMotor;
     Servo leftServo;
     Servo tapeServo;
 
@@ -158,9 +160,18 @@ public class TeleOp extends OpMode {
             }
         }
 // TODO: FINISH THIS
+//        int platUp = 0;
 //        if (gamepad2.x) {
-//            int timeDown = System.currentTimeMillis();
+//            if(platUp == 0) {
+//                while (System.currentTimeMillis() > nextTick) {
+//                    platformMotor.setPower(1.0);
+//                    nextTick += 3000;
+//                    int platUp = 0;
+//                }
+//            } else if(platUp == 1)
+//            platformMotor.setPower(0.0);
 //        }
+//
 
         // update the position of the claw
 //        if (gamepad1.b) {
