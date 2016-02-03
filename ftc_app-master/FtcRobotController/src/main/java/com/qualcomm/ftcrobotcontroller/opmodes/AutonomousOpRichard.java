@@ -177,9 +177,7 @@ public class AutonomousOpRichard extends LinearOpMode {
         // Open camera
         Camera c = Camera.open();
 
-        if(s == null){
-            return -2;
-        }
+ 
 
 
         // Get height and width of camera
