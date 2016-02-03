@@ -158,6 +158,8 @@ public class TeleOp extends OpMode {
             }
         }
 
+//        if (gamepad2)
+
         // update the position of the claw
 //        if (gamepad1.b) {
 //            if(System.currentTimeMillis() > nextTick) {
@@ -165,6 +167,8 @@ public class TeleOp extends OpMode {
 //                nextTick = System.currentTimeMillis()+10;
 //            }
 //        }
+
+
 
         if (leftServoPosition > 1.00) {
             leftServoPosition = 1.00;

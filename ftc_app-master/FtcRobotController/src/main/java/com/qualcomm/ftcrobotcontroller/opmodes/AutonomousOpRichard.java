@@ -65,82 +65,84 @@ public class AutonomousOpRichard extends LinearOpMode {
         tapeServo = hardwareMap.servo.get("tapeServo");
         leftServo.setPosition(0.8 );
 
-        double t = System.currentTimeMillis() + 10000;
+//        double t = System.currentTimeMillis() + 10000;
+//
+//        // ALL TIMINGS ARE BS, WE HAVEN'T TESTED THEM YET
+//        // TODO: Fix timing
+//
+//
+//        // Move forward
+//
+//        motorLeft.setPower(1.0);
+//        motorRight.setPower(1.0);
+//
+//        while(t>System.currentTimeMillis()){
+//          // wait for 10 seconds, run sensor stuff here possibly
+//        }
+//
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//
+//        // wait a bit
+//
+//        t = System.currentTimeMillis() + 1000;
+//        while (t > System.currentTimeMillis()){
+//
+//        }
+//
+//        // turn left
+//
+//        t = System.currentTimeMillis() + 1000;
+//        motorLeft.setPower(-1.0);
+//        motorRight.setPower(1.0);
+//
+//        while (t > System.currentTimeMillis()){
+//
+//        }
+//
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//
+//        // move forward again
+//
+//        t = System.currentTimeMillis() + 10000;
+//        motorLeft.setPower(1.0);
+//        motorRight.setPower(1.0);
+//
+//        while (t > System.currentTimeMillis()){
+//
+//        }
+//
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//
+//        // turn left again
+//
+//        t = System.currentTimeMillis() + 1000;
+//        motorLeft.setPower(-1.0);
+//        motorRight.setPower(1.0);
+//
+//        while (t > System.currentTimeMillis()){
+//
+//        }
+//
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//
+//        // move forward again
+//
+//        t = System.currentTimeMillis() + 1000;
+//        motorLeft.setPower(1.0);
+//        motorRight.setPower(1.0);
+//
+//        while (t > System.currentTimeMillis()){
+//
+//        }
+//
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
 
-        // ALL TIMINGS ARE BS, WE HAVEN'T TESTED THEM YET
-        // TODO: Fix timing
-
-
-        // Move forward
-
-        motorLeft.setPower(1.0);
-        motorRight.setPower(1.0);
-
-        while(t>System.currentTimeMillis()){
-          // wait for 10 seconds, run sensor stuff here possibly
-        }
-
-        motorLeft.setPower(0.0);
-        motorRight.setPower(0.0);
-
-        // wait a bit
-
-        t = System.currentTimeMillis() + 1000;
-        while (t > System.currentTimeMillis()){
-
-        }
-
-        // turn left
-
-        t = System.currentTimeMillis() + 1000;
-        motorLeft.setPower(-1.0);
-        motorRight.setPower(1.0);
-
-        while (t > System.currentTimeMillis()){
-
-        }
-
-        motorLeft.setPower(0.0);
-        motorRight.setPower(0.0);
-
-        // move forward again
-
-        t = System.currentTimeMillis() + 10000;
-        motorLeft.setPower(1.0);
-        motorRight.setPower(1.0);
-
-        while (t > System.currentTimeMillis()){
-
-        }
-
-        motorLeft.setPower(0.0);
-        motorRight.setPower(0.0);
-
-        // turn left again
-
-        t = System.currentTimeMillis() + 1000;
-        motorLeft.setPower(-1.0);
-        motorRight.setPower(1.0);
-
-        while (t > System.currentTimeMillis()){
-
-        }
-
-        motorLeft.setPower(0.0);
-        motorRight.setPower(0.0);
-
-        // move forward again
-
-        t = System.currentTimeMillis() + 1000;
-        motorLeft.setPower(1.0);
-        motorRight.setPower(1.0);
-
-        while (t > System.currentTimeMillis()){
-
-        }
-
-        motorLeft.setPower(0.0);
-        motorRight.setPower(0.0);
+        pushButton();
     }
 
 
@@ -264,7 +266,7 @@ public class AutonomousOpRichard extends LinearOpMode {
     // this pushes the button if it's red
     public void pushButton(){
         if(getCameraColor() == 1){
-            leftServo.setPosition(1.0);
+            leftServo.setPosition(0.0);
         }
     }
 
