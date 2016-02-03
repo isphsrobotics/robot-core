@@ -152,7 +152,7 @@ public class AutonomousOpRichard extends LinearOpMode {
 
 
 
-    public int getCameraColor(SurfaceHolder s){
+    public int getCameraColor(){
 
         /*
         METHOD TO FIND WHAT BEACON COLOR CAMERA IS LOOKING AT CURRENTLY
@@ -175,6 +175,10 @@ public class AutonomousOpRichard extends LinearOpMode {
         // Open camera
         Camera c = Camera.open();
 
+        if(s == null){
+            return -2;
+        }
+
 
         // Get height and width of camera
         int height = c.getParameters().getPictureSize().height;
@@ -182,6 +186,7 @@ public class AutonomousOpRichard extends LinearOpMode {
 
         try {
             // Have to set a preview display somewhere, still figuring this out
+
             c.setPreviewDisplay(s);
             c.startPreview();
 
