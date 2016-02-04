@@ -53,7 +53,6 @@ public class TeleOp extends OpMode {
     DcMotor motorTurbo;
     DcMotor middleRelease;
     DcMotor tapeMotor;
-    //TODO: DEFINE PLATFORM MOTOR ON PHONE
     DcMotor platformMotor;
     Servo leftServo;
     Servo tapeServo;
@@ -169,23 +168,25 @@ public class TeleOp extends OpMode {
             }
         }
 //platform movement
-        if (gamepad2.a) {
-            if (System.currentTimeMillis() >= anotherTick)
-                if (!platUp) {
-                    while (System.currentTimeMillis() > anotherTick) {
-                        platformMotor.setPower(1.0);
-                        anotherTick += 3000;
+        if (System.currentTimeMillis() >= anotherTick) {
+            if (gamepad2.a) {
+                if (System.currentTimeMillis() >= anotherTick)
+                    if (!platUp) {
+                        anotherTick += 1000;
+                        while (System.currentTimeMillis() <= anotherTick) {
+                            platformMotor.setPower(-1.0);
+                        }
+                        platUp = true;
+                        platformMotor.setPower(0.0);
+                    } else if (platUp) {
+                        anotherTick += 1000;
+                        while (System.currentTimeMillis() <= anotherTick) {
+                            platformMotor.setPower(1.0);
+                        }
+                        platUp = false;
+                        platformMotor.setPower(0.0);
                     }
-                    platUp = true;
-                    platformMotor.setPower(0.0);
-                } else if (platUp) {
-                    while (System.currentTimeMillis() >= anotherTick) {
-                        platformMotor.setPower(-1.0);
-                        anotherTick += 3000;
-                    }
-                    platUp = false;
-                    platformMotor.setPower(0.0);
-                }
+            }
         }
 //TODO: REMOVE THIS LITTLE BIT LATE SO DRIVER CAN'T FUCK UP
         if (gamepad2.x) {
