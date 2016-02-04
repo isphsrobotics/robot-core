@@ -187,15 +187,6 @@ public class TeleOp extends OpMode {
         }
 
 
-        // update the position of the claw
-//        if (gamepad1.b) {
-//            if(System.currentTimeMillis() > nextTick) {
-//                leftServoPosition -= 0.05;
-//                nextTick = System.currentTimeMillis()+10;
-//            }
-//        }
-
-
         if (leftServoPosition > 1.00) {
             leftServoPosition = 1.00;
         }
@@ -220,29 +211,6 @@ public class TeleOp extends OpMode {
             tapeMotor.setPower(0.0);
         }
 
-//        if (gamepad1.dpad_up) {
-//            if(System.currentTimeMillis() > nextTick) {
-//                tapePosition += 0.05;
-//                nextTick = System.currentTimeMillis()+10;
-//            }
-//
-//        }
-//        if (gamepad1.dpad_up) {
-//            if(System.currentTimeMillis() > nextTick) {
-//                tapePosition += 0.05;
-//                nextTick = System.currentTimeMillis()+10;
-//            }
-//        }
-//
-//        if (tapePosition > 1.00) {
-//            tapePosition = 1.00;
-//        }
-//        if (tapePosition < 0.00) {
-//            tapePosition = 0.00;
-//        }
-//
-//        tapeServo.setPosition(tapePosition);
-//New system for tape position
         double[] tapeServoArray = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5};
         int tapeServoArrayCount = 5;
         if (gamepad1.dpad_up) {
