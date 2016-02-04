@@ -88,6 +88,8 @@ public class TeleOp extends OpMode {
         // Lifts and lowers the middle turbo motor
         middleRelease = hardwareMap.dcMotor.get("mRelease");
 
+        platformMotor = hardwareMap.dcMotor.get("platformMotor");
+
         // For big pull ups -- measureable muscle
         tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
         tapeMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -185,6 +187,15 @@ public class TeleOp extends OpMode {
                     platformMotor.setPower(0.0);
                 }
         }
+//TODO: REMOVE THIS LITTLE BIT LATE SO DRIVER CAN'T FUCK UP
+        if (gamepad2.x) {
+            platformMotor.setPower(1.0);
+        } else if (gamepad2.y) {
+            platformMotor.setPower(-1.0);
+        } else if (gamepad2.b) {
+            platformMotor.setPower(0.0);
+        }
+
 
 
         if (leftServoPosition > 1.00) {
