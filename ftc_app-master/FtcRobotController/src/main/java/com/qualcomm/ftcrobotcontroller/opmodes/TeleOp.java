@@ -97,7 +97,7 @@ public class TeleOp extends OpMode {
 
         // Lifts/lowers tape
         tapeServo = hardwareMap.servo.get("tapeServo");
-        leftServo.setPosition(0.4 );
+        leftServo.setPosition(0.4);
 
 
     }
@@ -146,7 +146,7 @@ public class TeleOp extends OpMode {
         // update the position of the arm.
         if (gamepad1.right_bumper) {
             motorTurbo.setPower(-1.0);
-        }else if (gamepad1.left_bumper) {
+        } else if (gamepad1.left_bumper) {
             motorTurbo.setPower(1.0);
         } else {
             motorTurbo.setPower(0.0);
@@ -156,28 +156,28 @@ public class TeleOp extends OpMode {
 
 
         if (gamepad1.y) {
-            if(System.currentTimeMillis() > nextTick) {
-                if(leftServoPosition==0.8){
-                    leftServoPosition=0.4;
+            if (System.currentTimeMillis() > nextTick) {
+                if (leftServoPosition == 0.8) {
+                    leftServoPosition = 0.4;
                 } else {
-                    leftServoPosition=0.8;
+                    leftServoPosition = 0.8;
                 }
                 //leftServoPosition += 0.05;
-                nextTick = System.currentTimeMillis()+200;
+                nextTick = System.currentTimeMillis() + 200;
             }
         }
 //platform movement
         if (gamepad2.a) {
-            if(System.currentTimeMillis() >= anotherTick)
-                if(!platUp) {
+            if (System.currentTimeMillis() >= anotherTick)
+                if (!platUp) {
                     while (System.currentTimeMillis() > anotherTick) {
                         platformMotor.setPower(1.0);
                         anotherTick += 3000;
                     }
                     platUp = true;
                     platformMotor.setPower(0.0);
-                } else if(platUp){
-                    while(System.currentTimeMillis() >= anotherTick) {
+                } else if (platUp) {
+                    while (System.currentTimeMillis() >= anotherTick) {
                         platformMotor.setPower(-1.0);
                         anotherTick += 3000;
                     }
@@ -194,7 +194,6 @@ public class TeleOp extends OpMode {
 //                nextTick = System.currentTimeMillis()+10;
 //            }
 //        }
-
 
 
         if (leftServoPosition > 1.00) {
@@ -214,7 +213,7 @@ public class TeleOp extends OpMode {
 
         if (gamepad1.dpad_left) {
             tapeMotor.setPower(1.0);
-        }else if (gamepad1.dpad_right) {
+        } else if (gamepad1.dpad_right) {
 
             tapeMotor.setPower(-1.0);
         } else {
@@ -249,7 +248,7 @@ public class TeleOp extends OpMode {
         if (gamepad1.dpad_up) {
             if (System.currentTimeMillis() >= nextTick) {
                 if (tapeServoArrayCount < tapeServoArray.length) {
-                    tapeServoArrayCount ++;
+                    tapeServoArrayCount++;
                     tapePosition = tapeServoArray[tapeServoArrayCount];
                     nextTick = System.currentTimeMillis() + 150;
                 }
@@ -259,7 +258,7 @@ public class TeleOp extends OpMode {
             nextTick = System.currentTimeMillis();
             if (System.currentTimeMillis() >= nextTick) {
                 if (tapeServoArrayCount > 0) {
-                    tapeServoArrayCount --;
+                    tapeServoArrayCount--;
                     tapePosition = tapeServoArray[tapeServoArrayCount];
                     nextTick += 150;
                 }
@@ -329,7 +328,6 @@ public class TeleOp extends OpMode {
         // return scaled value.
         return dScale;
     }
-
 
 
 }
