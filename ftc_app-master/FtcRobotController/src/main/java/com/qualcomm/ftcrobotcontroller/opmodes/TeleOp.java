@@ -120,6 +120,9 @@ public class TeleOp extends OpMode {
 		 * Right arrow: tapeMotor backward
 		 * Up arrow: lift tape
 		 * Down arrow: lower tape
+		 *
+		 *  ## Gamepad 2 Controls ##
+		 * A button: raises and lowers platform
 		 */
 
         // Gets values from joysticks
