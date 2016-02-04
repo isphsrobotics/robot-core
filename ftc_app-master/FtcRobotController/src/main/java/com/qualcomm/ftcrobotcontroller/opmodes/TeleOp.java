@@ -45,6 +45,8 @@ public class TeleOp extends OpMode {
     // position of the arm servo.
     double leftServoPosition = 0.7;
     double tapePosition = 0.0;
+    boolean platUp = true;
+
 
     DcMotor motorRight;
     DcMotor motorLeft;
@@ -55,6 +57,7 @@ public class TeleOp extends OpMode {
     DcMotor platformMotor;
     Servo leftServo;
     Servo tapeServo;
+
 
     long nextTick = System.currentTimeMillis();
 
@@ -159,19 +162,26 @@ public class TeleOp extends OpMode {
                 nextTick = System.currentTimeMillis()+200;
             }
         }
-// TODO: FINISH THIS
-//        int platUp = 0;
-//        if (gamepad2.x) {
-//            if(platUp == 0) {
-//                while (System.currentTimeMillis() > nextTick) {
-//                    platformMotor.setPower(1.0);
-//                    nextTick += 3000;
-//                    int platUp = 0;
-//                }
-//            } else if(platUp == 1)
-//            platformMotor.setPower(0.0);
-//        }
-//
+
+        //TODO: FIGURE OUT WHY IT SAYS PLATUP IS ALWAYS TRUE
+        if (gamepad2.x) {
+            if(!platUp) {
+                while (System.currentTimeMillis() > nextTick) {
+                    platformMotor.setPower(1.0);
+                    nextTick += 500;
+                }
+                platUp = true;
+                platformMotor.setPower(0.0);
+            } else if(platUp){
+                while(System.currentTimeMillis() > nextTick) {
+                    platformMotor.setPower(-1.0);
+                    nextTick += 500;
+                }
+                platUp = false;
+                platformMotor.setPower(0.0);
+            }
+        }
+
 
         // update the position of the claw
 //        if (gamepad1.b) {
