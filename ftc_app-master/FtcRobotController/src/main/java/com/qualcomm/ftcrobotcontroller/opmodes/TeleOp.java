@@ -163,7 +163,7 @@ public class TeleOp extends OpMode {
             }
         }
 
-        if (gamepad2.x) {
+        if (gamepad2.a) {
             if(!platUp) {
                 while (System.currentTimeMillis() > nextTick) {
                     platformMotor.setPower(1.0);
