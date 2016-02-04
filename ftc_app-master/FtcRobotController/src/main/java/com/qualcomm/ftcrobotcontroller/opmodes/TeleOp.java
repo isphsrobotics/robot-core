@@ -163,7 +163,6 @@ public class TeleOp extends OpMode {
             }
         }
 
-        //TODO: FIGURE OUT WHY IT SAYS PLATUP IS ALWAYS TRUE
         if (gamepad2.x) {
             if(!platUp) {
                 while (System.currentTimeMillis() > nextTick) {
