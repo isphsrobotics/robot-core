@@ -60,6 +60,7 @@ public class TeleOp extends OpMode {
 
 
     long nextTick = System.currentTimeMillis();
+    long anotherTick = System.currentTimeMillis();
 
     /**
      * Constructor
@@ -162,23 +163,24 @@ public class TeleOp extends OpMode {
                 nextTick = System.currentTimeMillis()+200;
             }
         }
-
+//platform movement
         if (gamepad2.a) {
-            if(!platUp) {
-                while (System.currentTimeMillis() > nextTick) {
-                    platformMotor.setPower(1.0);
-                    nextTick += 500;
+            if(System.currentTimeMillis() >= anotherTick)
+                if(!platUp) {
+                    while (System.currentTimeMillis() > anotherTick) {
+                        platformMotor.setPower(1.0);
+                        anotherTick += 3000;
+                    }
+                    platUp = true;
+                    platformMotor.setPower(0.0);
+                } else if(platUp){
+                    while(System.currentTimeMillis() >= anotherTick) {
+                        platformMotor.setPower(-1.0);
+                        anotherTick += 3000;
+                    }
+                    platUp = false;
+                    platformMotor.setPower(0.0);
                 }
-                platUp = true;
-                platformMotor.setPower(0.0);
-            } else if(platUp){
-                while(System.currentTimeMillis() > nextTick) {
-                    platformMotor.setPower(-1.0);
-                    nextTick += 500;
-                }
-                platUp = false;
-                platformMotor.setPower(0.0);
-            }
         }
 
 
@@ -242,7 +244,7 @@ public class TeleOp extends OpMode {
         double[] tapeServoArray = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5};
         int tapeServoArrayCount = 5;
         if (gamepad1.dpad_up) {
-            if (System.currentTimeMillis() > nextTick) {
+            if (System.currentTimeMillis() >= nextTick) {
                 if (tapeServoArrayCount < tapeServoArray.length) {
                     tapeServoArrayCount ++;
                     tapePosition = tapeServoArray[tapeServoArrayCount];
@@ -252,7 +254,7 @@ public class TeleOp extends OpMode {
         }
         if (gamepad2.dpad_down) {
             nextTick = System.currentTimeMillis();
-            if (System.currentTimeMillis() > nextTick) {
+            if (System.currentTimeMillis() >= nextTick) {
                 if (tapeServoArrayCount > 0) {
                     tapeServoArrayCount --;
                     tapePosition = tapeServoArray[tapeServoArrayCount];
