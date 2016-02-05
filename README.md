@@ -33,7 +33,8 @@ This will be found under the Issues tab in github (press `g` `i`)
 This will be under the Wiki tab in github (press `g` `w`)
 
 ###### Other links
-To be filled in later :neutral_face:
+To be filled in later :neutral_face:  
+
 Color sensor: https://github.com/ftctechnh/ftc_app/blob/master/FtcRobotController/src/main/java/com/qualcomm/ftcrobotcontroller/opmodes/HTRGBExample.java
 
 ## 03 - contribution guidelines and style
