@@ -103,7 +103,6 @@ public class TeleOp extends OpMode {
         tapeServo = hardwareMap.servo.get("tapeServo");
         leftServo.setPosition(0.4);
 
-        //TODO: ADD GATESERVO TO PHONE
         gateServo = hardwareMap.servo.get("gateServo");
 
 
