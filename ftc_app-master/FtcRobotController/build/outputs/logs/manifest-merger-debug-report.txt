@@ -26,62 +26,54 @@ MERGED from :WirelessP2p-release::9:5
 		ADDED from AndroidManifest.xml:14:5
 	android:name
 		ADDED from AndroidManifest.xml:13:5
-uses-permission#android.permission.ACCESS_NETWORK_STATE
+uses-permission#android.permission.WAKE_LOCK
 ADDED from AndroidManifest.xml:15:3
-MERGED from :Analytics-release::15:5
 	android:required
-		ADDED from AndroidManifest.xml:17:5
+		ADDED from AndroidManifest.xml:17:7
 	android:name
-		ADDED from AndroidManifest.xml:16:5
-uses-permission#android.permission.CHANGE_NETWORK_STATE
+		ADDED from AndroidManifest.xml:16:7
+uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from AndroidManifest.xml:18:3
+MERGED from :Analytics-release::15:5
 	android:required
 		ADDED from AndroidManifest.xml:20:5
 	android:name
 		ADDED from AndroidManifest.xml:19:5
-uses-permission#android.permission.INTERNET
+uses-permission#android.permission.CHANGE_NETWORK_STATE
 ADDED from AndroidManifest.xml:21:3
-MERGED from :Analytics-release::12:5
 	android:required
 		ADDED from AndroidManifest.xml:23:5
 	android:name
 		ADDED from AndroidManifest.xml:22:5
-uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+uses-permission#android.permission.INTERNET
 ADDED from AndroidManifest.xml:24:3
-MERGED from :FtcCommon-release::11:5
-MERGED from :Analytics-release::9:5
+MERGED from :Analytics-release::12:5
 	android:required
 		ADDED from AndroidManifest.xml:26:5
 	android:name
 		ADDED from AndroidManifest.xml:25:5
-uses-permission#android.permission.READ_EXTERNAL_STORAGE
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from AndroidManifest.xml:27:3
-MERGED from :FtcCommon-release::14:5
+MERGED from :FtcCommon-release::11:5
+MERGED from :Analytics-release::9:5
 	android:required
 		ADDED from AndroidManifest.xml:29:5
 	android:name
 		ADDED from AndroidManifest.xml:28:5
-uses-permission#android.permission.WRITE_SETTINGS
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from AndroidManifest.xml:30:3
-MERGED from :FtcCommon-release::17:5
+MERGED from :FtcCommon-release::14:5
 	android:required
 		ADDED from AndroidManifest.xml:32:5
 	android:name
 		ADDED from AndroidManifest.xml:31:5
-uses-permission#android.permission.CAMERA
+uses-permission#android.permission.WRITE_SETTINGS
 ADDED from AndroidManifest.xml:33:3
+MERGED from :FtcCommon-release::17:5
 	android:required
-		ADDED from AndroidManifest.xml:33:61
+		ADDED from AndroidManifest.xml:35:5
 	android:name
-		ADDED from AndroidManifest.xml:33:20
-uses-feature#android.hardware.camera
-ADDED from AndroidManifest.xml:34:3
-	android:name
-		ADDED from AndroidManifest.xml:34:17
-uses-feature#android.hardware.camera.autofocus
-ADDED from AndroidManifest.xml:35:3
-	android:name
-		ADDED from AndroidManifest.xml:35:17
+		ADDED from AndroidManifest.xml:34:5
 uses-feature#android.hardware.usb.accessory
 ADDED from AndroidManifest.xml:37:3
 	android:name
@@ -110,98 +102,100 @@ ADDED from AndroidManifest.xml:44:5
 		ADDED from AndroidManifest.xml:46:7
 	android:name
 		ADDED from AndroidManifest.xml:45:7
-intent-filter#android.hardware.usb.action.USB_DEVICE_ATTACHED+android.intent.action.MAIN+android.intent.category.LAUNCHER
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:49:7
 action#android.intent.action.MAIN
 ADDED from AndroidManifest.xml:50:9
 	android:name
 		ADDED from AndroidManifest.xml:50:17
 category#android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:52:9
+ADDED from AndroidManifest.xml:51:9
 	android:name
-		ADDED from AndroidManifest.xml:52:19
+		ADDED from AndroidManifest.xml:51:19
+intent-filter#android.hardware.usb.action.USB_DEVICE_ATTACHED
+ADDED from AndroidManifest.xml:54:7
 action#android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from AndroidManifest.xml:54:9
+ADDED from AndroidManifest.xml:55:9
 	android:name
-		ADDED from AndroidManifest.xml:54:17
+		ADDED from AndroidManifest.xml:55:17
 meta-data#android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from AndroidManifest.xml:57:7
+ADDED from AndroidManifest.xml:58:7
 	android:resource
-		ADDED from AndroidManifest.xml:59:9
+		ADDED from AndroidManifest.xml:60:9
 	android:name
-		ADDED from AndroidManifest.xml:58:9
+		ADDED from AndroidManifest.xml:59:9
 activity#com.qualcomm.ftccommon.FtcRobotControllerSettingsActivity
-ADDED from AndroidManifest.xml:61:5
+ADDED from AndroidManifest.xml:62:5
 MERGED from :FtcCommon-release::26:9
 	android:label
-		ADDED from AndroidManifest.xml:63:7
+		ADDED from AndroidManifest.xml:64:7
 	android:exported
 		ADDED from :FtcCommon-release::28:13
 	android:name
-		ADDED from AndroidManifest.xml:62:7
+		ADDED from AndroidManifest.xml:63:7
 service#com.qualcomm.ftccommon.FtcRobotControllerService
-ADDED from AndroidManifest.xml:65:5
+ADDED from AndroidManifest.xml:66:5
 	android:enabled
-		ADDED from AndroidManifest.xml:67:7
+		ADDED from AndroidManifest.xml:68:7
 	android:name
-		ADDED from AndroidManifest.xml:66:7
+		ADDED from AndroidManifest.xml:67:7
 activity#com.qualcomm.ftccommon.configuration.FtcLoadFileActivity
-ADDED from AndroidManifest.xml:68:5
+ADDED from AndroidManifest.xml:69:5
 MERGED from :FtcCommon-release::36:9
 	android:label
-		ADDED from AndroidManifest.xml:70:7
+		ADDED from AndroidManifest.xml:71:7
 		REJECTED from :FtcCommon-release::40:13
 	android:exported
 		ADDED from :FtcCommon-release::39:13
 	android:configChanges
 		ADDED from :FtcCommon-release::38:13
 	tools:replace
-		ADDED from AndroidManifest.xml:71:7
+		ADDED from AndroidManifest.xml:72:7
 	android:name
-		ADDED from AndroidManifest.xml:69:7
+		ADDED from AndroidManifest.xml:70:7
 activity#com.qualcomm.ftccommon.FtcWifiChannelSelectorActivity
-ADDED from AndroidManifest.xml:73:5
+ADDED from AndroidManifest.xml:74:5
 MERGED from :FtcCommon-release::67:9
 	android:label
-		ADDED from AndroidManifest.xml:75:9
+		ADDED from AndroidManifest.xml:76:9
 		REJECTED from :FtcCommon-release::70:13
 	android:exported
 		ADDED from :FtcCommon-release::69:13
 	tools:replace
-		ADDED from AndroidManifest.xml:76:9
+		ADDED from AndroidManifest.xml:77:9
 	android:name
-		ADDED from AndroidManifest.xml:74:9
+		ADDED from AndroidManifest.xml:75:9
 activity#com.qualcomm.ftccommon.ConfigWifiDirectActivity
-ADDED from AndroidManifest.xml:78:5
+ADDED from AndroidManifest.xml:79:5
 MERGED from :FtcCommon-release::63:9
 	android:label
-		ADDED from AndroidManifest.xml:80:7
+		ADDED from AndroidManifest.xml:81:7
 	android:exported
 		ADDED from :FtcCommon-release::65:13
 	android:name
-		ADDED from AndroidManifest.xml:79:7
+		ADDED from AndroidManifest.xml:80:7
 activity#com.qualcomm.ftccommon.ViewLogsActivity
-ADDED from AndroidManifest.xml:81:5
+ADDED from AndroidManifest.xml:82:5
 MERGED from :FtcCommon-release::77:9
 	android:label
-		ADDED from AndroidManifest.xml:84:7
+		ADDED from AndroidManifest.xml:85:7
 		REJECTED from :FtcCommon-release::80:13
 	android:configChanges
-		ADDED from AndroidManifest.xml:83:7
+		ADDED from AndroidManifest.xml:84:7
 	tools:replace
-		ADDED from AndroidManifest.xml:85:7
+		ADDED from AndroidManifest.xml:86:7
 	android:name
-		ADDED from AndroidManifest.xml:82:7
+		ADDED from AndroidManifest.xml:83:7
 intent-filter#android.intent.category.DEFAULT+com.qualcomm.ftcrobotcontroller.VIEW_LOGS
-ADDED from AndroidManifest.xml:86:7
+ADDED from AndroidManifest.xml:87:7
 action#com.qualcomm.ftcrobotcontroller.VIEW_LOGS
-ADDED from AndroidManifest.xml:87:9
-	android:name
-		ADDED from AndroidManifest.xml:87:17
-category#android.intent.category.DEFAULT
 ADDED from AndroidManifest.xml:88:9
 	android:name
-		ADDED from AndroidManifest.xml:88:19
+		ADDED from AndroidManifest.xml:88:17
+category#android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:89:9
+	android:name
+		ADDED from AndroidManifest.xml:89:19
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from :RobotCore-release::5:5
