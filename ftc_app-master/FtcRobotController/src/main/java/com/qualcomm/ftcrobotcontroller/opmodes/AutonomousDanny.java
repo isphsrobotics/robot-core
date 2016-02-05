@@ -75,7 +75,7 @@ public class AutonomousDanny extends LinearOpMode {
 
 // catches up to the spot in front of the button
         motorRight.setPower(1.0);
-        motorLeft.setPower(0.79);
+        motorLeft.setPower(0.7);
         double firstTime = System.currentTimeMillis();
         while(true){
             if(firstTime + 1100 == System.currentTimeMillis()){
@@ -117,7 +117,7 @@ public class AutonomousDanny extends LinearOpMode {
 
 //moves out to red side of ramp
         motorRight.setPower(1.0);
-        motorLeft.setPower(0.79);
+        motorLeft.setPower(1.0);
         double fourthTime = System.currentTimeMillis();
         while(true){
             if(fourthTime + 1200 == System.currentTimeMillis()){
@@ -141,7 +141,7 @@ public class AutonomousDanny extends LinearOpMode {
 
         //moves out to bottom of ramp
         motorRight.setPower(1.0);
-        motorLeft.setPower(0.79);
+        motorLeft.setPower(1.0);
         double sixthTime = System.currentTimeMillis();
         while(true){
             if(sixthTime + 1200 == System.currentTimeMillis()){
@@ -152,7 +152,7 @@ public class AutonomousDanny extends LinearOpMode {
         }
 
         //move servo to correct angle for tape measure, move tape measure, grapple
-        tapeServo.setPosition(30.0);
+        tapeServo.setPosition(0.3);
         tapeMotor.setPower(1.0);
         double seventhTime = System.currentTimeMillis();
         while(true) {
@@ -161,7 +161,7 @@ public class AutonomousDanny extends LinearOpMode {
                 break;
             }
         }
-        tapeServo.setPosition(28.0);
+        tapeServo.setPosition(0.8);
         tapeMotor.setPower(-1.0);
         double eigthTime = System.currentTimeMillis();
         while(true) {

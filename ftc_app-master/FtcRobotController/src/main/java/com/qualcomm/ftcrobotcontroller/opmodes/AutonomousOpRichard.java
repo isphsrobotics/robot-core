@@ -32,6 +32,8 @@ public class AutonomousOpRichard extends LinearOpMode {
     Servo leftServo;
     Servo tapeServo;
 
+    SurfaceHolder s;
+
     Bitmap image;
 
 
@@ -63,89 +65,104 @@ public class AutonomousOpRichard extends LinearOpMode {
         tapeServo = hardwareMap.servo.get("tapeServo");
         leftServo.setPosition(0.8 );
 
-        double t = System.currentTimeMillis() + 10000;
+//        double t = System.currentTimeMillis() + 10000;
+//
+//        // ALL TIMINGS ARE BS, WE HAVEN'T TESTED THEM YET
+//        // TODO: Fix timing
+//
+//
+//        // Move forward
+//
+//        motorLeft.setPower(1.0);
+//        motorRight.setPower(1.0);
+//
+//        while(t>System.currentTimeMillis()){
+//          // wait for 10 seconds, run sensor stuff here possibly
+//        }
+//
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//
+//        // wait a bit
+//
+//        t = System.currentTimeMillis() + 1000;
+//        while (t > System.currentTimeMillis()){
+//
+//        }
+//
+//        // turn left
+//
+//        t = System.currentTimeMillis() + 1000;
+//        motorLeft.setPower(-1.0);
+//        motorRight.setPower(1.0);
+//
+//        while (t > System.currentTimeMillis()){
+//
+//        }
+//
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//
+//        // move forward again
+//
+//        t = System.currentTimeMillis() + 10000;
+//        motorLeft.setPower(1.0);
+//        motorRight.setPower(1.0);
+//
+//        while (t > System.currentTimeMillis()){
+//
+//        }
+//
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//
+//        // turn left again
+//
+//        t = System.currentTimeMillis() + 1000;
+//        motorLeft.setPower(-1.0);
+//        motorRight.setPower(1.0);
+//
+//        while (t > System.currentTimeMillis()){
+//
+//        }
+//
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//
+//        // move forward again
+//
+//        t = System.currentTimeMillis() + 1000;
+//        motorLeft.setPower(1.0);
+//        motorRight.setPower(1.0);
+//
+//        while (t > System.currentTimeMillis()){
+//
+//        }
+//
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+        int done = 0;
+        long time = System.currentTimeMillis();
+        while(done < 5){
+            if(System.currentTimeMillis() > time){
+                pushButton();
+                done++;
+                time = System.currentTimeMillis() + 100;
+            }
 
-        // ALL TIMINGS ARE BS, WE HAVEN'T TESTED THEM YET
-        // TODO: Fix timing
-
-
-        // Move forward
-
-        motorLeft.setPower(1.0);
-        motorRight.setPower(1.0);
-
-        while(t>System.currentTimeMillis()){
-          // wait for 10 seconds, run sensor stuff here possibly
         }
+    }
 
-        motorLeft.setPower(0.0);
-        motorRight.setPower(0.0);
 
-        // wait a bit
-
-        t = System.currentTimeMillis() + 1000;
-        while (t > System.currentTimeMillis()){
-
-        }
-
-        // turn left
-
-        t = System.currentTimeMillis() + 1000;
-        motorLeft.setPower(-1.0);
-        motorRight.setPower(1.0);
-
-        while (t > System.currentTimeMillis()){
-
-        }
-
-        motorLeft.setPower(0.0);
-        motorRight.setPower(0.0);
-
-        // move forward again
-
-        t = System.currentTimeMillis() + 10000;
-        motorLeft.setPower(1.0);
-        motorRight.setPower(1.0);
-
-        while (t > System.currentTimeMillis()){
-
-        }
-
-        motorLeft.setPower(0.0);
-        motorRight.setPower(0.0);
-
-        // turn left again
-
-        t = System.currentTimeMillis() + 1000;
-        motorLeft.setPower(-1.0);
-        motorRight.setPower(1.0);
-
-        while (t > System.currentTimeMillis()){
-
-        }
-
-        motorLeft.setPower(0.0);
-        motorRight.setPower(0.0);
-
-        // move forward again
-
-        t = System.currentTimeMillis() + 1000;
-        motorLeft.setPower(1.0);
-        motorRight.setPower(1.0);
-
-        while (t > System.currentTimeMillis()){
-
-        }
-
-        motorLeft.setPower(0.0);
-        motorRight.setPower(0.0);
+    // Attempt to pass suface holder to this class
+    // If this works, there is proof that there is a god.
+    public void getSurfaceHolder(SurfaceHolder in){
+        s = in;
     }
 
 
 
-
-
-    public int getCameraColor(SurfaceHolder s){
+    public int getCameraColor(){
 
         /*
         METHOD TO FIND WHAT BEACON COLOR CAMERA IS LOOKING AT CURRENTLY
@@ -167,6 +184,11 @@ public class AutonomousOpRichard extends LinearOpMode {
 
         // Open camera
         Camera c = Camera.open();
+        if(c == null){
+            telemetry.addData("Text", "NO camera");
+        }
+
+ 
 
 
         // Get height and width of camera
@@ -175,6 +197,11 @@ public class AutonomousOpRichard extends LinearOpMode {
 
         try {
             // Have to set a preview display somewhere, still figuring this out
+
+            if(s == null){
+                telemetry.addData("Text", "No surface holder");
+            }
+
             c.setPreviewDisplay(s);
             c.startPreview();
 
@@ -185,6 +212,7 @@ public class AutonomousOpRichard extends LinearOpMode {
                     image = BitmapFactory.decodeByteArray(data,0,data.length);
                 }
             });
+
 
             // If for some reason camera fails to fire, return -1
             // c.release() allows camera to be used by other apps after this (Important!)
@@ -226,12 +254,14 @@ public class AutonomousOpRichard extends LinearOpMode {
             // If the Red value is sufficiently high, and other values relatively low (i.e. it's red, and not white)
             // TODO: Test these thresholds in a realistic environment
             if(R > 180 && (B < 50 && G < 50)){
+                telemetry.addData("Text", "RED");
                 c.release();
                 return 1;
                 // RETURN 1 means it's red
             } else if(B > 180 && (R < 50 && G < 50)){
             // Same for Blue now
             // TODO: Test threshold
+                telemetry.addData("Text", "BLU");
                 c.release();
                 return 2;
                 // RETURN 2 means it's blue
@@ -246,6 +276,13 @@ public class AutonomousOpRichard extends LinearOpMode {
             return -1;
         }
 
+    }
+// TODO: set correct servo
+    // this pushes the button if it's red
+    public void pushButton(){
+        if(getCameraColor() == 1){
+            leftServo.setPosition(0.0);
+        }
     }
 
 }
