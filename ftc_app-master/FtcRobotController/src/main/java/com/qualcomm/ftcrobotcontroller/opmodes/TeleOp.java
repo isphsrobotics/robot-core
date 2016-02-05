@@ -132,11 +132,11 @@ public class TeleOp extends OpMode {
 		 *  ## Gamepad 2 Controls ##
 		 * A button: raises and lowers platform
 		 * X button: stops platform motor for sure
-		 * B button: opens and closes servo
-		 * Up dpad: clockwise until hits x
-		 * Down dpad: counter-clockwise until hits x
+		 * B button: opens and closes gate
+		 * Up/down dpad: manual platform controls
 		 */
 
+        // ## WHEEL MOTORS ##
         // Gets values from joysticks
         float right = gamepad1.right_stick_y;
         float left = gamepad1.left_stick_y;
@@ -154,8 +154,7 @@ public class TeleOp extends OpMode {
         motorRight.setPower(right);
         motorLeft.setPower(left);
 
-
-        // update the position of the arm.
+        // ## TURBO MOTOR ##
         if (gamepad1.right_bumper) {
             motorTurbo.setPower(-1.0);
         } else if (gamepad1.left_bumper) {
@@ -164,9 +163,18 @@ public class TeleOp extends OpMode {
             motorTurbo.setPower(0.0);
         }
 
+        // ## TURBO RAISE/LOWER ##
+        if (gamepad1.a) {
+            middleRelease.setPower(1.0);
+        } else if (gamepad1.x) {
+            middleRelease.setPower(-1.0);
+        } else {
+            middleRelease.setPower(0.0);
+        }
+
         leftServo.setPosition(leftServoPosition);
 
-
+        // ## METAL ARM ##
         if (gamepad1.y) {
             if (System.currentTimeMillis() > nextTick) {
                 if (leftServoPosition == 0.8) {
@@ -179,8 +187,16 @@ public class TeleOp extends OpMode {
             }
         }
 
+        // Make sure that it is 0<x<1 (bounds checking)
+        if (leftServoPosition > 1.00) {
+            leftServoPosition = 1.00;
+        }
+        if (leftServoPosition < 0.00) {
+            leftServoPosition = 0.00;
+        }
 
-        //Gate mechanics
+
+        // ## GATE SERVO ##
         if (System.currentTimeMillis() > yetAnotherTick) {
             if (gamepad2.b) {
                 if (gateOpen) {
@@ -196,7 +212,7 @@ public class TeleOp extends OpMode {
         }
             
 
-//platform movement
+        // ## ONE-BUTTON GATE CONTROLS ##
         if (System.currentTimeMillis() > anotherTick) {
             if (gamepad2.a) {
                 if (!platUp) {
@@ -217,6 +233,7 @@ public class TeleOp extends OpMode {
             }
         }
 
+        // ## MANUAL GATE CONTROLS & FAILSAFE STOP ##
         if (gamepad2.x) {
             platformMotor.setPower(0.0);
         } else if (gamepad2.dpad_down) {
@@ -225,23 +242,7 @@ public class TeleOp extends OpMode {
             platformMotor.setPower(1.0);
         }
 
-
-
-        if (leftServoPosition > 1.00) {
-            leftServoPosition = 1.00;
-        }
-
-        if (leftServoPosition < 0.00) {
-            leftServoPosition = 0.00;
-        }
-        if (gamepad1.a) {
-            middleRelease.setPower(1.0);
-        } else if (gamepad1.x) {
-            middleRelease.setPower(-1.0);
-        } else {
-            middleRelease.setPower(0.0);
-        }
-
+        // ## TAPE CONTROLS ##
         if (gamepad1.dpad_left) {
             tapeMotor.setPower(0.5);
         } else if (gamepad1.dpad_right) {
@@ -251,6 +252,7 @@ public class TeleOp extends OpMode {
             tapeMotor.setPower(0.0);
         }
 
+        // ## TAPE RAISE/LOWER ##
         double[] tapeServoArray = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5};
         if (gamepad1.dpad_up) {
             if (System.currentTimeMillis() >= nextTick) {
