@@ -124,6 +124,11 @@ public class TeleOp extends OpMode {
 		 *
 		 *  ## Gamepad 2 Controls ##
 		 * A button: raises and lowers platform
+		 *
+		 * TODO: FOR NOW ONLY TEMPORARY COMMANDS BELOW
+		 * X button: clockwise until press B
+		 * Y button: anticlockwise until press B
+		 * B button: stop motor
 		 */
 
         // Gets values from joysticks
@@ -168,7 +173,7 @@ public class TeleOp extends OpMode {
             }
         }
 //platform movement
-        if (System.currentTimeMillis() >= anotherTick) {
+        if (System.currentTimeMillis() > anotherTick) {
             if (gamepad2.a) {
                 if (!platUp) {
                     anotherTick += 1000;
