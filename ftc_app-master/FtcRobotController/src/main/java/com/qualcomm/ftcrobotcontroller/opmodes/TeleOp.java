@@ -47,6 +47,7 @@ public class TeleOp extends OpMode {
     double tapePosition = 0.0;
     boolean platUp = true;
     boolean gateOpen = false;
+    int tapeServoArrayCount = 5;
 
 
     DcMotor motorRight;
@@ -245,7 +246,6 @@ public class TeleOp extends OpMode {
         }
 
         double[] tapeServoArray = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5};
-        int tapeServoArrayCount = 5;
         if (gamepad1.dpad_up) {
             if (System.currentTimeMillis() >= nextTick) {
                 if (tapeServoArrayCount < tapeServoArray.length) {
