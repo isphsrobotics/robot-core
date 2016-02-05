@@ -65,6 +65,12 @@ public class AutonomousOpRichard extends LinearOpMode {
         tapeServo = hardwareMap.servo.get("tapeServo");
         leftServo.setPosition(0.8 );
 
+        // IMPORTANT: THIS IS IMPORTANT!
+        double tt = System.currentTimeMillis() + 200;
+        while(tt>System.currentTimeMillis()){
+
+        }
+
 //        double t = System.currentTimeMillis() + 10000;
 //
 //        // ALL TIMINGS ARE BS, WE HAVEN'T TESTED THEM YET
@@ -282,6 +288,14 @@ public class AutonomousOpRichard extends LinearOpMode {
     public void pushButton(){
         if(getCameraColor() == 1){
             leftServo.setPosition(0.0);
+        }
+    }
+
+    public boolean hasSurfaceHolder(){
+        if(s != null){
+            return true;
+        }else{
+            return false;
         }
     }
 

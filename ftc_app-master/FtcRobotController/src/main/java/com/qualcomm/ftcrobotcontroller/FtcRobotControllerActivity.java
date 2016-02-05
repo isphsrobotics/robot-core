@@ -48,6 +48,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -61,6 +63,7 @@ import com.qualcomm.ftccommon.FtcRobotControllerService.FtcRobotControllerBinder
 import com.qualcomm.ftccommon.LaunchActivityConstantsList;
 import com.qualcomm.ftccommon.Restarter;
 import com.qualcomm.ftccommon.UpdateUI;
+import com.qualcomm.ftcrobotcontroller.opmodes.AutonomousOpRichard;
 import com.qualcomm.ftcrobotcontroller.opmodes.FtcOpModeRegister;
 import com.qualcomm.hardware.HardwareFactory;
 import com.qualcomm.robotcore.hardware.configuration.Utility;
@@ -72,6 +75,10 @@ import com.qualcomm.robotcore.wifi.WifiDirectAssistant;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class FtcRobotControllerActivity extends Activity {
 
@@ -83,6 +90,18 @@ public class FtcRobotControllerActivity extends Activity {
 
   protected WifiManager.WifiLock wifiLock;
   protected SharedPreferences preferences;
+
+
+  // IMPORTANT: My code
+
+  private SurfaceView surfaceView;
+  private SurfaceHolder holder;
+  private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+
+  // IMPORTANT: End of my code
+
+
 
   protected UpdateUI.Callback callback;
   protected Context context;
@@ -141,6 +160,31 @@ public class FtcRobotControllerActivity extends Activity {
 
     setContentView(R.layout.activity_ftc_controller);
 
+    // IMPORTANT: My code
+
+    surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
+    holder = surfaceView.getHolder();
+
+    final Runnable timedEvent = new Runnable() {
+      @Override
+      public void run() {
+
+        boolean hasSH;
+        if(eventLoop.getOpModeManager().getActiveOpModeName().equals("R")){
+          AutonomousOpRichard opmode = (AutonomousOpRichard) eventLoop.getOpModeManager().getActiveOpMode();
+          opmode.getSurfaceHolder(holder);
+
+        }
+
+    }};
+
+    scheduler.scheduleAtFixedRate(timedEvent,0,50, TimeUnit.MILLISECONDS);
+
+
+    // IMPORTANT: End of my code
+
+
+
     utility = new Utility(this);
     context = this;
     entireScreenLayout = (LinearLayout) findViewById(R.id.entire_screen);
@@ -167,7 +211,7 @@ public class FtcRobotControllerActivity extends Activity {
     updateUI = new UpdateUI(this, dimmer);
     updateUI.setRestarter(restarter);
     updateUI.setTextViews(textWifiDirectStatus, textRobotStatus,
-        textGamepad, textOpMode, textErrorMessage, textDeviceName);
+            textGamepad, textOpMode, textErrorMessage, textDeviceName);
     callback = updateUI.new Callback();
 
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
