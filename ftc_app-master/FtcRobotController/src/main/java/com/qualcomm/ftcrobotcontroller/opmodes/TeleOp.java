@@ -259,8 +259,7 @@ public class TeleOp extends OpMode {
                     nextTick = System.currentTimeMillis() + 150;
                 }
             }
-        }
-        if (gamepad1.dpad_down) {
+        } else if (gamepad1.dpad_down) {
             nextTick = System.currentTimeMillis();
             if (System.currentTimeMillis() >= nextTick) {
                 if (tapeServoArrayCount > 0) {
