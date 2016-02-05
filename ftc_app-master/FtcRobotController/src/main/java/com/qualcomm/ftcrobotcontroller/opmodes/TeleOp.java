@@ -105,7 +105,7 @@ public class TeleOp extends OpMode {
 
         gateServo = hardwareMap.servo.get("gateServo");
 
-        tapeServo.setPosition(0.5);
+        tapeServo.setPosition(1.0);
 
 
     }
@@ -253,7 +253,7 @@ public class TeleOp extends OpMode {
         }
 
         // ## TAPE RAISE/LOWER ##
-        double[] tapeServoArray = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5};
+        double[] tapeServoArray = {0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
         if (gamepad1.dpad_up) {
             if (System.currentTimeMillis() >= nextTick) {
                 if (tapeServoArrayCount < tapeServoArray.length -1) {
