@@ -129,11 +129,9 @@ public class TeleOp extends OpMode {
 		 *
 		 *  ## Gamepad 2 Controls ##
 		 * A button: raises and lowers platform
+		 * X button: stops platform motor for sure
+		 * B button: opens and closes servo
 		 *
-		 * TODO: FOR NOW ONLY TEMPORARY COMMANDS BELOW
-		 * X button: clockwise until press B
-		 * Y button: anticlockwise until press B
-		 * B button: stop motor
 		 */
 
         // Gets values from joysticks
@@ -216,16 +214,7 @@ public class TeleOp extends OpMode {
             }
         }
 
-
-
-
-
-//TODO: REMOVE THIS LITTLE BIT LATE SO DRIVER CAN'T FUCK UP
         if (gamepad2.x) {
-            platformMotor.setPower(1.0);
-        } else if (gamepad2.y) {
-            platformMotor.setPower(-1.0);
-        } else if (gamepad2.b) {
             platformMotor.setPower(0.0);
         }
 
