@@ -46,6 +46,7 @@ public class TeleOp extends OpMode {
     double leftServoPosition = 0.7;
     double tapePosition = 0.0;
     boolean platUp = true;
+    boolean gateOpen = false;
 
 
     DcMotor motorRight;
@@ -56,10 +57,12 @@ public class TeleOp extends OpMode {
     DcMotor platformMotor;
     Servo leftServo;
     Servo tapeServo;
+    Servo gateServo;
 
 
     long nextTick = System.currentTimeMillis();
     long anotherTick = System.currentTimeMillis();
+    long yetAnotherTick = System.currentTimeMillis();
 
     /**
      * Constructor
@@ -99,6 +102,9 @@ public class TeleOp extends OpMode {
         // Lifts/lowers tape
         tapeServo = hardwareMap.servo.get("tapeServo");
         leftServo.setPosition(0.4);
+
+        //TODO: ADD GATESERVO TO PHONE
+        gateServo = hardwareMap.servo.get("gateServo");
 
 
     }
@@ -172,6 +178,24 @@ public class TeleOp extends OpMode {
                 nextTick = System.currentTimeMillis() + 200;
             }
         }
+
+
+        //Gate mechanics
+        if (System.currentTimeMillis() > yetAnotherTick) {
+            if (gamepad2.b) {
+                if (gateOpen) {
+                    yetAnotherTick += 300;
+                    gateServo.setPosition(1.0);
+                    gateOpen = false;
+                } else if (!gateOpen) {
+                    yetAnotherTick += 300;
+                    gateServo.setPosition(0.4);
+                    gateOpen = false;
+                }
+            }
+        }
+            
+
 //platform movement
         if (System.currentTimeMillis() > anotherTick) {
             if (gamepad2.a) {
@@ -192,6 +216,11 @@ public class TeleOp extends OpMode {
                 }
             }
         }
+
+
+
+
+
 //TODO: REMOVE THIS LITTLE BIT LATE SO DRIVER CAN'T FUCK UP
         if (gamepad2.x) {
             platformMotor.setPower(1.0);
