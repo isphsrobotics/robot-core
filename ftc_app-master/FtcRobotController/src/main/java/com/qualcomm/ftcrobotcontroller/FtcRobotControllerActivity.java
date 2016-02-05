@@ -40,6 +40,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.hardware.usb.UsbManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -47,8 +48,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -62,7 +61,6 @@ import com.qualcomm.ftccommon.FtcRobotControllerService.FtcRobotControllerBinder
 import com.qualcomm.ftccommon.LaunchActivityConstantsList;
 import com.qualcomm.ftccommon.Restarter;
 import com.qualcomm.ftccommon.UpdateUI;
-import com.qualcomm.ftcrobotcontroller.opmodes.AutonomousOpRichard;
 import com.qualcomm.ftcrobotcontroller.opmodes.FtcOpModeRegister;
 import com.qualcomm.hardware.HardwareFactory;
 import com.qualcomm.robotcore.hardware.configuration.Utility;
@@ -74,10 +72,6 @@ import com.qualcomm.robotcore.wifi.WifiDirectAssistant;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 public class FtcRobotControllerActivity extends Activity {
 
@@ -87,26 +81,13 @@ public class FtcRobotControllerActivity extends Activity {
 
   public static final String CONFIGURE_FILENAME = "CONFIGURE_FILENAME";
 
+  protected WifiManager.WifiLock wifiLock;
   protected SharedPreferences preferences;
 
   protected UpdateUI.Callback callback;
   protected Context context;
   private Utility utility;
   protected ImageButton buttonMenu;
-
-  public SurfaceView sv;
-  public SurfaceHolder s;
-  final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-  final Runnable run = new Runnable(){
-    @Override
-    public void run() {
-      if(eventLoop.getOpModeManager().getActiveOpModeName().equals("R")){
-        AutonomousOpRichard r = (AutonomousOpRichard) eventLoop.getOpModeManager().getActiveOpMode();
-        r.getSurfaceHolder(s);
-      }
-    }
-  };
-
 
   protected TextView textDeviceName;
   protected TextView textWifiDirectStatus;
@@ -171,12 +152,6 @@ public class FtcRobotControllerActivity extends Activity {
       }
     });
 
-    sv = (SurfaceView) findViewById(R.id.surfaceView);
-    s = sv.getHolder();
-
-
-
-
     textDeviceName = (TextView) findViewById(R.id.textDeviceName);
     textWifiDirectStatus = (TextView) findViewById(R.id.textWifiDirectStatus);
     textRobotStatus = (TextView) findViewById(R.id.textRobotStatus);
@@ -197,6 +172,9 @@ public class FtcRobotControllerActivity extends Activity {
 
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+    WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+    wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "");
 
     hittingMenuButtonBrightensScreen();
 
@@ -225,6 +203,7 @@ public class FtcRobotControllerActivity extends Activity {
       }
     });
 
+    wifiLock.acquire();
   }
 
   @Override
@@ -244,6 +223,8 @@ public class FtcRobotControllerActivity extends Activity {
     if (controllerService != null) unbindService(connection);
 
     RobotLog.cancelWriteLogcatToDisk(this);
+
+    wifiLock.release();
   }
 
   @Override
@@ -355,8 +336,6 @@ public class FtcRobotControllerActivity extends Activity {
 
     controllerService.setCallback(callback);
     controllerService.setupRobot(eventLoop);
-
-
   }
 
   private FileInputStream fileSetup() {
@@ -386,8 +365,6 @@ public class FtcRobotControllerActivity extends Activity {
   private void requestRobotRestart() {
     requestRobotShutdown();
     requestRobotSetup();
-
-    final ScheduledFuture handler = scheduler.scheduleAtFixedRate(run,0,20, TimeUnit.MILLISECONDS);
   }
 
   protected void hittingMenuButtonBrightensScreen() {
