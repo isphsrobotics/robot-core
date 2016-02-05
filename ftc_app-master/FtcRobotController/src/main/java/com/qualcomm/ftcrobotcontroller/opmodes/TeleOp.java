@@ -132,7 +132,8 @@ public class TeleOp extends OpMode {
 		 * A button: raises and lowers platform
 		 * X button: stops platform motor for sure
 		 * B button: opens and closes servo
-		 *
+		 * Up dpad: clockwise until hits x
+		 * Down dpad: counter-clockwise until hits x
 		 */
 
         // Gets values from joysticks
@@ -198,14 +199,14 @@ public class TeleOp extends OpMode {
         if (System.currentTimeMillis() > anotherTick) {
             if (gamepad2.a) {
                 if (!platUp) {
-                    anotherTick += 1000;
+                    anotherTick += 80;
                     platformMotor.setPower(-1.0);
                     if (System.currentTimeMillis() >= anotherTick) {
                         platformMotor.setPower(0.0);
                     }
                     platUp = true;
                 } else if (platUp) {
-                    anotherTick += 1000;
+                    anotherTick += 80;
                     platformMotor.setPower(1.0);
                     if (System.currentTimeMillis() >= anotherTick) {
                         platformMotor.setPower(0.0);
@@ -217,6 +218,10 @@ public class TeleOp extends OpMode {
 
         if (gamepad2.x) {
             platformMotor.setPower(0.0);
+        } else if (gamepad2.dpad_down) {
+            platformMotor.setPower(-1.0);
+        } else if (gamepad2.dpad_up) {
+            platformMotor.setPower(1.0);
         }
 
 

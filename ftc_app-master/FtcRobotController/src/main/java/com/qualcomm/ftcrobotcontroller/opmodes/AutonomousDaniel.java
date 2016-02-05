@@ -96,4 +96,3 @@ public class AutonomousDaniel extends LinearOpMode {
             leftServo.setPosition(1.0);
         }
     }
-}
