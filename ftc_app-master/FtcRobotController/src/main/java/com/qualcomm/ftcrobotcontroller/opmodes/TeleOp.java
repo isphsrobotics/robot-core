@@ -44,7 +44,6 @@ public class TeleOp extends OpMode {
 
     // position of the arm servo.
     double leftServoPosition = 0.7;
-    double tapePosition = 0.0;
     boolean platUp = true;
     boolean gateOpen = false;
     int tapeServoArrayCount = 5;
@@ -255,7 +254,7 @@ public class TeleOp extends OpMode {
             if (System.currentTimeMillis() >= nextTick) {
                 if (tapeServoArrayCount < tapeServoArray.length -1) {
                     tapeServoArrayCount++;
-                    tapePosition = tapeServoArray[tapeServoArrayCount];
+                    tapeServo.setPosition(tapeServoArray[tapeServoArrayCount]);
                     nextTick = System.currentTimeMillis() + 150;
                 }
             }
@@ -264,7 +263,7 @@ public class TeleOp extends OpMode {
             if (System.currentTimeMillis() >= nextTick) {
                 if (tapeServoArrayCount > 0) {
                     tapeServoArrayCount--;
-                    tapePosition = tapeServoArray[tapeServoArrayCount];
+                    tapeServo.setPosition(tapeServoArray[tapeServoArrayCount]);
                     nextTick += 150;
                 }
             }
