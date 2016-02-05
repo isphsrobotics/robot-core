@@ -14,9 +14,19 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/wifi_direct_update_settings"
-    android:id="@+id/textView"
+    android:id="@+id/textPleaseWait"
     android:layout_alignParentTop="true"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"/>
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/wifi_direct_bad_device_name"
+      android:id="@+id/textBadDeviceName"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:visibility="invisible"/>
 </RelativeLayout>
 <!-- From: file:/Users/tom/Documents/workspace/ftc_sdk/lib/FtcCommon/src/main/res/layout/activity_config_wifi_direct.xml -->
