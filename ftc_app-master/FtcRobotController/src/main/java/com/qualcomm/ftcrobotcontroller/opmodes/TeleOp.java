@@ -170,22 +170,21 @@ public class TeleOp extends OpMode {
 //platform movement
         if (System.currentTimeMillis() >= anotherTick) {
             if (gamepad2.a) {
-                if (System.currentTimeMillis() >= anotherTick)
-                    if (!platUp) {
-                        anotherTick += 1000;
-                        while (System.currentTimeMillis() <= anotherTick) {
-                            platformMotor.setPower(-1.0);
-                        }
-                        platUp = true;
-                        platformMotor.setPower(0.0);
-                    } else if (platUp) {
-                        anotherTick += 1000;
-                        while (System.currentTimeMillis() <= anotherTick) {
-                            platformMotor.setPower(1.0);
-                        }
-                        platUp = false;
+                if (!platUp) {
+                    anotherTick += 1000;
+                    platformMotor.setPower(-1.0);
+                    if (System.currentTimeMillis() >= anotherTick) {
                         platformMotor.setPower(0.0);
                     }
+                    platUp = true;
+                } else if (platUp) {
+                    anotherTick += 1000;
+                    platformMotor.setPower(1.0);
+                    if (System.currentTimeMillis() >= anotherTick) {
+                        platformMotor.setPower(0.0);
+                    }
+                    platUp = false;
+                }
             }
         }
 //TODO: REMOVE THIS LITTLE BIT LATE SO DRIVER CAN'T FUCK UP
