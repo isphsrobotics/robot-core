@@ -242,10 +242,10 @@ public class TeleOp extends OpMode {
         }
 
         if (gamepad1.dpad_left) {
-            tapeMotor.setPower(1.0);
+            tapeMotor.setPower(0.5);
         } else if (gamepad1.dpad_right) {
 
-            tapeMotor.setPower(-1.0);
+            tapeMotor.setPower(-0.5);
         } else {
             tapeMotor.setPower(0.0);
         }
