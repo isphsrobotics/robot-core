@@ -44,6 +44,7 @@ public class TeleOp extends OpMode {
 
     // position of the arm servo.
     double leftServoPosition = 0.6;
+    double gateServoPosition = 1.0;
     boolean platUp = true;
     boolean gateOpen = false;
     int tapeServoArrayCount = 5;
@@ -218,6 +219,37 @@ public class TeleOp extends OpMode {
 
 
         // ## GATE SERVO ##
+        // REVERTING TO MANUAL CONTROLS
+        if (gamepad2.b) {
+            if (gateServoPosition <= 1.0) {
+                gateServoPosition += 0.1;
+                if (gateServoPosition <= 1.0) {
+                    gateServo.setPosition(gateServoPosition);
+                }
+                else {
+                    gateServoPosition -= 0.1;
+                }
+            } else {
+                gateServoPosition = 1.0;
+                gateServo.setPosition(gateServoPosition);
+            }
+        }
+        if (gamepad2.x) {
+            if (gateServoPosition >= 0.0) {
+                gateServoPosition -= 0.1;
+                if (gateServoPosition >= 0.0) {
+                    gateServo.setPosition(gateServoPosition);
+                }
+                else {
+                    gateServoPosition += 0.1;
+                }
+            }
+            else {
+                gateServoPosition = 0.0;
+                gateServo.setPosition(gateServoPosition);
+            }
+        }
+
 //        if (System.currentTimeMillis() > yetAnotherTick) {
 //            if (gamepad2.b) {
 //                if (gateOpen) {
@@ -232,13 +264,7 @@ public class TeleOp extends OpMode {
 //            }
 //        }
 
-        if (gamepad2.b) {
-            gateServo.setPosition(1.0);
-        }
 
-        if (gamepad2.x) {
-
-        }
 
 //        // ## ONE-BUTTON PLATFORM CONTROLS ##
 //        if (System.currentTimeMillis() > anotherTick) {
