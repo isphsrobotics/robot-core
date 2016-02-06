@@ -44,8 +44,6 @@ public class TeleOp extends OpMode {
 
     // position of the arm servo.
     double leftServoPosition = 0.6;
-    boolean platUp = true;
-    boolean gateOpen = false;
     int tapeServoArrayCount = 5;
 
 
@@ -57,11 +55,10 @@ public class TeleOp extends OpMode {
     DcMotor platformMotor;
     Servo leftServo;
     Servo tapeServo;
+    Servo pushServo;
 
 
     long nextTick = System.currentTimeMillis();
-    long anotherTick = System.currentTimeMillis();
-    long yetAnotherTick = System.currentTimeMillis();
 
     /**
      * Constructor
@@ -100,9 +97,9 @@ public class TeleOp extends OpMode {
 
         // Lifts/lowers tape
         tapeServo = hardwareMap.servo.get("tapeServo");
-        //leftServo.setPosition(0.4);
 
-        //tapeServo.setPosition(1.0);
+        // Pushes thing
+        pushServo = hardwareMap.servo.get("pushServo");
 
 
     }
@@ -216,6 +213,7 @@ public class TeleOp extends OpMode {
             leftServoPosition = 0.00;
         }
         //endregion
+
 
 
         //region PLATFORM

@@ -11,28 +11,18 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 public class LinearComponentTest extends LinearOpMode {
 
-    Servo servo;
-    DcMotor motor;
+    Servo pushServo;
 
     @Override
     public void runOpMode(){
-        motor = hardwareMap.dcMotor.get("platformMotor");
-        motor.setPower(0.0);
-
+        pushServo = hardwareMap.servo.get("pushServo");
         try {
             waitForStart();
         }catch(InterruptedException e){
 
         }
 
-        // ## MANUAL PLATFORM CONTROLS & FAILSAFE STOP ##
-        if (gamepad1.x) {
-            motor.setPower(0.0);
-        } else if (gamepad2.dpad_down) {
-            motor.setPower(-1.0);
-        } else if (gamepad2.dpad_up) {
-            motor.setPower(1.0);
-        }
+        pushServo.setPosition(1.0);
 
     }
 
