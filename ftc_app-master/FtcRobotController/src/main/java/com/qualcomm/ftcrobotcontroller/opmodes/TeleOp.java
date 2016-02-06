@@ -174,16 +174,16 @@ public class TeleOp extends OpMode {
 
         // ## METAL ARM ##
         if (gamepad1.y) {
-                if (leftServoPosition <= 0.8) {
+                if (leftServoPosition <= 0.5) {
                     leftServoPosition += 0.01;
-                    if (leftServoPosition <= 0.8) {
+                    if (leftServoPosition <= 0.5) {
                         leftServo.setPosition(leftServoPosition);
                     }
                     else {
                         leftServoPosition -= 0.01;
                     }
                 } else {
-                    leftServoPosition = 0.8;
+                    leftServoPosition = 0.5;
                     leftServo.setPosition(leftServoPosition);
                 }
         }
