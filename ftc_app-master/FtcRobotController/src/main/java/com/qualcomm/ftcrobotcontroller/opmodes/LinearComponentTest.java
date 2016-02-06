@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
- * Richard's servo testing class
- * Moves arm servo up and down
+ * Alex's single component class
+ * Used to troubleshoot & bug test
  */
 public class LinearComponentTest extends LinearOpMode {
 
