@@ -225,29 +225,7 @@ public class TeleOp extends OpMode {
             platformMotor.setPower(1.0);
         } else platformMotor.setPower(0.0);
 
-
-        // ## ONE-BUTTON PLATFORM CONTROLS ##
-//        if (System.currentTimeMillis() > anotherTick) {
-//            if (gamepad2.a) {
-//                if (!platUp) {
-//                    anotherTick += 80;
-//                    platformMotor.setPower(-1.0);
-//                    if (System.currentTimeMillis() >= anotherTick) {
-//                        platformMotor.setPower(0.0);
-//                    }
-//                    platUp = true;
-//                } else if (platUp) {
-//                    anotherTick += 80;
-//                    platformMotor.setPower(1.0);
-//                    if (System.currentTimeMillis() >= anotherTick) {
-//                        platformMotor.setPower(0.0);
-//                    }
-//                    platUp = false;
-//                }
-//            }
-//        }
         //endregion
-
 
         //region TAPE REWIND
         // ## TAPE CONTROLS ##
