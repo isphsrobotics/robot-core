@@ -89,27 +89,7 @@ public class ServoTestTeleOp extends OpMode {
     @Override
     public void loop() {
 
-		/*
-         * ## Gamepad 1 Controls ##
-		 * 
-		 * Right joystick: right wheel
-		 * Left joystick: left wheel
-		 * Right bumper: turbo (full/none)
-		 * Y button: increases leftServoPosition
-		 * B button: decreases leftServoPosition
-		 * A button: decreases release motor
-		 * X button: increases release motor
-		 * Left arrow: tapeMotor forward
-		 * Right arrow: tapeMotor backward
-		 * Up arrow: lift tape
-		 * Down arrow: lower tape
-		 *
-		 *  ## Gamepad 2 Controls ##
-		 * A button: raises and lowers platform
-		 * X button: stops platform motor for sure
-		 * B button: opens and closes gate
-		 * Up/down dpad: manual platform controls
-		 */
+
 
         leftServo.setPosition(leftServoPosition);
 

@@ -43,7 +43,7 @@ import com.qualcomm.robotcore.util.Range;
 public class TeleOp extends OpMode {
 
     // position of the arm servo.
-    double leftServoPosition = 0.7;
+    double leftServoPosition = 0.5;
     boolean platUp = true;
     boolean gateOpen = false;
     int tapeServoArrayCount = 5;
@@ -186,8 +186,8 @@ public class TeleOp extends OpMode {
         }
 
         // Make sure that it is 0<x<1 (bounds checking)
-        if (leftServoPosition > 1.00) {
-            leftServoPosition = 1.00;
+        if (leftServoPosition > 0.8) {
+            leftServoPosition = 0.8;
         }
         if (leftServoPosition < 0.00) {
             leftServoPosition = 0.00;
