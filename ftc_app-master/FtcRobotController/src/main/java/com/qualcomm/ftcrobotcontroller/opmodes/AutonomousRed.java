@@ -80,6 +80,10 @@ public class AutonomousRed extends LinearOpMode {
 
         }
 
+        double time3 = System.currentTimeMillis() + 8000;
+        while(System.currentTimeMillis() < time3){}
+
+
         motorRight.setPower(0.9);
         motorLeft.setPower(1.0);
         double xTime = System.currentTimeMillis();
