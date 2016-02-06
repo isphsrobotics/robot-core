@@ -78,7 +78,29 @@ public class AutonomousBlu extends LinearOpMode {
         motorLeft.setPower(1.0);
         double firstTime = System.currentTimeMillis();
         while (true) {
-            if (firstTime + 7260 <= System.currentTimeMillis()) {
+            if (firstTime + 100 <= System.currentTimeMillis()) {
+                motorRight.setPower(0.0);
+                motorLeft.setPower(0.0);
+                break;
+            }
+        }
+
+        motorRight.setPower(-1.0);
+        motorLeft.setPower(0.9);
+        double pTime = System.currentTimeMillis();
+        while (true) {
+            if (pTime + 500 <= System.currentTimeMillis()) {
+                motorRight.setPower(0.0);
+                motorLeft.setPower(0.0);
+                break;
+            }
+        }
+
+        motorRight.setPower(0.9);
+        motorLeft.setPower(1.0);
+        double aTime = System.currentTimeMillis();
+        while (true) {
+            if (aTime + 7260 <= System.currentTimeMillis()) {
                 motorRight.setPower(0.0);
                 motorLeft.setPower(0.0);
                 break;

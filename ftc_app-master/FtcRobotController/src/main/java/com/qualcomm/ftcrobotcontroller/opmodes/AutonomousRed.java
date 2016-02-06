@@ -73,6 +73,28 @@ public class AutonomousRed extends LinearOpMode {
         tapeServo = hardwareMap.servo.get("tapeServo");
         leftServo.setPosition(0.5);
 
+        motorRight.setPower(0.9);
+        motorLeft.setPower(1.0);
+        double xTime = System.currentTimeMillis();
+        while (true) {
+            if (xTime + 100 <= System.currentTimeMillis()) {
+                motorRight.setPower(0.0);
+                motorLeft.setPower(0.0);
+                break;
+            }
+        }
+
+        motorRight.setPower(1.0);
+        motorLeft.setPower(-0.9);
+        double pTime = System.currentTimeMillis();
+        while (true) {
+            if (pTime + 500 <= System.currentTimeMillis()) {
+                motorRight.setPower(0.0);
+                motorLeft.setPower(0.0);
+                break;
+            }
+        }
+
 
 // catches up to the spot in front of the button
         motorRight.setPower(0.9);
