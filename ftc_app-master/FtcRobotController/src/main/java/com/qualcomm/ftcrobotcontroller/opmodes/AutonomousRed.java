@@ -101,7 +101,7 @@ public class AutonomousRed extends LinearOpMode {
         motorLeft.setPower(1.0);
         double firstTime = System.currentTimeMillis();
         while (true) {
-            if (firstTime + 4448 <= System.currentTimeMillis()) {
+            if (firstTime + 4350 <= System.currentTimeMillis()) {
                 motorRight.setPower(0.0);
                 motorLeft.setPower(0.0);
                 break;
