@@ -68,6 +68,7 @@ public class TeleOp extends OpMode {
 
     }
 
+    //region init()
     /*
      * Code to run when the op mode is first enabled goes here
      *
@@ -103,6 +104,7 @@ public class TeleOp extends OpMode {
 
 
     }
+    //endregion
 
 
     @Override
@@ -201,14 +203,6 @@ public class TeleOp extends OpMode {
                 leftServo.setPosition(leftServoPosition);
             }
         }
-
-        // Make sure that it is 0<x<1 (bounds checking)
-        if (leftServoPosition > 0.8) {
-            leftServoPosition = 0.8;
-        }
-        if (leftServoPosition < 0.00) {
-            leftServoPosition = 0.00;
-        }
         //endregion
 
         //region RIGHT SERVO
@@ -301,6 +295,7 @@ public class TeleOp extends OpMode {
 
     }
 
+    //region stop()
     /*
      * Code to run when the op mode is first disabled goes here
      *
@@ -310,8 +305,10 @@ public class TeleOp extends OpMode {
     public void stop() {
 
     }
+    //endregion
 
 
+    //region ScaleInput()
     /*
      * This method scales the joystick input so for low joystick values, the
      * scaled value is less than linear.  This is to make it easier to drive
@@ -345,6 +342,7 @@ public class TeleOp extends OpMode {
         // return scaled value.
         return dScale;
     }
+    //endregion
 
 
 }
