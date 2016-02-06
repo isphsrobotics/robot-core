@@ -79,7 +79,7 @@ public class TeleOp extends OpMode {
         // Main motors (wheels) -- reverse one of them
         motorLeft = hardwareMap.dcMotor.get("mRight");
         motorRight = hardwareMap.dcMotor.get("mLeft");
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        //motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         // Turbo motor -- the one in the middle
         motorTurbo = hardwareMap.dcMotor.get("mMid");
@@ -172,16 +172,16 @@ public class TeleOp extends OpMode {
         //region ARM
         // ## METAL ARM ##
         if (gamepad1.y) {
-                if (leftServoPosition <= 0.5) {
+                if (leftServoPosition <= 0.8) {
                     leftServoPosition += 0.01;
-                    if (leftServoPosition <= 0.5) {
+                    if (leftServoPosition <= 0.8) {
                         leftServo.setPosition(leftServoPosition);
                     }
                     else {
                         leftServoPosition -= 0.01;
                     }
                 } else {
-                    leftServoPosition = 0.5;
+                    leftServoPosition = 0.8;
                     leftServo.setPosition(leftServoPosition);
                 }
         }
