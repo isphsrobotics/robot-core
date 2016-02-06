@@ -88,8 +88,8 @@ public class AutonomousRed extends LinearOpMode {
 
 
 //turns to be parallel with the wall
-        motorRight.setPower(1.0);
-        motorLeft.setPower(-0.9);
+        motorRight.setPower(-1.0);
+        motorLeft.setPower(0.9);
         double secondTime = System.currentTimeMillis();
         while (true) {
             if (secondTime + 1000 == System.currentTimeMillis()) {
@@ -99,8 +99,8 @@ public class AutonomousRed extends LinearOpMode {
             }
         }
 
-        motorRight.setPower(0.9);
-        motorLeft.setPower(1.0);
+        motorRight.setPower(-0.9);
+        motorLeft.setPower(-1.0);
 
         middleRelease.setPower(-1.0);
         double thirdTime = System.currentTimeMillis();

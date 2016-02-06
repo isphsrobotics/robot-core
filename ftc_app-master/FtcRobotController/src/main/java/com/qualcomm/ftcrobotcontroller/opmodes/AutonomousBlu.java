@@ -86,7 +86,9 @@ public class AutonomousBlu extends LinearOpMode {
             }
         }
 
+        double time2 = System.currentTimeMillis() + 200;
         leftServo.setPosition(0.3);
+        while(System.currentTimeMillis()<time2){}
         leftServo.setPosition(0.5);
 
 
@@ -117,15 +119,15 @@ public class AutonomousBlu extends LinearOpMode {
         motorLeft.setPower(0.9);
         double fifthTime = System.currentTimeMillis();
         while (true) {
-            if (fifthTime + 500 <= System.currentTimeMillis()) {
+            if (fifthTime + 1000 <= System.currentTimeMillis()) {
                 motorRight.setPower(0.0);
                 motorLeft.setPower(0.0);
                 break;
             }
         }
 
-        motorRight.setPower(0.9);
-        motorLeft.setPower(1.0);
+        motorRight.setPower(-0.9);
+        motorLeft.setPower(-1.0);
 
         middleRelease.setPower(-1.0);
         double thirdTime = System.currentTimeMillis();
