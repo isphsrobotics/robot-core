@@ -44,8 +44,6 @@ public class TeleOp extends OpMode {
 
     // position of the arm servo.
     double leftServoPosition = 0.6;
-    boolean platUp = true;
-    boolean gateOpen = false;
     int tapeServoArrayCount = 5;
 
 
@@ -57,11 +55,10 @@ public class TeleOp extends OpMode {
     DcMotor platformMotor;
     Servo leftServo;
     Servo tapeServo;
+    Servo pushServo;
 
 
     long nextTick = System.currentTimeMillis();
-    long anotherTick = System.currentTimeMillis();
-    long yetAnotherTick = System.currentTimeMillis();
 
     /**
      * Constructor
@@ -100,9 +97,9 @@ public class TeleOp extends OpMode {
 
         // Lifts/lowers tape
         tapeServo = hardwareMap.servo.get("tapeServo");
-        //leftServo.setPosition(0.4);
 
-        //tapeServo.setPosition(1.0);
+        // Pushes thing
+        pushServo = hardwareMap.servo.get("pushServo");
 
 
     }
@@ -218,6 +215,7 @@ public class TeleOp extends OpMode {
         //endregion
 
 
+
         //region PLATFORM
         // ## MANUAL PLATFORM CONTROLS & FAILSAFE STOP ##
 
@@ -226,30 +224,11 @@ public class TeleOp extends OpMode {
         } else if (gamepad2.dpad_up) {
             platformMotor.setPower(1.0);
         } else platformMotor.setPower(0.0);
+<<<<<<< HEAD
 
-
-        // ## ONE-BUTTON PLATFORM CONTROLS ##
-//        if (System.currentTimeMillis() > anotherTick) {
-//            if (gamepad2.a) {
-//                if (!platUp) {
-//                    anotherTick += 80;
-//                    platformMotor.setPower(-1.0);
-//                    if (System.currentTimeMillis() >= anotherTick) {
-//                        platformMotor.setPower(0.0);
-//                    }
-//                    platUp = true;
-//                } else if (platUp) {
-//                    anotherTick += 80;
-//                    platformMotor.setPower(1.0);
-//                    if (System.currentTimeMillis() >= anotherTick) {
-//                        platformMotor.setPower(0.0);
-//                    }
-//                    platUp = false;
-//                }
-//            }
-//        }
+=======
+>>>>>>> master
         //endregion
-
 
         //region TAPE REWIND
         // ## TAPE CONTROLS ##
@@ -283,6 +262,10 @@ public class TeleOp extends OpMode {
                 }
             }
         }
+        //endregion
+
+        //region PUSHSERVO
+
         //endregion
 
 
