@@ -71,7 +71,7 @@ public class AutonomousBlu extends LinearOpMode {
 
         // Lifts/lowers tape
         tapeServo = hardwareMap.servo.get("tapeServo");
-        leftServo.setPosition(0.5);
+        leftServo.setPosition(0.6);
 
 
         motorRight.setPower(0.9);
