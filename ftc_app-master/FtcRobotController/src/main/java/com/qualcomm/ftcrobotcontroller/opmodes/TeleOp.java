@@ -130,8 +130,12 @@ public class TeleOp extends OpMode {
 		 * Down arrow: lower tape
 		 *
 		 *  ## Gamepad 2 Controls ##
-		 * While down, platform motor left
-		 * While up, platform motor right
+		 * While dpad-down, platform motor left
+		 * While dpad-up, platform motor right
+		 * X: open gate
+		 * B: close gate
+		 * Y: push button
+		 * A: unpush button
 		 */
 
         // ## WHEEL MOTORS ##
