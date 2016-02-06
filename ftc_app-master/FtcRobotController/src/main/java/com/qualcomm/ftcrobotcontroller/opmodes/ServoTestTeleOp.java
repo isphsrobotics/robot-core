@@ -51,10 +51,8 @@ public class ServoTestTeleOp extends OpMode {
     Servo tapeServo;
     Servo gateServo;
     boolean gateOpen = false;
-    boolean platUp = true;
 
     long nextTick = System.currentTimeMillis();
-    long anotherTick = System.currentTimeMillis();
     long yetAnotherTick = System.currentTimeMillis();
 
     /**
