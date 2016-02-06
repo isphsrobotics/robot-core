@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Richard's servo testing class
+ * Moves arm servo up and down
  */
 public class ServoTestLinear extends LinearOpMode {
 
