@@ -44,6 +44,7 @@ public class TeleOp extends OpMode {
 
     // position of the arm servo.
     double leftServoPosition = 0.6;
+    double rightServoPosition = 0.6;
     int tapeServoArrayCount = 5;
 
 
@@ -54,6 +55,7 @@ public class TeleOp extends OpMode {
     DcMotor tapeMotor;
     DcMotor platformMotor;
     Servo leftServo;
+    Servo rightServo;
     Servo tapeServo;
 
 
@@ -93,6 +95,8 @@ public class TeleOp extends OpMode {
 
         // Lifts/lowers metal bar
         leftServo = hardwareMap.servo.get("lservo");
+
+        rightServo = hardwareMap.servo.get("rservo");
 
         // Lifts/lowers tape
         tapeServo = hardwareMap.servo.get("tapeServo");
@@ -194,6 +198,38 @@ public class TeleOp extends OpMode {
             else {
                 leftServoPosition = 0.0;
                 leftServo.setPosition(leftServoPosition);
+            }
+        }
+
+        // RIGHT SERVO
+
+        if (gamepad2.y) {
+            if (rightServoPosition <= 0.5) {
+                rightServoPosition += 0.01;
+                if (rightServoPosition <= 0.5) {
+                    rightServo.setPosition(rightServoPosition);
+                }
+                else {
+                    rightServoPosition -= 0.01;
+                }
+            } else {
+                rightServoPosition = 0.5;
+                rightServo.setPosition(rightServoPosition);
+            }
+        }
+        if (gamepad2.b) {
+            if (rightServoPosition >= 0.0) {
+                rightServoPosition -= 0.01;
+                if (rightServoPosition >= 0.0) {
+                    rightServo.setPosition(rightServoPosition);
+                }
+                else {
+                    rightServoPosition += 0.01;
+                }
+            }
+            else {
+                rightServoPosition = 0.0;
+                rightServo.setPosition(rightServoPosition);
             }
         }
 
