@@ -176,7 +176,12 @@ public class TeleOp extends OpMode {
         if (gamepad1.y) {
                 if (leftServoPosition <= 0.8) {
                     leftServoPosition += 0.01;
-                    leftServo.setPosition(leftServoPosition);
+                    if (leftServoPosition <= 0.8) {
+                        leftServo.setPosition(leftServoPosition);
+                    }
+                    else {
+                        leftServoPosition -= 0.01;
+                    }
                 } else {
                     leftServoPosition = 0.8;
                     leftServo.setPosition(leftServoPosition);
@@ -185,7 +190,12 @@ public class TeleOp extends OpMode {
         if (gamepad1.b) {
             if (leftServoPosition >= 0.0) {
                 leftServoPosition -= 0.01;
-                leftServo.setPosition(leftServoPosition);
+                if (leftServoPosition >= 0.0) {
+                    leftServo.setPosition(leftServoPosition);
+                }
+                else {
+                    leftServoPosition += 0.01;
+                }
             }
             else {
                 leftServoPosition = 0.0;
