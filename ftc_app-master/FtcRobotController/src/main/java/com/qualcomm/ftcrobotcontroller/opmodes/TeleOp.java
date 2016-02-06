@@ -212,7 +212,7 @@ public class TeleOp extends OpMode {
         }
             
 
-        // ## ONE-BUTTON GATE CONTROLS ##
+        // ## ONE-BUTTON PLATFORM CONTROLS ##
         if (System.currentTimeMillis() > anotherTick) {
             if (gamepad2.a) {
                 if (!platUp) {
@@ -233,7 +233,7 @@ public class TeleOp extends OpMode {
             }
         }
 
-        // ## MANUAL GATE CONTROLS & FAILSAFE STOP ##
+        // ## MANUAL PLATFORM CONTROLS & FAILSAFE STOP ##
         if (gamepad2.x) {
             platformMotor.setPower(0.0);
         } else if (gamepad2.dpad_down) {

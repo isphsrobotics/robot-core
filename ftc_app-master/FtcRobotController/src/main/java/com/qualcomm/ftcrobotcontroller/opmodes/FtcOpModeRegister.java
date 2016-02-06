@@ -58,5 +58,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("Danny's Auto", AutonomousDanny.class);
     manager.register("R", AutonomousOpRichard.class);
     manager.register("ServoTest",ServoTestLinear.class);
+    manager.register("ServoTeleOp", ServoTestTeleOp.class);
   }
 }
