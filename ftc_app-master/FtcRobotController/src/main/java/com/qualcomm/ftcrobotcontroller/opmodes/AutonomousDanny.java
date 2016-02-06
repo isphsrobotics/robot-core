@@ -77,11 +77,11 @@ public class AutonomousDanny extends LinearOpMode {
 
 
 // catches up to the spot in front of the button
-        motorRight.setPower(1.0);
+        motorRight.setPower(0.9);
         motorLeft.setPower(1.0);
         double firstTime = System.currentTimeMillis();
         while(true){
-            if(firstTime + 1000 <= System.currentTimeMillis()){
+            if(firstTime + 3000 <= System.currentTimeMillis()){
                 motorRight.setPower(0.0);
                 motorLeft.setPower(0.0);
                 break;
