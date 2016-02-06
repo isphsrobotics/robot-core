@@ -130,10 +130,8 @@ public class TeleOp extends OpMode {
 		 * Down arrow: lower tape
 		 *
 		 *  ## Gamepad 2 Controls ##
-		 * A button: raises and lowers platform
-		 * X button: stops platform motor for sure
-		 * B button: opens and closes gate
-		 * Up/down dpad: manual platform controls
+		 * While down, platform motor left
+		 * While up, platform motor right
 		 */
 
         // ## WHEEL MOTORS ##
@@ -212,35 +210,34 @@ public class TeleOp extends OpMode {
         }
             
 
-        // ## ONE-BUTTON PLATFORM CONTROLS ##
-        if (System.currentTimeMillis() > anotherTick) {
-            if (gamepad2.a) {
-                if (!platUp) {
-                    anotherTick += 80;
-                    platformMotor.setPower(-1.0);
-                    if (System.currentTimeMillis() >= anotherTick) {
-                        platformMotor.setPower(0.0);
-                    }
-                    platUp = true;
-                } else if (platUp) {
-                    anotherTick += 80;
-                    platformMotor.setPower(1.0);
-                    if (System.currentTimeMillis() >= anotherTick) {
-                        platformMotor.setPower(0.0);
-                    }
-                    platUp = false;
-                }
-            }
-        }
+//        // ## ONE-BUTTON PLATFORM CONTROLS ##
+//        if (System.currentTimeMillis() > anotherTick) {
+//            if (gamepad2.a) {
+//                if (!platUp) {
+//                    anotherTick += 80;
+//                    platformMotor.setPower(-1.0);
+//                    if (System.currentTimeMillis() >= anotherTick) {
+//                        platformMotor.setPower(0.0);
+//                    }
+//                    platUp = true;
+//                } else if (platUp) {
+//                    anotherTick += 80;
+//                    platformMotor.setPower(1.0);
+//                    if (System.currentTimeMillis() >= anotherTick) {
+//                        platformMotor.setPower(0.0);
+//                    }
+//                    platUp = false;
+//                }
+//            }
+//        }
 
         // ## MANUAL PLATFORM CONTROLS & FAILSAFE STOP ##
-        if (gamepad2.x) {
-            platformMotor.setPower(0.0);
-        } else if (gamepad2.dpad_down) {
+
+        if (gamepad2.dpad_down) {
             platformMotor.setPower(-1.0);
         } else if (gamepad2.dpad_up) {
             platformMotor.setPower(1.0);
-        }
+        } else platformMotor.setPower(0.0);
 
         // ## TAPE CONTROLS ##
         if (gamepad1.dpad_left) {
