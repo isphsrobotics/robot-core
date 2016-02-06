@@ -26,7 +26,7 @@ public class LinearComponentTest extends LinearOpMode {
 
         // ## MANUAL PLATFORM CONTROLS & FAILSAFE STOP ##
         if (gamepad1.x) {
-            platformMotor.s etPower(0.0);
+            platformMotor.setPower(0.0);
         } else if (gamepad2.dpad_down) {
             platformMotor.setPower(-1.0);
         } else if (gamepad2.dpad_up) {
