@@ -215,9 +215,9 @@ public class TeleOp extends OpMode {
         // RIGHT SERVO
 
         if (gamepad2.y) {
-            if (rightServoPosition <= 0.5) {
+            if (rightServoPosition <= 0.8) {
                 rightServoPosition += 0.01;
-                if (rightServoPosition <= 0.5) {
+                if (rightServoPosition <= 0.8) {
                     rightServo.setPosition(rightServoPosition);
                 }
                 else {
