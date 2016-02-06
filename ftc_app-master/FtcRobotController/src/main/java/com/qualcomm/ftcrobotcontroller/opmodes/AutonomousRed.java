@@ -35,7 +35,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * <p>
  *Enables control of the robot via the gamepad
  */
-public class AutonomousDanny extends LinearOpMode {
+public class AutonomousRed extends LinearOpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
@@ -88,8 +88,8 @@ public class AutonomousDanny extends LinearOpMode {
 
 
 //turns to be parallel with the wall
-        motorRight.setPower(-1.0);
-        motorLeft.setPower(0.9);
+        motorRight.setPower(1.0);
+        motorLeft.setPower(-0.9);
         double secondTime = System.currentTimeMillis();
         while (true) {
             if (secondTime + 1000 == System.currentTimeMillis()) {
