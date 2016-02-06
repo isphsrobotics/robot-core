@@ -130,7 +130,7 @@ public class AutonomousBlu extends LinearOpMode {
         middleRelease.setPower(-1.0);
         double thirdTime = System.currentTimeMillis();
         while (true) {
-            if (thirdTime + 2500 <= System.currentTimeMillis()) {
+            if (thirdTime + 3400 <= System.currentTimeMillis()) {
                 middleRelease.setPower(0.0);
                 break;
             }
