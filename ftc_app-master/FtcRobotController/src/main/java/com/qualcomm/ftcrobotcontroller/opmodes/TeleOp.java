@@ -125,6 +125,7 @@ public class TeleOp extends OpMode {
 		 * Dpad up: tape up
 		 * Dpad right: extend tape
 		 * Dpad left: retract tape
+		 * Y/B: right servo
 		 */
 
         //region WHEELS
@@ -201,6 +202,16 @@ public class TeleOp extends OpMode {
             }
         }
 
+        // Make sure that it is 0<x<1 (bounds checking)
+        if (leftServoPosition > 0.8) {
+            leftServoPosition = 0.8;
+        }
+        if (leftServoPosition < 0.00) {
+            leftServoPosition = 0.00;
+        }
+        //endregion
+
+        //region RIGHT SERVO
         // RIGHT SERVO
 
         if (gamepad2.y) {
@@ -232,18 +243,7 @@ public class TeleOp extends OpMode {
                 rightServo.setPosition(rightServoPosition);
             }
         }
-
-
-        // Make sure that it is 0<x<1 (bounds checking)
-        if (leftServoPosition > 0.8) {
-            leftServoPosition = 0.8;
-        }
-        if (leftServoPosition < 0.00) {
-            leftServoPosition = 0.00;
-        }
         //endregion
-
-
 
         //region PLATFORM
         // ## MANUAL PLATFORM CONTROLS & FAILSAFE STOP ##
