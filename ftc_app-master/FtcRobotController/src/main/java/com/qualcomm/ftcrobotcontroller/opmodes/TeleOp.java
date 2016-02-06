@@ -44,7 +44,6 @@ public class TeleOp extends OpMode {
 
     // position of the arm servo.
     double leftServoPosition = 0.6;
-    double gateServoPosition = 1.0;
     boolean platUp = true;
     boolean gateOpen = false;
     int tapeServoArrayCount = 5;
@@ -58,7 +57,6 @@ public class TeleOp extends OpMode {
     DcMotor platformMotor;
     Servo leftServo;
     Servo tapeServo;
-    Servo gateServo;
 
 
     long nextTick = System.currentTimeMillis();
@@ -104,8 +102,6 @@ public class TeleOp extends OpMode {
         tapeServo = hardwareMap.servo.get("tapeServo");
         //leftServo.setPosition(0.4);
 
-        gateServo = hardwareMap.servo.get("gateServo");
-
         //tapeServo.setPosition(1.0);
 
 
@@ -133,12 +129,11 @@ public class TeleOp extends OpMode {
 		 *  ## Gamepad 2 Controls ##
 		 * While dpad-down, platform motor left
 		 * While dpad-up, platform motor right
-		 * X: open gate
-		 * B: close gate
-		 * Y: push button
-		 * A: unpush button
+		 * X: push button
+		 * B: unpush button
 		 */
 
+        //region WHEELS
         // ## WHEEL MOTORS ##
         // Gets values from joysticks
         float right = gamepad1.right_stick_y;
@@ -156,7 +151,9 @@ public class TeleOp extends OpMode {
         // write values from vars to the motors
         motorRight.setPower(right);
         motorLeft.setPower(left);
+        //endregion
 
+        //region TURBO
         // ## TURBO MOTOR ##
         if (gamepad1.right_bumper) {
             motorTurbo.setPower(-1.0);
@@ -176,7 +173,9 @@ public class TeleOp extends OpMode {
         }
 
         leftServo.setPosition(leftServoPosition);
+        //endregion
 
+        //region ARM
         // ## METAL ARM ##
         if (gamepad1.y) {
                 if (leftServoPosition <= 0.5) {
@@ -216,57 +215,20 @@ public class TeleOp extends OpMode {
         if (leftServoPosition < 0.00) {
             leftServoPosition = 0.00;
         }
+        //endregion
 
 
-        // ## GATE SERVO ##
-        // REVERTING TO MANUAL CONTROLS
-        if (gamepad2.b) {
-            if (gateServoPosition <= 1.0) {
-                gateServoPosition += 0.1;
-                if (gateServoPosition <= 1.0) {
-                    gateServo.setPosition(gateServoPosition);
-                }
-                else {
-                    gateServoPosition -= 0.1;
-                }
-            } else {
-                gateServoPosition = 1.0;
-                gateServo.setPosition(gateServoPosition);
-            }
-        }
-        if (gamepad2.x) {
-            if (gateServoPosition >= 0.0) {
-                gateServoPosition -= 0.1;
-                if (gateServoPosition >= 0.0) {
-                    gateServo.setPosition(gateServoPosition);
-                }
-                else {
-                    gateServoPosition += 0.1;
-                }
-            }
-            else {
-                gateServoPosition = 0.0;
-                gateServo.setPosition(gateServoPosition);
-            }
-        }
+        //region PLATFORM
+        // ## MANUAL PLATFORM CONTROLS & FAILSAFE STOP ##
 
-//        if (System.currentTimeMillis() > yetAnotherTick) {
-//            if (gamepad2.b) {
-//                if (gateOpen) {
-//                    yetAnotherTick += 300;
-//                    gateServo.setPosition(1.0);
-//                    gateOpen = false;
-//                } else if (!gateOpen) {
-//                    yetAnotherTick += 300;
-//                    gateServo.setPosition(0.4);
-//                    gateOpen = false;
-//                }
-//            }
-//        }
+        if (gamepad2.dpad_down) {
+            platformMotor.setPower(-1.0);
+        } else if (gamepad2.dpad_up) {
+            platformMotor.setPower(1.0);
+        } else platformMotor.setPower(0.0);
 
 
-
-//        // ## ONE-BUTTON PLATFORM CONTROLS ##
+        // ## ONE-BUTTON PLATFORM CONTROLS ##
 //        if (System.currentTimeMillis() > anotherTick) {
 //            if (gamepad2.a) {
 //                if (!platUp) {
@@ -286,15 +248,10 @@ public class TeleOp extends OpMode {
 //                }
 //            }
 //        }
+        //endregion
 
-        // ## MANUAL PLATFORM CONTROLS & FAILSAFE STOP ##
 
-        if (gamepad2.dpad_down) {
-            platformMotor.setPower(-1.0);
-        } else if (gamepad2.dpad_up) {
-            platformMotor.setPower(1.0);
-        } else platformMotor.setPower(0.0);
-
+        //region TAPE REWIND
         // ## TAPE CONTROLS ##
         if (gamepad1.dpad_left) {
             tapeMotor.setPower(0.5);
@@ -304,7 +261,9 @@ public class TeleOp extends OpMode {
         } else {
             tapeMotor.setPower(0.0);
         }
+        //endregion
 
+        //region TAPE SERVO
         // ## TAPE RAISE/LOWER ##
         double[] tapeServoArray = {0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
         if (gamepad1.dpad_up) {
@@ -324,23 +283,9 @@ public class TeleOp extends OpMode {
                 }
             }
         }
+        //endregion
 
 
-        // TODO: Telemetry
-
-		/*
-         * Send telemetry data back to driver station. Note that if we are using
-		 * a legacy NXT-compatible motor controller, then the getPower() method
-		 * will return a null value. The legacy NXT-compatible motor controllers
-		 * are currently write only.
-		 */
-//        telemetry.addData("Text", "*** Servos ***");
-//        telemetry.addData("leftServo pwr",  "leftServo: " + String.format("%.2f", leftServoPosition));
-//		telemetry.addData("tapePosition ",  "tapePosition: " + String.format("%.2f", tapePosition));
-//		telemetry.addData("Motors","*** Motors ***");
-//		telemetry.addData("leftMotor", "leftMotor: " + String.format("%.2f", motorLeft));
-//		telemetry.addData("rightMotor", "rightMotor: " + String.format("%.2f",motorRight));
-//		telemetry.addData("turbo", "turbo: " + String.format("%.2", motorTurbo));
 
     }
 
