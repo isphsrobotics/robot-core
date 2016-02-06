@@ -117,7 +117,7 @@ public class AutonomousBlu extends LinearOpMode {
         motorLeft.setPower(0.9);
         double fifthTime = System.currentTimeMillis();
         while (true) {
-            if (fifthTime + 500 <= System.currentTimeMillis()) {
+            if (fifthTime + 1000 <= System.currentTimeMillis()) {
                 motorRight.setPower(0.0);
                 motorLeft.setPower(0.0);
                 break;
