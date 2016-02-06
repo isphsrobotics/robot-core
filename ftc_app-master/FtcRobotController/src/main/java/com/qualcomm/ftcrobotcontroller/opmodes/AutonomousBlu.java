@@ -86,7 +86,9 @@ public class AutonomousBlu extends LinearOpMode {
             }
         }
 
+        double time2 = System.currentTimeMillis() + 200;
         leftServo.setPosition(0.3);
+        while(System.currentTimeMillis()<time2){}
         leftServo.setPosition(0.5);
 
 
