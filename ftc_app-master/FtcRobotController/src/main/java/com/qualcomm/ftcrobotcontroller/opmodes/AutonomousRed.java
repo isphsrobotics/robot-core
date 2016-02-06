@@ -99,8 +99,8 @@ public class AutonomousRed extends LinearOpMode {
             }
         }
 
-        motorRight.setPower(0.9);
-        motorLeft.setPower(1.0);
+        motorRight.setPower(-0.9);
+        motorLeft.setPower(-1.0);
 
         middleRelease.setPower(-1.0);
         double thirdTime = System.currentTimeMillis();
