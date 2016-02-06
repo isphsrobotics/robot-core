@@ -22,10 +22,10 @@ public class ServoTestLinear extends LinearOpMode {
 
         }
 
-        double time = System.currentTimeMillis()+1000;
+        double time = System.currentTimeMillis() + 1500;
         servo.setPosition(0.5);
         while(System.currentTimeMillis() < time){}
-        servo.setPosition(0.9);
+        servo.setPosition(0.4);
 
     }
 
