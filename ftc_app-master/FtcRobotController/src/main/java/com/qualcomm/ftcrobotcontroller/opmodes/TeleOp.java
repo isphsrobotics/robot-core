@@ -101,11 +101,11 @@ public class TeleOp extends OpMode {
 
         // Lifts/lowers tape
         tapeServo = hardwareMap.servo.get("tapeServo");
-        leftServo.setPosition(0.4);
+        //leftServo.setPosition(0.4);
 
         gateServo = hardwareMap.servo.get("gateServo");
 
-        tapeServo.setPosition(1.0);
+        //tapeServo.setPosition(1.0);
 
 
     }
