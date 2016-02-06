@@ -224,10 +224,6 @@ public class TeleOp extends OpMode {
         } else if (gamepad2.dpad_up) {
             platformMotor.setPower(1.0);
         } else platformMotor.setPower(0.0);
-<<<<<<< HEAD
-
-=======
->>>>>>> master
         //endregion
 
         //region TAPE REWIND
