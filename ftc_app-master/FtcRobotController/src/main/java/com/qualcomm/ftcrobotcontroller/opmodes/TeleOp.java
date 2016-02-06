@@ -218,20 +218,27 @@ public class TeleOp extends OpMode {
 
 
         // ## GATE SERVO ##
-        if (System.currentTimeMillis() > yetAnotherTick) {
-            if (gamepad2.b) {
-                if (gateOpen) {
-                    yetAnotherTick += 300;
-                    gateServo.setPosition(1.0);
-                    gateOpen = false;
-                } else if (!gateOpen) {
-                    yetAnotherTick += 300;
-                    gateServo.setPosition(0.4);
-                    gateOpen = false;
-                }
-            }
+//        if (System.currentTimeMillis() > yetAnotherTick) {
+//            if (gamepad2.b) {
+//                if (gateOpen) {
+//                    yetAnotherTick += 300;
+//                    gateServo.setPosition(1.0);
+//                    gateOpen = false;
+//                } else if (!gateOpen) {
+//                    yetAnotherTick += 300;
+//                    gateServo.setPosition(0.4);
+//                    gateOpen = false;
+//                }
+//            }
+//        }
+
+        if (gamepad2.b) {
+            gateServo.setPosition(1.0);
         }
-            
+
+        if (gamepad2.x) {
+
+        }
 
 //        // ## ONE-BUTTON PLATFORM CONTROLS ##
 //        if (System.currentTimeMillis() > anotherTick) {
