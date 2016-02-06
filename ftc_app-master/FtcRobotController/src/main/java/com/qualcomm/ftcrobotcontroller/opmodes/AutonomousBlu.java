@@ -86,6 +86,9 @@ public class AutonomousBlu extends LinearOpMode {
             }
         }
 
+        leftServo.setPosition(0.3);
+        leftServo.setPosition(0.5);
+
 
 //turns to be parallel with the wall
         motorRight.setPower(-1.0);
