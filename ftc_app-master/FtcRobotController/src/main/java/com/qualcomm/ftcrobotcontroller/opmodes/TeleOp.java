@@ -50,13 +50,13 @@ public class TeleOp extends OpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
-    DcMotor motorTurbo;
-    DcMotor middleRelease;
+    DcMotor motorTurboRight;
+    DcMotor motorTurboLeft;
     DcMotor tapeMotor;
-    DcMotor platformMotor;
     Servo leftServo;
     Servo rightServo;
     Servo tapeServo;
+    Servo middleRelease;
 
 
     long nextTick = System.currentTimeMillis();
@@ -83,12 +83,12 @@ public class TeleOp extends OpMode {
         //motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         // Turbo motor -- the one in the middle
-        motorTurbo = hardwareMap.dcMotor.get("mMid");
+        // #TODO: FINISH MAP FOR TURBO MOTORS
+        motorTurboRight = hardwareMap.dcMotor.get("mMid");
+        motorTurboLeft = hardwareMap.dcMotor.get("tLeft");
 
         // Lifts and lowers the middle turbo motor
-        middleRelease = hardwareMap.dcMotor.get("mRelease");
-
-        platformMotor = hardwareMap.dcMotor.get("platformMotor");
+        middleRelease = hardwareMap.servo.get("mRelease");
 
         // For big pull ups -- measureable muscle
         tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
@@ -102,6 +102,7 @@ public class TeleOp extends OpMode {
         // Lifts/lowers tape
         tapeServo = hardwareMap.servo.get("tapeServo");
 
+        middleRelease.setPosition(0.0);
 
     }
     //endregion
@@ -153,20 +154,21 @@ public class TeleOp extends OpMode {
         //region TURBO
         // ## TURBO MOTOR ##
         if (gamepad1.right_bumper) {
-            motorTurbo.setPower(-1.0);
+            motorTurboRight.setPower(1.0);
+            motorTurboLeft.setPower(-1.0):
         } else if (gamepad1.left_bumper) {
-            motorTurbo.setPower(1.0);
+            motorTurboRight.setPower(-1.0);
+            motorTurboLeft.setPower(1.0);
         } else {
-            motorTurbo.setPower(0.0);
+            motorTurboRight.setPower(0.0);
+            motorTurboLeft.setPower(0.0);
         }
 
         // ## TURBO RAISE/LOWER ##
         if (gamepad1.a) {
-            middleRelease.setPower(1.0);
+            middleRelease.setPosition(1.0);
         } else if (gamepad1.x) {
-            middleRelease.setPower(-1.0);
-        } else {
-            middleRelease.setPower(0.0);
+            middleRelease.setPosition(0.0);
         }
 
         leftServo.setPosition(leftServoPosition);
@@ -239,15 +241,6 @@ public class TeleOp extends OpMode {
         }
         //endregion
 
-        //region PLATFORM
-        // ## MANUAL PLATFORM CONTROLS & FAILSAFE STOP ##
-
-        if (gamepad2.dpad_down) {
-            platformMotor.setPower(-1.0);
-        } else if (gamepad2.dpad_up) {
-            platformMotor.setPower(1.0);
-        } else platformMotor.setPower(0.0);
-        //endregion
 
         //region TAPE REWIND
         // ## TAPE CONTROLS ##
