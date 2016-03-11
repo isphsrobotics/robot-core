@@ -52,7 +52,6 @@ public class TeleOp extends OpMode {
     DcMotor motorLeft;
     DcMotor motorTurboRight;
     DcMotor motorTurboLeft;
-    DcMotor tapeMotor;
     Servo leftServo;
     Servo rightServo;
     Servo tapeServo;
@@ -90,9 +89,7 @@ public class TeleOp extends OpMode {
         // Lifts and lowers the middle turbo motor
         middleRelease = hardwareMap.servo.get("mRelease");
 
-        // For big pull ups -- measureable muscle
-        tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
-        tapeMotor.setDirection(DcMotor.Direction.REVERSE);
+
 
         // Lifts/lowers metal bar
         leftServo = hardwareMap.servo.get("lservo");
@@ -241,27 +238,6 @@ public class TeleOp extends OpMode {
         }
         //endregion
 
-
-        //region TAPE REWIND
-        // ## TAPE CONTROLS ##
-        if (gamepad2.dpad_left) {
-            if (gamepad2.right_bumper) {
-                tapeMotor.setPower(0.5);
-            }
-            else {
-                tapeMotor.setPower(0.2);
-            }
-        } else if (gamepad2.dpad_right) {
-            if (gamepad2.right_bumper) {
-                tapeMotor.setPower(-0.5);
-            }
-            else {
-                tapeMotor.setPower(-0.2);
-            }
-        } else {
-            tapeMotor.setPower(0.0);
-        }
-        //endregion
 
         //region TAPE SERVO
         // ## TAPE RAISE/LOWER ##
