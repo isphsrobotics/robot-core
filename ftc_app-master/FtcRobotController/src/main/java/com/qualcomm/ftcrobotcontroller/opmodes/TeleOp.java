@@ -49,7 +49,7 @@ public class TeleOp extends OpMode {
     DcMotor motorTurboLeft;
     Servo middleRelease;
 
-
+    double releasePosition;
     long nextTick = System.currentTimeMillis();
 
     /**
@@ -81,8 +81,8 @@ public class TeleOp extends OpMode {
         // Lifts and lowers the middle turbo motor
         middleRelease = hardwareMap.servo.get("release");
 
-        middleRelease.setPosition(0.0);
-
+        releasePosition = 0.0;
+        middleRelease.setPosition(releasePosition);
     }
     //endregion
 
@@ -93,12 +93,7 @@ public class TeleOp extends OpMode {
 		/*
          * ## Gamepad 1 Controls ##
 		 * 
-		 * Right joystick: right wheel
-		 * Left joystick: left wheel
-		 * Right bumper: turbo full forward
-		 * Left bumper: turbo full backward
-		 * A button: lifts turbo
-		 * X button: lowers turbo
+		 * TODO: Summarise controls
 		 */
 
         //region WHEELS
@@ -136,9 +131,11 @@ public class TeleOp extends OpMode {
 
         // ## TURBO RAISE/LOWER ##
         if (gamepad1.a) {
-            middleRelease.setPosition(1.0);
+            releasePosition += 0.1;
+            middleRelease.setPosition(releasePosition);
         } else if (gamepad1.x) {
-            middleRelease.setPosition(0.0);
+            releasePosition -= 0.1;
+            middleRelease.setPosition(releasePosition);
         }
     }
     /*
