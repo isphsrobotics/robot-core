@@ -71,7 +71,7 @@ public class TeleOp extends OpMode {
         // Main motors (wheels) -- reverse one of them
         motorLeft = hardwareMap.dcMotor.get("rMain");
         motorRight = hardwareMap.dcMotor.get("lMain");
-        //motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         // Turbo motor -- the one in the middle
         // #TODO: FINISH MAP FOR TURBO MOTORS
@@ -81,7 +81,7 @@ public class TeleOp extends OpMode {
         // Lifts and lowers the middle turbo motor
         middleRelease = hardwareMap.servo.get("release");
 
-        releasePosition = 0.0;
+        releasePosition = 0.5;
         middleRelease.setPosition(releasePosition);
     }
     //endregion
@@ -131,13 +131,22 @@ public class TeleOp extends OpMode {
 
         // ## TURBO RAISE/LOWER ##
         if (gamepad1.a) {
-            releasePosition += 0.1;
+            if (releasePosition + 0.1 > 1.0) {
+                releasePosition = 1.0;
+            } else {
+                releasePosition += 0.1;
+            }
             middleRelease.setPosition(releasePosition);
         } else if (gamepad1.x) {
-            releasePosition -= 0.1;
+            if (releasePosition - 0.1 < 0.0) {
+                releasePosition = 0.0;
+            } else {
+                releasePosition -= 0.1;
+            }
             middleRelease.setPosition(releasePosition);
         }
     }
+
     /*
      * Code to run when the op mode is first disabled goes here
      *
