@@ -42,23 +42,14 @@ import com.qualcomm.robotcore.util.Range;
  */
 public class TeleOp extends OpMode {
 
-    // position of the arm servo.
-    double leftServoPosition = 0.6;
-    double rightServoPosition = 0.6;
-    int tapeServoArrayCount = 5;
-
 
     DcMotor motorRight;
     DcMotor motorLeft;
     DcMotor motorTurboRight;
     DcMotor motorTurboLeft;
-    DcMotor tapeMotor;
-    Servo leftServo;
-    Servo rightServo;
-    Servo tapeServo;
     Servo middleRelease;
 
-
+    double releasePosition;
     long nextTick = System.currentTimeMillis();
 
     /**
@@ -78,32 +69,20 @@ public class TeleOp extends OpMode {
     public void init() {
 
         // Main motors (wheels) -- reverse one of them
-        motorLeft = hardwareMap.dcMotor.get("mRight");
-        motorRight = hardwareMap.dcMotor.get("mLeft");
+        motorLeft = hardwareMap.dcMotor.get("rMain");
+        motorRight = hardwareMap.dcMotor.get("lMain");
         //motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         // Turbo motor -- the one in the middle
         // #TODO: FINISH MAP FOR TURBO MOTORS
-        motorTurboRight = hardwareMap.dcMotor.get("mMid");
-        motorTurboLeft = hardwareMap.dcMotor.get("tLeft");
+        motorTurboRight = hardwareMap.dcMotor.get("rTurbo");
+        motorTurboLeft = hardwareMap.dcMotor.get("lTurbo");
 
         // Lifts and lowers the middle turbo motor
-        middleRelease = hardwareMap.servo.get("mRelease");
+        middleRelease = hardwareMap.servo.get("release");
 
-        // For big pull ups -- measureable muscle
-        tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
-        tapeMotor.setDirection(DcMotor.Direction.REVERSE);
-
-        // Lifts/lowers metal bar
-        leftServo = hardwareMap.servo.get("lservo");
-
-        rightServo = hardwareMap.servo.get("rservo");
-
-        // Lifts/lowers tape
-        tapeServo = hardwareMap.servo.get("tapeServo");
-
-        middleRelease.setPosition(0.0);
-
+        releasePosition = 0.0;
+        middleRelease.setPosition(releasePosition);
     }
     //endregion
 
@@ -114,21 +93,7 @@ public class TeleOp extends OpMode {
 		/*
          * ## Gamepad 1 Controls ##
 		 * 
-		 * Right joystick: right wheel
-		 * Left joystick: left wheel
-		 * Right bumper: turbo full forward
-		 * Left bumper: turbo full backward
-		 * Y button: increases leftServoPosition
-		 * B button: decreases leftServoPosition
-		 * A button: lifts turbo
-		 * X button: lowers turbo
-		 *
-		 *  ## Gamepad 2 Controls ##
-		 * Dpad down: tape down
-		 * Dpad up: tape up
-		 * Dpad right: extend tape
-		 * Dpad left: retract tape
-		 * Y/B: right servo
+		 * TODO: Summarise controls
 		 */
 
         //region WHEELS
@@ -155,7 +120,7 @@ public class TeleOp extends OpMode {
         // ## TURBO MOTOR ##
         if (gamepad1.right_bumper) {
             motorTurboRight.setPower(1.0);
-            motorTurboLeft.setPower(-1.0):
+            motorTurboLeft.setPower(-1.0);
         } else if (gamepad1.left_bumper) {
             motorTurboRight.setPower(-1.0);
             motorTurboLeft.setPower(1.0);
@@ -166,129 +131,13 @@ public class TeleOp extends OpMode {
 
         // ## TURBO RAISE/LOWER ##
         if (gamepad1.a) {
-            middleRelease.setPosition(1.0);
+            releasePosition += 0.1;
+            middleRelease.setPosition(releasePosition);
         } else if (gamepad1.x) {
-            middleRelease.setPosition(0.0);
+            releasePosition -= 0.1;
+            middleRelease.setPosition(releasePosition);
         }
-
-        leftServo.setPosition(leftServoPosition);
-        //endregion
-
-        //region ARM
-        // ## METAL ARM ##
-        if (gamepad1.y) {
-                if (leftServoPosition <= 0.8) {
-                    leftServoPosition += 0.01;
-                    if (leftServoPosition <= 0.8) {
-                        leftServo.setPosition(leftServoPosition);
-                    }
-                    else {
-                        leftServoPosition -= 0.01;
-                    }
-                } else {
-                    leftServoPosition = 0.8;
-                    leftServo.setPosition(leftServoPosition);
-                }
-        }
-        if (gamepad1.b) {
-            if (leftServoPosition >= 0.0) {
-                leftServoPosition -= 0.01;
-                if (leftServoPosition >= 0.0) {
-                    leftServo.setPosition(leftServoPosition);
-                }
-                else {
-                    leftServoPosition += 0.01;
-                }
-            }
-            else {
-                leftServoPosition = 0.0;
-                leftServo.setPosition(leftServoPosition);
-            }
-        }
-        //endregion
-
-        //region RIGHT SERVO
-        // RIGHT SERVO
-
-        if (gamepad2.y) {
-            if (rightServoPosition <= 0.8) {
-                rightServoPosition += 0.01;
-                if (rightServoPosition <= 0.8) {
-                    rightServo.setPosition(rightServoPosition);
-                }
-                else {
-                    rightServoPosition -= 0.01;
-                }
-            } else {
-                rightServoPosition = 0.5;
-                rightServo.setPosition(rightServoPosition);
-            }
-        }
-        if (gamepad2.b) {
-            if (rightServoPosition >= 0.0) {
-                rightServoPosition -= 0.01;
-                if (rightServoPosition >= 0.0) {
-                    rightServo.setPosition(rightServoPosition);
-                }
-                else {
-                    rightServoPosition += 0.01;
-                }
-            }
-            else {
-                rightServoPosition = 0.0;
-                rightServo.setPosition(rightServoPosition);
-            }
-        }
-        //endregion
-
-
-        //region TAPE REWIND
-        // ## TAPE CONTROLS ##
-        if (gamepad2.dpad_left) {
-            if (gamepad2.right_bumper) {
-                tapeMotor.setPower(0.5);
-            }
-            else {
-                tapeMotor.setPower(0.2);
-            }
-        } else if (gamepad2.dpad_right) {
-            if (gamepad2.right_bumper) {
-                tapeMotor.setPower(-0.5);
-            }
-            else {
-                tapeMotor.setPower(-0.2);
-            }
-        } else {
-            tapeMotor.setPower(0.0);
-        }
-        //endregion
-
-        //region TAPE SERVO
-        // ## TAPE RAISE/LOWER ##
-        double[] tapeServoArray = {0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
-        if (gamepad2.dpad_up) {
-            if (System.currentTimeMillis() >= nextTick) {
-                if (tapeServoArrayCount < tapeServoArray.length - 1) {
-                    tapeServoArrayCount++;
-                    tapeServo.setPosition(tapeServoArray[tapeServoArrayCount]);
-                    nextTick = System.currentTimeMillis() + 150;
-                }
-            }
-        } else if (gamepad2.dpad_down) {
-            if (System.currentTimeMillis() >= nextTick) {
-                if (tapeServoArrayCount > 0) {
-                    tapeServoArrayCount--;
-                    tapeServo.setPosition(tapeServoArray[tapeServoArrayCount]);
-                    nextTick = System.currentTimeMillis() + 150;
-                }
-            }
-        }
-        //endregion
-
-
     }
-
-    //region stop()
     /*
      * Code to run when the op mode is first disabled goes here
      *
