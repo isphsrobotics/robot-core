@@ -7,7 +7,11 @@ This is the main code repository for the FTC Robotics team at the International 
 
 The main android studio code can be found under /ftc_app_master/. The main programming will be going on under /opmodes/ in the /src/ folder of the project, while minor changes will be found in the other folders.
 
-## 01 - contributors with push access
+## 01 - how to 'download' this repository
+
+The best (and easiest) way to do this is to first install [Github Desktop](https://desktop.github.com) (also available through Homebrew's Caskroom, if you're familiar with that). Then, go to this repository in your browser ([link here](https://github.com/isphsrobotics/robot-core)), and click the 'save in Github Desktop' button on the top right (next to 'Download ZIP'). The Github app should open, asking you to save the repository. You can save it wherever you want, but it's best if you keep the name ('clone as') as it is.
+
+## 02 - contributors with push access
 
 * @isphsrobotics
     * This is the account used on school computers. Any robotics member can use these, however usually they are being used by either:
@@ -24,7 +28,7 @@ The main android studio code can be found under /ftc_app_master/. The main progr
 * @champaru
 	* Roman
 
-## 02 - where stuff is
+## 03 - where stuff is
 
 ###### Guide to Robotics
 Alex wrote a guide to how all of this works, you can find it in the root directory of the repo. The file is called robotics-guide.pdf. You can also [follow this link](https://github.com/isphsrobotics/robot-core/blob/master/robotics-guide.pdf).
@@ -37,7 +41,7 @@ To be filled in later :neutral_face:
 
 Color sensor: https://github.com/ftctechnh/ftc_app/blob/master/FtcRobotController/src/main/java/com/qualcomm/ftcrobotcontroller/opmodes/HTRGBExample.java
 
-## 03 - contribution guidelines and style
+## 04 - contribution guidelines and style
 
 Contribution is usually limited to the main robotics programmers (listed above), who are allowed to make any edits within reason. Programmers, please make any large changes on a new branch, as per the guide to robotics, so that it is easier to check for problems.
 
