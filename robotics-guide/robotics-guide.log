@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.2.10)  16 MAR 2016 13:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.2.10)  16 MAR 2016 13:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -298,28 +298,27 @@ LaTeX Info: Redefining \nameref on input line 8.
 
  [1
 
-{/usr/local/texlive/2015basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-
-Package hyperref Warning: old toc file detected, not used; run LaTeX again.
-
+{/usr/local/texlive/2015basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (.
+/robotics-guide.toc)
 \tf@toc=\write4
 \openout4 = `robotics-guide.toc'.
 
-[2] <images/robot-wiring.png, id=18, 661.47125pt x 468.75125pt>
+
+[2] <images/robot-wiring.png, id=79, 661.47125pt x 468.75125pt>
 File: images/robot-wiring.png Graphic file (type png)
 
 <use images/robot-wiring.png>
 Package pdftex.def Info: images/robot-wiring.png used on input line 31.
 (pdftex.def)             Requested size: 198.4429pt x 140.62645pt.
  [3 <./images/robot-wiring.png>] [4] [5]
-<images/git-branches.png, id=54, 522.95375pt x 157.58875pt>
+<images/git-branches.png, id=105, 522.95375pt x 157.58875pt>
 File: images/git-branches.png Graphic file (type png)
 
 <use images/git-branches.png>
 Package pdftex.def Info: images/git-branches.png used on input line 108.
 (pdftex.def)             Requested size: 313.77466pt x 94.55397pt.
 
-<images/download-repo.png, id=56, 564.1075pt x 372.39125pt>
+<images/download-repo.png, id=107, 564.1075pt x 372.39125pt>
 File: images/download-repo.png Graphic file (type png)
 
 <use images/download-repo.png>
@@ -332,22 +331,15 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 126.
  (./robotics-guide.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 126.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 126.
-
-
-Package rerunfilecheck Warning: File `robotics-guide.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `robotics-guide.out':
-(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
-(rerunfilecheck)             After:  944A075D31D09AC15D9F090795E4AE18;700.
+Package rerunfilecheck Info: File `robotics-guide.out' has not changed.
+(rerunfilecheck)             Checksum: 944A075D31D09AC15D9F090795E4AE18;700.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 126.
  ) 
 Here is how much of TeX's memory you used:
- 5696 strings out of 494501
- 83460 string characters out of 6167030
- 167773 words of memory out of 5000000
- 8901 multiletter control sequences out of 15000+600000
+ 5711 strings out of 494501
+ 83677 string characters out of 6167030
+ 167877 words of memory out of 5000000
+ 8914 multiletter control sequences out of 15000+600000
  9191 words of font info for 34 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  29i,6n,28p,635b,334s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -358,10 +350,10 @@ cm/cmr10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmr12.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmr17.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmtt10.pfb>
-Output written on robotics-guide.pdf (7 pages, 276344 bytes).
+Output written on robotics-guide.pdf (7 pages, 279230 bytes).
 PDF statistics:
- 111 PDF objects out of 1000 (max. 8388607)
- 89 compressed objects within 1 object stream
+ 161 PDF objects out of 1000 (max. 8388607)
+ 138 compressed objects within 2 object streams
  38 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 112 words of extra memory for PDF output out of 10000 (max. 10000000)
 
