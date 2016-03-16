@@ -50,4 +50,4 @@ The style of coding will be regular camelCase GNAT style code (aka the way every
 If you're not from our team, we probably won't let you edit. Go write your own code!
 
 ----
-:copyright: *International School of Prague FTC Robotics Team 2015. All rights reserved*
+:copyright: *International School of Prague FTC Robotics Team 2016. All rights reserved*
