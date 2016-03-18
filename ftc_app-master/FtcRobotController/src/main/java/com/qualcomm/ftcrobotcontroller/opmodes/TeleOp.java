@@ -52,7 +52,7 @@ public class TeleOp extends OpMode {
 
     double armPosition;
     long nextTick = System.currentTimeMillis();
-    int armServoArrayCount = 5;
+    int armServoArrayCount = 9;
 
     /**
      * Constructor
@@ -141,7 +141,7 @@ public class TeleOp extends OpMode {
 
         //region ARM SERVO
         // ## TURBO RAISE/LOWER ##
-        double[] armServoArray = {0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+        double[] armServoArray = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
         if (gamepad1.dpad_up) {
             if (System.currentTimeMillis() >= nextTick) {
                 if (armServoArrayCount < armServoArray.length - 1) {
@@ -171,7 +171,6 @@ public class TeleOp extends OpMode {
     public void stop() {
 
     }
-    //endregion
 
 
     //region ScaleInput()
