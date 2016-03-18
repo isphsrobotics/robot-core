@@ -12,6 +12,7 @@
 \contentsline {paragraph}{Getting values from joysticks and writing them to motors}{}{section*.6}
 \contentsline {paragraph}{Moving servos}{}{section*.7}
 \contentsline {paragraph}{Comments}{}{section*.8}
+\contentsline {subsection}{\numberline {2.4}Running it on the robot}{}{subsection.2.4}
 \contentsline {section}{\numberline {3}Git \& Github}{}{section.3}
 \contentsline {subsection}{\numberline {3.1}Git basics}{}{subsection.3.1}
 \contentsline {paragraph}{What is Git \& Terms}{}{section*.9}

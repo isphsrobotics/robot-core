@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.2.10)  16 MAR 2016 21:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.2.10)  18 MAR 2016 18:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -308,7 +308,7 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.14 \newpage
-              [2] <images/robot-wiring.png, id=83, 661.47125pt x 468.75125pt>
+              [2] <images/robot-wiring.png, id=88, 661.47125pt x 468.75125pt>
 File: images/robot-wiring.png Graphic file (type png)
 
 <use images/robot-wiring.png>
@@ -324,28 +324,33 @@ e same identifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.115 \end{verbatim}
-                     [4]
-<images/git-branches.png, id=100, 522.95375pt x 157.58875pt>
+                     [4]pdfTeX warning (ext4): destination with the same identi
+fier (name{page.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.133 \item{
+            When you want to stop the robot, press the 'stop' button.} [5]
+<images/git-branches.png, id=119, 522.95375pt x 157.58875pt>
 File: images/git-branches.png Graphic file (type png)
 
 <use images/git-branches.png>
-Package pdftex.def Info: images/git-branches.png used on input line 132.
+Package pdftex.def Info: images/git-branches.png used on input line 148.
 (pdftex.def)             Requested size: 313.77466pt x 94.55397pt.
 
-<images/github-desktop-branches.png, id=101, 319.1925pt x 318.18875pt>
+<images/github-desktop-branches.png, id=120, 319.1925pt x 318.18875pt>
 File: images/github-desktop-branches.png Graphic file (type png)
 
 <use images/github-desktop-branches.png>
 Package pdftex.def Info: images/github-desktop-branches.png used on input line 
-134.
+150.
 (pdftex.def)             Requested size: 191.51697pt x 190.9147pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 130--135
+Underfull \hbox (badness 10000) in paragraph at lines 146--151
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 130--135
+Underfull \hbox (badness 10000) in paragraph at lines 146--151
 
  []
 
@@ -353,48 +358,49 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.135 
-       [5] <images/download-repo.png, id=110, 564.1075pt x 372.39125pt>
+l.152 \subsection
+                 {Github} [6 <./images/git-branches.png>]
+<images/download-repo.png, id=131, 564.1075pt x 372.39125pt>
 File: images/download-repo.png Graphic file (type png)
 
 <use images/download-repo.png>
-Package pdftex.def Info: images/download-repo.png used on input line 139.
+Package pdftex.def Info: images/download-repo.png used on input line 155.
 (pdftex.def)             Requested size: 338.4671pt x 223.43646pt.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.140 \paragraph
-                {Implementing your changes}To implement changes, you create ...
-[6 <./images/git-branches.png> <./images/github-desktop-branches.png>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 160.
+l.158 \subsection
+                 {Standard Git Workflow} [7 <./images/github-desktop-branches.p
+ng> <./images/download-repo.png>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 176.
 
 
 (/usr/local/texlive/2015basic/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 160.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 165.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 176.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 181.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.165 \end{document}
-                     [7 <./images/download-repo.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 165.
+l.181 \end{document}
+                     [8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 181.
  (./robotics-guide.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 165.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 165.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 181.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 181.
 Package rerunfilecheck Info: File `robotics-guide.out' has not changed.
-(rerunfilecheck)             Checksum: 6AFA90F79E51F63E4B8DB0D32404EF5B;755.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 165.
+(rerunfilecheck)             Checksum: EC5902617CD34B3943ED130E4CC879DF;828.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 181.
  ) 
 Here is how much of TeX's memory you used:
- 5728 strings out of 494501
- 84138 string characters out of 6167030
+ 5742 strings out of 494501
+ 84248 string characters out of 6167030
  167866 words of memory out of 5000000
- 8932 multiletter control sequences out of 15000+600000
+ 8933 multiletter control sequences out of 15000+600000
  9191 words of font info for 34 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  29i,6n,28p,635b,442s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -406,10 +412,10 @@ ts/cm/cmr12.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmr17.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmtt10.pfb>
-Output written on robotics-guide.pdf (7 pages, 313790 bytes).
+Output written on robotics-guide.pdf (8 pages, 317017 bytes).
 PDF statistics:
- 167 PDF objects out of 1000 (max. 8388607)
- 141 compressed objects within 2 object streams
- 33 named destinations out of 1000 (max. 500000)
- 125 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 191 PDF objects out of 1000 (max. 8388607)
+ 164 compressed objects within 2 object streams
+ 46 named destinations out of 1000 (max. 500000)
+ 133 words of extra memory for PDF output out of 10000 (max. 10000000)
 
