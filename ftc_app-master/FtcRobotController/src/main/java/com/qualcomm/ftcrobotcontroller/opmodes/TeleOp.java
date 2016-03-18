@@ -48,10 +48,11 @@ public class TeleOp extends OpMode {
     DcMotor motorLeft;
     DcMotor motorTurboRight;
     DcMotor motorTurboLeft;
-    Servo middleRelease;
+    Servo armServo;
 
-    double releasePosition;
+    double armPosition;
     long nextTick = System.currentTimeMillis();
+    int armServoArrayCount = 5;
 
     /**
      * Constructor
@@ -70,20 +71,21 @@ public class TeleOp extends OpMode {
     public void init() {
 
         // Main motors (wheels) -- reverse one of them
-        motorLeft = hardwareMap.dcMotor.get("rMain");
-        motorRight = hardwareMap.dcMotor.get("lMain");
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorLeft = hardwareMap.dcMotor.get("lMotor");
+        motorRight = hardwareMap.dcMotor.get("rMotor");
+        motorRight.setDirection(DcMotor.Direction.REVERSE);
 
         // Turbo motor -- the one in the middle
-        // #TODO: FINISH MAP FOR TURBO MOTORS
+        // TODO: FINISH MAP FOR TURBO MOTORS
         motorTurboRight = hardwareMap.dcMotor.get("rTurbo");
         motorTurboLeft = hardwareMap.dcMotor.get("lTurbo");
+        motorTurboRight.setDirection(DcMotor.Direction.REVERSE);
 
         // Lifts and lowers the middle turbo motor
-        middleRelease = hardwareMap.servo.get("release");
+        armServo = hardwareMap.servo.get("armServo");
 
-        releasePosition = 0.5;
-        middleRelease.setPosition(releasePosition);
+        armPosition = 0.5;
+        armServo.setPosition(armPosition);
     }
     //endregion
 
@@ -100,51 +102,62 @@ public class TeleOp extends OpMode {
         //region WHEELS
         // ## WHEEL MOTORS ##
         // Gets values from joysticks
-        float right = gamepad1.right_stick_y;
-        float left = gamepad1.left_stick_y;
+        float right1 = gamepad1.right_stick_y;
+        float left1 = gamepad1.left_stick_y;
 
         // clip the right/left values so that the values never exceed +/- 1
-        right = Range.clip(right, -1, 1);
-        left = Range.clip(left, (float) -1.0, (float) 1.0);
+        right1 = Range.clip(right1, -1, 1);
+        left1 = Range.clip(left1, (float) -1.0, (float) 1.0);
 
         // scale the joystick value with custom method to make it easier to control
         // the robot more precisely at slower speeds.
-        right = (float) scaleInput(right);
-        left = (float) scaleInput(left);
+        right1 = (float) scaleInput(right1);
+        left1 = (float) scaleInput(left1);
 
         // write values from vars to the motors
-        motorRight.setPower(right);
-        motorLeft.setPower(left);
+        motorRight.setPower(right1);
+        motorLeft.setPower(left1);
         //endregion
 
         //region TURBO
         // ## TURBO MOTOR ##
-        if (gamepad1.right_bumper) {
-            motorTurboRight.setPower(1.0);
-            motorTurboLeft.setPower(-1.0);
-        } else if (gamepad1.left_bumper) {
-            motorTurboRight.setPower(-1.0);
-            motorTurboLeft.setPower(1.0);
-        } else {
-            motorTurboRight.setPower(0.0);
-            motorTurboLeft.setPower(0.0);
-        }
+        // Gets values from joysticks
+        float right2 = gamepad2.right_stick_y;
+        float left2 = gamepad2.left_stick_y;
 
+        // clip the right/left values so that the values never exceed +/- 1
+        right2 = Range.clip(right2, -1, 1);
+        left2 = Range.clip(left2, (float) -1.0, (float) 1.0);
+
+        // scale the joystick value with custom method to make it easier to control
+        // the robot more precisely at slower speeds.
+        right2 = (float) scaleInput(right2);
+        left2 = (float) scaleInput(left2);
+
+        // write values from vars to the motors
+        motorTurboRight.setPower(right2);
+        motorTurboLeft.setPower(left2);
+        //endregion
+
+        //region ARM SERVO
         // ## TURBO RAISE/LOWER ##
-        if (gamepad1.a) {
-            if (releasePosition + 0.1 > 1.0) {
-                releasePosition = 1.0;
-            } else {
-                releasePosition += 0.1;
+        double[] armServoArray = {0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+        if (gamepad1.dpad_up) {
+            if (System.currentTimeMillis() >= nextTick) {
+                if (armServoArrayCount < armServoArray.length - 1) {
+                    armServoArrayCount++;
+                    armServo.setPosition(armServoArray[armServoArrayCount]);
+                    nextTick = System.currentTimeMillis() + 150;
+                }
             }
-            middleRelease.setPosition(releasePosition);
-        } else if (gamepad1.x) {
-            if (releasePosition - 0.1 < 0.0) {
-                releasePosition = 0.0;
-            } else {
-                releasePosition -= 0.1;
+        } else if (gamepad1.dpad_down) {
+            if (System.currentTimeMillis() >= nextTick) {
+                if (armServoArrayCount > 0) {
+                    armServoArrayCount--;
+                    armServo.setPosition(armServoArray[armServoArrayCount]);
+                    nextTick = System.currentTimeMillis() + 150;
+                }
             }
-            middleRelease.setPosition(releasePosition);
         }
         //endregion
     }
