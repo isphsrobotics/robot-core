@@ -46,6 +46,7 @@ public class TeleOp extends OpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
+    DcMotor middleRelease;
     DcMotor motorTurboRight;
     DcMotor motorTurboLeft;
     Servo armServo;
@@ -74,6 +75,8 @@ public class TeleOp extends OpMode {
         motorLeft = hardwareMap.dcMotor.get("lMotor");
         motorRight = hardwareMap.dcMotor.get("rMotor");
         motorRight.setDirection(DcMotor.Direction.REVERSE);
+
+        middleRelease = hardwareMap.dcMotor.get("release");
 
         // Turbo motor -- the one in the middle
         // TODO: FINISH MAP FOR TURBO MOTORS
@@ -138,6 +141,20 @@ public class TeleOp extends OpMode {
         motorTurboRight.setPower(right2);
         motorTurboLeft.setPower(left2);
         //endregion
+
+        //Raises middle thingy
+        if (gamepad2.a){
+            middleRelease.setPower(1.0);
+        } else{
+            middleRelease.setPower(0.0);
+        }
+
+        //Lowers middle thingy
+        if (gamepad2.y){
+            middleRelease.setPower(-1.0);
+        } else{
+            middleRelease.setPower(0.0);
+        }
 
         //region ARM SERVO
         // ## TURBO RAISE/LOWER ##
