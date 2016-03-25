@@ -50,10 +50,12 @@ public class TeleOp extends OpMode {
     DcMotor motorTurboRight;
     DcMotor motorTurboLeft;
     Servo armServo;
+    Servo triggerServo;
 
     double armPosition;
     long nextTick = System.currentTimeMillis();
     int armServoArrayCount = 9;
+
 
     /**
      * Constructor
@@ -89,6 +91,10 @@ public class TeleOp extends OpMode {
 
         armPosition = 0.5;
         armServo.setPosition(armPosition);
+
+        // Releases the springs on the grapple hook launcher
+        triggerServo = hardwareMap.servo.get("trigger");
+        triggerServo.setPosition(0.0);
     }
     //endregion
 
@@ -154,6 +160,10 @@ public class TeleOp extends OpMode {
             middleRelease.setPower(-1.0);
         } else{
             middleRelease.setPower(0.0);
+        }
+
+        if (gamepad2.b){
+            triggerServo.setPosition(0.5);
         }
 
         //region ARM SERVO
