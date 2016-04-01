@@ -155,18 +155,15 @@ public class TeleOp extends OpMode {
         //endregion
 
         // Wire pullers
+        // Releasing
         if(gamepad2.dpad_up){
             motorPullerLeft.setPower(0.8);
             motorPullerRight.setPower(-0.8);
-        } else{
-            motorPullerLeft.setPower(0.0);
-            motorPullerRight.setPower(0.0);
         }
-
-        if(gamepad2.dpad_down){
+        else if(gamepad2.dpad_down){
             motorPullerLeft.setPower(-0.8);
             motorPullerRight.setPower(0.8);
-        } else{
+        } else {
             motorPullerLeft.setPower(0.0);
             motorPullerRight.setPower(0.0);
         }
@@ -200,7 +197,9 @@ public class TeleOp extends OpMode {
                     nextTick = System.currentTimeMillis() + 150;
                 }
             }
-        } else if (gamepad1.dpad_down) {
+        }
+
+        if (gamepad1.dpad_down) {
             if (System.currentTimeMillis() >= nextTick) {
                 if (armServoArrayCount > 0) {
                     armServoArrayCount--;
