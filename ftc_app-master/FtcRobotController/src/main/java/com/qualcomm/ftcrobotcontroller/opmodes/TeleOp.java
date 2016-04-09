@@ -46,14 +46,18 @@ public class TeleOp extends OpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
-    DcMotor middleRelease;
+    //DcMotor middleRelease;
     DcMotor motorTurboRight;
     DcMotor motorTurboLeft;
+    DcMotor motorPullerLeft;
+    DcMotor motorPullerRight;
     Servo armServo;
+    Servo triggerServo;
 
     double armPosition;
     long nextTick = System.currentTimeMillis();
     int armServoArrayCount = 9;
+
 
     /**
      * Constructor
@@ -76,7 +80,7 @@ public class TeleOp extends OpMode {
         motorRight = hardwareMap.dcMotor.get("rMotor");
         motorRight.setDirection(DcMotor.Direction.REVERSE);
 
-        middleRelease = hardwareMap.dcMotor.get("release");
+        //middleRelease = hardwareMap.dcMotor.get("release");
 
         // Turbo motor -- the one in the middle
         // TODO: FINISH MAP FOR TURBO MOTORS
@@ -84,11 +88,19 @@ public class TeleOp extends OpMode {
         motorTurboLeft = hardwareMap.dcMotor.get("lTurbo");
         motorTurboRight.setDirection(DcMotor.Direction.REVERSE);
 
+        // Grapple hook string puller
+        motorPullerLeft = hardwareMap.dcMotor.get("lpuller");
+        motorPullerRight = hardwareMap.dcMotor.get("rpuller");
+
         // Lifts and lowers the middle turbo motor
         armServo = hardwareMap.servo.get("armServo");
 
         armPosition = 0.5;
         armServo.setPosition(armPosition);
+
+        // Releases the springs on the grapple hook launcher
+        //triggerServo = hardwareMap.servo.get("trigger");
+        //triggerServo.setPosition(0.0);
     }
     //endregion
 
@@ -142,8 +154,22 @@ public class TeleOp extends OpMode {
         motorTurboLeft.setPower(left2);
         //endregion
 
+        // Wire pullers
+        // Releasing
+        if(gamepad2.dpad_up){
+            motorPullerLeft.setPower(0.8);
+            motorPullerRight.setPower(-0.8);
+        }
+        else if(gamepad2.dpad_down){
+            motorPullerLeft.setPower(-0.8);
+            motorPullerRight.setPower(0.8);
+        } else {
+            motorPullerLeft.setPower(0.0);
+            motorPullerRight.setPower(0.0);
+        }
+
         //Raises middle thingy
-        if (gamepad2.a){
+        /*if (gamepad2.a){
             middleRelease.setPower(1.0);
         } else{
             middleRelease.setPower(0.0);
@@ -154,6 +180,10 @@ public class TeleOp extends OpMode {
             middleRelease.setPower(-1.0);
         } else{
             middleRelease.setPower(0.0);
+        }*/
+
+        if (gamepad2.b){
+            triggerServo.setPosition(0.5);
         }
 
         //region ARM SERVO
@@ -167,7 +197,9 @@ public class TeleOp extends OpMode {
                     nextTick = System.currentTimeMillis() + 150;
                 }
             }
-        } else if (gamepad1.dpad_down) {
+        }
+
+        if (gamepad1.dpad_down) {
             if (System.currentTimeMillis() >= nextTick) {
                 if (armServoArrayCount > 0) {
                     armServoArrayCount--;
