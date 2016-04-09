@@ -46,7 +46,6 @@ public class TeleOp extends OpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
-    //DcMotor middleRelease;
     DcMotor motorTurboRight;
     DcMotor motorTurboLeft;
     DcMotor motorPullerLeft;
@@ -80,8 +79,6 @@ public class TeleOp extends OpMode {
         motorRight = hardwareMap.dcMotor.get("rMotor");
         motorRight.setDirection(DcMotor.Direction.REVERSE);
 
-        //middleRelease = hardwareMap.dcMotor.get("release");
-
         // Turbo motor -- the one in the middle
         // TODO: FINISH MAP FOR TURBO MOTORS
         motorTurboRight = hardwareMap.dcMotor.get("rTurbo");
@@ -98,9 +95,6 @@ public class TeleOp extends OpMode {
         armPosition = 0.5;
         armServo.setPosition(armPosition);
 
-        // Releases the springs on the grapple hook launcher
-        //triggerServo = hardwareMap.servo.get("trigger");
-        //triggerServo.setPosition(0.0);
     }
     //endregion
 
@@ -154,7 +148,7 @@ public class TeleOp extends OpMode {
         motorTurboLeft.setPower(left2);
         //endregion
 
-        // Wire pullers
+        //region WIRE PULLER
         // Releasing
         if(gamepad2.dpad_up){
             motorPullerLeft.setPower(0.8);
@@ -167,21 +161,9 @@ public class TeleOp extends OpMode {
             motorPullerLeft.setPower(0.0);
             motorPullerRight.setPower(0.0);
         }
+        //endregion
 
-        //Raises middle thingy
-        /*if (gamepad2.a){
-            middleRelease.setPower(1.0);
-        } else{
-            middleRelease.setPower(0.0);
-        }
-
-        //Lowers middle thingy
-        if (gamepad2.y){
-            middleRelease.setPower(-1.0);
-        } else{
-            middleRelease.setPower(0.0);
-        }*/
-
+        // Drop the middle belts
         if (gamepad2.b){
             triggerServo.setPosition(0.5);
         }
