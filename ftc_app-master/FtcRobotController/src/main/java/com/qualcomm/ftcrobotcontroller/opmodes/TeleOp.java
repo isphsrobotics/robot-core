@@ -101,7 +101,7 @@ public class TeleOp extends OpMode {
 
         // Releases the springs on the grapple hook launcher
         triggerServo = hardwareMap.servo.get("trigger");
-        triggerServo.setPosition(0.0);
+        triggerServo.setPosition(0.1);
 
         middleRelease = hardwareMap.servo.get("release");
         middleRelease.setPosition(0.0);
