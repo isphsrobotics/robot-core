@@ -50,15 +50,16 @@ public class TeleOp extends OpMode {
     //DcMotor motorTurboLeft;
     //DcMotor motorPullerLeft;
     DcMotor motorPuller;
-    Servo armServo;
     Servo triggerServo;
-    Servo middleRelease;
-
+    //Servo middleRelease;
+    Servo pipeGrabberLeft;
+    Servo pipeGrabberRight;
+    Servo climberArmLeft;
+    Servo climberArmRight;
 
     double armPosition;
     long nextTick = System.currentTimeMillis();
     int armServoArrayCount = 9;
-
 
     /**
      * Constructor
@@ -81,30 +82,22 @@ public class TeleOp extends OpMode {
         motorRight = hardwareMap.dcMotor.get("rMotor");
         motorRight.setDirection(DcMotor.Direction.REVERSE);
 
-        //middleRelease = hardwareMap.dcMotor.get("release");
-
-        // Turbo motor -- the one in the middle
-        // TODO: FINISH MAP FOR TURBO MOTORS
-        //motorTurboRight = hardwareMap.dcMotor.get("rTurbo");
-        //motorTurboLeft = hardwareMap.dcMotor.get("lTurbo");
-        //motorTurboRight.setDirection(DcMotor.Direction.REVERSE);
-
         // Grapple hook string puller
-        //motorPullerLeft = hardwareMap.dcMotor.get("lpuller");
         motorPuller = hardwareMap.dcMotor.get("puller");
-
-        // Lifts and lowers the middle turbo motor
-        armServo = hardwareMap.servo.get("armServo");
-
-        armPosition = 0.5;
-        armServo.setPosition(armPosition);
 
         // Releases the springs on the grapple hook launcher
         triggerServo = hardwareMap.servo.get("trigger");
         triggerServo.setPosition(0.1);
 
-        middleRelease = hardwareMap.servo.get("release");
-        middleRelease.setPosition(0.0);
+        pipeGrabberLeft = hardwareMap.servo.get("grabLeft");
+        pipeGrabberRight = hardwareMap.servo.get("grabRight");
+        pipeGrabberLeft.setPosition(0.0);
+        pipeGrabberRight.setPosition(1.0);
+
+        climberArmLeft = hardwareMap.servo.get("armLeft");
+        climberArmRight = hardwareMap.servo.get("armRight");
+        climberArmLeft.setPosition(0.5);
+        climberArmRight.setPosition(0.4);
     }
     //endregion
 
@@ -138,37 +131,14 @@ public class TeleOp extends OpMode {
         motorLeft.setPower(left1);
         //endregion
 
-        //region TURBO
-        // ## TURBO MOTOR ##
-        // Gets values from joysticks
-        //float right2 = gamepad2.right_stick_y;
-        //float left2 = gamepad2.left_stick_y;
-
-        // clip the right/left values so that the values never exceed +/- 1
-        //right2 = Range.clip(right2, -1, 1);
-        //left2 = Range.clip(left2, (float) -1.0, (float) 1.0);
-
-        // scale the joystick value with custom method to make it easier to control
-        // the robot more precisely at slower speeds.
-        //right2 = (float) scaleInput(right2);
-        //left2 = (float) scaleInput(left2);
-
-        // write values from vars to the motors
-        //motorTurboRight.setPower(right2);
-        //motorTurboLeft.setPower(left2);
-        //endregion
-
         // Wire pullers
         // Releasing
         if(gamepad2.dpad_up){
-            //motorPullerLeft.setPower(0.8);
             motorPuller.setPower(-0.8);
         }
         else if(gamepad2.dpad_down){
-            //motorPullerLeft.setPower(-0.8);
             motorPuller.setPower(0.8);
         } else {
-            //motorPullerLeft.setPower(0.0);
             motorPuller.setPower(0.0);
         }
 
@@ -176,8 +146,30 @@ public class TeleOp extends OpMode {
             triggerServo.setPosition(0.5);
         }
 
-        if (gamepad2.dpad_left){
-            middleRelease.setPosition(0.5);
+        if (gamepad2.y){
+            pipeGrabberLeft.setPosition(0.5);
+            pipeGrabberRight.setPosition(0.5);
+        }
+
+        if (gamepad2.x) {
+            pipeGrabberLeft.setPosition(0.0);
+            pipeGrabberRight.setPosition(1.0);
+        }
+
+        if (gamepad2.left_bumper) {
+            climberArmLeft.setPosition(0.0);
+        }
+
+        if (gamepad2.left_stick_button) {
+            climberArmLeft.setPosition(0.5);
+        }
+
+        if (gamepad2.right_bumper) {
+            climberArmRight.setPosition(0.8);
+        }
+
+        if (gamepad2.right_stick_button) {
+            climberArmRight.setPosition(0.4);
         }
 
         //region ARM SERVO
@@ -187,7 +179,7 @@ public class TeleOp extends OpMode {
             if (System.currentTimeMillis() >= nextTick) {
                 if (armServoArrayCount < armServoArray.length - 1) {
                     armServoArrayCount++;
-                    armServo.setPosition(armServoArray[armServoArrayCount]);
+                    //armServo.setPosition(armServoArray[armServoArrayCount]);
                     nextTick = System.currentTimeMillis() + 150;
                 }
             }
@@ -197,7 +189,7 @@ public class TeleOp extends OpMode {
             if (System.currentTimeMillis() >= nextTick) {
                 if (armServoArrayCount > 0) {
                     armServoArrayCount--;
-                    armServo.setPosition(armServoArray[armServoArrayCount]);
+                    //armServo.setPosition(armServoArray[armServoArrayCount]);
                     nextTick = System.currentTimeMillis() + 150;
                 }
             }
