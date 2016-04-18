@@ -147,8 +147,8 @@ public class TeleOp extends OpMode {
         }
 
         if (gamepad2.y){
-            pipeGrabberLeft.setPosition(0.5);
-            pipeGrabberRight.setPosition(0.5);
+            pipeGrabberLeft.setPosition(0.7);
+            pipeGrabberRight.setPosition(0.3);
         }
 
         if (gamepad2.x) {
