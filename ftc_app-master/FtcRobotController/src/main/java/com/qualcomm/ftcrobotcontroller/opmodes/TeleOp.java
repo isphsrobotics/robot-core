@@ -88,8 +88,8 @@ public class TeleOp extends OpMode {
 
         climberArmLeft = hardwareMap.servo.get("armLeft");
         climberArmRight = hardwareMap.servo.get("armRight");
-        climberArmLeft.setPosition(0.5);
-        climberArmRight.setPosition(0.4);
+        climberArmLeft.setPosition(1.0);
+        climberArmRight.setPosition(0.0);
     }
     //endregion
 
@@ -150,19 +150,27 @@ public class TeleOp extends OpMode {
         }
 
         if (gamepad2.left_bumper) {
-            climberArmLeft.setPosition(0.0);
+            climberArmLeft.setPosition(0.3);
+        }
+
+        if (gamepad2.dpad_left) {
+            climberArmLeft.setPosition(0.1);
         }
 
         if (gamepad2.left_stick_button) {
-            climberArmLeft.setPosition(0.5);
+            climberArmLeft.setPosition(1.0);
         }
 
         if (gamepad2.right_bumper) {
-            climberArmRight.setPosition(0.8);
+            climberArmRight.setPosition(0.7);
+        }
+
+        if (gamepad2.dpad_right) {
+            climberArmRight.setPosition(0.9);
         }
 
         if (gamepad2.right_stick_button) {
-            climberArmRight.setPosition(0.4);
+            climberArmRight.setPosition(0.0);
         }
     }
 
