@@ -132,6 +132,7 @@ public class TeleOp extends OpMode {
         //endregion
 
         // Wire pullers
+
         // Releasing
         if(gamepad2.dpad_up){
             motorPuller.setPower(-0.8);
@@ -141,7 +142,7 @@ public class TeleOp extends OpMode {
         } else {
             motorPuller.setPower(0.0);
         }
-
+        //endregion
         if (gamepad2.a){
             triggerServo.setPosition(0.5);
         }

@@ -1,6 +1,8 @@
 # robot-core - FTC Robotics Prague
 ----
 
+# Please work on the `new-robot-hardware` branch until it gets merged to master. This is where all of the newest code is.
+
 ## 00 - intro
 
 This is the main code repository for the FTC Robotics team at the International School of Prague, for the competition that will happen on the 5th of February 2016 at ISP. This repo contains the main Android Studio project, as well as other extra files that help with the competition.
