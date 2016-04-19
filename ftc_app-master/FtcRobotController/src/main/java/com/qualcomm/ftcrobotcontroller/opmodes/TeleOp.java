@@ -46,20 +46,12 @@ public class TeleOp extends OpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
-    //DcMotor motorTurboRight;
-    //DcMotor motorTurboLeft;
-    //DcMotor motorPullerLeft;
     DcMotor motorPuller;
     Servo triggerServo;
-    //Servo middleRelease;
     Servo pipeGrabberLeft;
     Servo pipeGrabberRight;
     Servo climberArmLeft;
     Servo climberArmRight;
-
-    double armPosition;
-    long nextTick = System.currentTimeMillis();
-    int armServoArrayCount = 9;
 
     /**
      * Constructor
@@ -131,7 +123,7 @@ public class TeleOp extends OpMode {
         motorLeft.setPower(left1);
         //endregion
 
-        // Wire pullers
+        //region Wire pullers
 
         // Releasing
         if(gamepad2.dpad_up){
@@ -172,30 +164,6 @@ public class TeleOp extends OpMode {
         if (gamepad2.right_stick_button) {
             climberArmRight.setPosition(0.4);
         }
-
-        //region ARM SERVO
-        // ## TURBO RAISE/LOWER ##
-        double[] armServoArray = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
-        if (gamepad1.dpad_up) {
-            if (System.currentTimeMillis() >= nextTick) {
-                if (armServoArrayCount < armServoArray.length - 1) {
-                    armServoArrayCount++;
-                    //armServo.setPosition(armServoArray[armServoArrayCount]);
-                    nextTick = System.currentTimeMillis() + 150;
-                }
-            }
-        }
-
-        if (gamepad1.dpad_down) {
-            if (System.currentTimeMillis() >= nextTick) {
-                if (armServoArrayCount > 0) {
-                    armServoArrayCount--;
-                    //armServo.setPosition(armServoArray[armServoArrayCount]);
-                    nextTick = System.currentTimeMillis() + 150;
-                }
-            }
-        }
-        //endregion
     }
 
     /*
