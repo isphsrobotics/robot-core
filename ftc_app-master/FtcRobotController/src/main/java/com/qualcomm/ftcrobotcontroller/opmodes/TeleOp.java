@@ -142,7 +142,7 @@ public class TeleOp extends OpMode {
             motorPuller.setPower(0.0);
         }
 
-        if (gamepad2.b){
+        if (gamepad2.a){
             triggerServo.setPosition(0.5);
         }
 
