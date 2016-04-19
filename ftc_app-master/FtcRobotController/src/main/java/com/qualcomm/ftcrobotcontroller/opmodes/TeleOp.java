@@ -80,7 +80,7 @@ public class TeleOp extends OpMode {
         // Main motors (wheels) -- reverse one of them
         motorLeft = hardwareMap.dcMotor.get("lMotor");
         motorRight = hardwareMap.dcMotor.get("rMotor");
-        motorRight.setDirection(DcMotor.Direction.REVERSE);
+        motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         // Grapple hook string puller
         motorPuller = hardwareMap.dcMotor.get("puller");
