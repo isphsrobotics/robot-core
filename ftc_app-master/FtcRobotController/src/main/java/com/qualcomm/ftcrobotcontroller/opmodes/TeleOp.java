@@ -100,7 +100,19 @@ public class TeleOp extends OpMode {
 		/*
          * ## Gamepad 1 Controls ##
 		 * 
-		 * TODO: Summarise controls
+		 * Left joystick: Left wheels
+		 * Right joystick: Right wheels
+		 *
+		 * ## Gamepad 2 Controls ##
+		 *
+		 * Dpad up/down: grappling hook puller
+		 * A: shoot grappling hook
+		 * Y: pipe grabbers forward
+		 * X: pipe grabbers backward
+		 * L/R bumpers: climber release lower pos
+		 * Dpad l/r: climber release higher pos
+		 * Joystick press: reset climber release
+		 *
 		 */
 
         //region WHEELS
@@ -123,9 +135,7 @@ public class TeleOp extends OpMode {
         motorLeft.setPower(left1);
         //endregion
 
-        //region Wire pullers
-
-        // Releasing
+        //region Grapple puller
         if(gamepad2.dpad_up){
             motorPuller.setPower(-0.8);
         }
@@ -135,43 +145,53 @@ public class TeleOp extends OpMode {
             motorPuller.setPower(0.0);
         }
         //endregion
+
+        // Grappling hook shooting
         if (gamepad2.a){
             triggerServo.setPosition(0.5);
         }
 
+        //region Top pipe grabbers
+        // Forward (grab)
         if (gamepad2.y){
             pipeGrabberLeft.setPosition(0.7);
             pipeGrabberRight.setPosition(0.3);
         }
 
+        // Backward  (release)
         if (gamepad2.x) {
             pipeGrabberLeft.setPosition(0.0);
             pipeGrabberRight.setPosition(1.0);
         }
+        //endregion\
 
+        //region Climber release arms
+
+        // Lower position
         if (gamepad2.left_bumper) {
             climberArmLeft.setPosition(0.3);
         }
-
-        if (gamepad2.dpad_left) {
-            climberArmLeft.setPosition(0.1);
-        }
-
-        if (gamepad2.left_stick_button) {
-            climberArmLeft.setPosition(1.0);
-        }
-
         if (gamepad2.right_bumper) {
             climberArmRight.setPosition(0.7);
         }
 
+        // Higher position
+        if (gamepad2.dpad_left) {
+            climberArmLeft.setPosition(0.1);
+        }
         if (gamepad2.dpad_right) {
             climberArmRight.setPosition(0.9);
         }
 
+        // Reset position to top
         if (gamepad2.right_stick_button) {
             climberArmRight.setPosition(0.0);
         }
+        if (gamepad2.left_stick_button) {
+            climberArmLeft.setPosition(1.0);
+        }
+
+        //endregion
     }
 
     /*
