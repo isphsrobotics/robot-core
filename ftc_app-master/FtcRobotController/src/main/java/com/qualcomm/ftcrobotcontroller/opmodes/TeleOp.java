@@ -102,13 +102,13 @@ public class TeleOp extends OpMode {
 		 * 
 		 * Left joystick: Left wheels
 		 * Right joystick: Right wheels
+		 * Y: pipe grabbers forward
+		 * X: pipe grabbers backward
 		 *
 		 * ## Gamepad 2 Controls ##
 		 *
 		 * Dpad up/down: grappling hook puller
 		 * A: shoot grappling hook
-		 * Y: pipe grabbers forward
-		 * X: pipe grabbers backward
 		 * L/R bumpers: climber release lower pos
 		 * Dpad l/r: climber release higher pos
 		 * Joystick press: reset climber release
@@ -153,13 +153,13 @@ public class TeleOp extends OpMode {
 
         //region Top pipe grabbers
         // Forward (grab)
-        if (gamepad2.y){
+        if (gamepad1.y){
             pipeGrabberLeft.setPosition(0.7);
             pipeGrabberRight.setPosition(0.3);
         }
 
         // Backward  (release)
-        if (gamepad2.x) {
+        if (gamepad1.x) {
             pipeGrabberLeft.setPosition(0.0);
             pipeGrabberRight.setPosition(1.0);
         }
