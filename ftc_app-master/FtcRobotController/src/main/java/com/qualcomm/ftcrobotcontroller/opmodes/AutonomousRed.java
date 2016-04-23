@@ -37,13 +37,14 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 public class AutonomousRed extends LinearOpMode {
 
-    DcMotor motorRight;
+DcMotor motorRight;
     DcMotor motorLeft;
-    DcMotor motorTurbo;
-    DcMotor middleRelease;
-    DcMotor tapeMotor;
-    Servo leftServo;
-    Servo tapeServo;
+    DcMotor motorPuller;
+    Servo triggerServo;
+    Servo pipeGrabberLeft;
+    Servo pipeGrabberRight;
+    Servo climberArmLeft;
+    Servo climberArmRight;
 
     /*
        * Code to run when the op mode is first enabled goes here
@@ -52,26 +53,27 @@ public class AutonomousRed extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        motorRight = hardwareMap.dcMotor.get("mRight");
-        motorLeft = hardwareMap.dcMotor.get("mLeft");
+        // Main motors (wheels) -- reverse one of them
+        motorLeft = hardwareMap.dcMotor.get("lMotor");
+        motorRight = hardwareMap.dcMotor.get("rMotor");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
-        // Turbo motor -- the one in the middle
-        motorTurbo = hardwareMap.dcMotor.get("mMid");
+        // Grapple hook string puller
+        motorPuller = hardwareMap.dcMotor.get("puller");
 
-        // Lifts and lowers the middle turbo motor
-        middleRelease = hardwareMap.dcMotor.get("mRelease");
+        // Releases the springs on the grapple hook launcher
+        triggerServo = hardwareMap.servo.get("trigger");
+        triggerServo.setPosition(0.1);
 
-        // For big pull ups -- measureable muscle
-        tapeMotor = hardwareMap.dcMotor.get("tapeRelease");
-        tapeMotor.setDirection(DcMotor.Direction.REVERSE);
+        pipeGrabberLeft = hardwareMap.servo.get("grabLeft");
+        pipeGrabberRight = hardwareMap.servo.get("grabRight");
+        pipeGrabberLeft.setPosition(0.0);
+        pipeGrabberRight.setPosition(1.0);
 
-        // Lifts/lowers metal bar
-        leftServo = hardwareMap.servo.get("lservo");
-
-        // Lifts/lowers tape
-        tapeServo = hardwareMap.servo.get("tapeServo");
-        leftServo.setPosition(0.5);
+        climberArmLeft = hardwareMap.servo.get("armLeft");
+        climberArmRight = hardwareMap.servo.get("armRight");
+        climberArmLeft.setPosition(1.0);
+        climberArmRight.setPosition(0.0);
 
         // IMPORTANT: DO THIS AFTER INIT IN EVERY AUTONOMOUS (LINeAR
         try{
