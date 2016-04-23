@@ -75,7 +75,7 @@ DcMotor motorRight;
         climberArmLeft.setPosition(1.0);
         climberArmRight.setPosition(0.0);
 
-        // IMPORTANT: DO THIS AFTER INIT IN EVERY AUTONOMOUS (LINeAR
+        // IMPORTANT: DO THIS AFTER INIT IN EVERY AUTONOMOUS (LINEAR)
         try{
             waitForStart();
         }catch(InterruptedException e){

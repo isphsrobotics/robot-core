@@ -11,19 +11,24 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 public class LinearComponentTest extends LinearOpMode {
 
-    Servo pushServo;
+    Servo holderServo;
+    Servo climberArmRight;
 
     @Override
     public void runOpMode(){
-        pushServo = hardwareMap.servo.get("pushServo");
+        holderServo = hardwareMap.servo.get("holder");
+        climberArmRight = hardwareMap.servo.get("armRight");
         try {
             waitForStart();
         }catch(InterruptedException e){
 
         }
-
-        pushServo.setPosition(1.0);
-
+        if (gamepad1.y) {
+            holderServo.setPosition(1.0);
+        }
+        if (gamepad1.b) {
+            climberArmRight.setPosition(0.5);
+        }
     }
 
 
