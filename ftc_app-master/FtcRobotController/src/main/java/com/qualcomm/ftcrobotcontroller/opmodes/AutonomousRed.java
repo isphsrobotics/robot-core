@@ -32,12 +32,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * TeleOp Mode
- * <p>
- *Enables control of the robot via the gamepad
+ * <p/>
+ * Enables control of the robot via the gamepad
  */
 public class AutonomousRed extends LinearOpMode {
 
-DcMotor motorRight;
+    DcMotor motorRight;
     DcMotor motorLeft;
     DcMotor motorPuller;
     Servo triggerServo;
@@ -76,50 +76,19 @@ DcMotor motorRight;
         climberArmRight.setPosition(0.0);
 
         // IMPORTANT: DO THIS AFTER INIT IN EVERY AUTONOMOUS (LINEAR)
-        try{
+        try {
             waitForStart();
-        }catch(InterruptedException e){
+        } catch (InterruptedException e) {
 
         }
 
-        double time3 = System.currentTimeMillis() + 8000;
-        while(System.currentTimeMillis() < time3){}
-
-
-        motorRight.setPower(0.9);
-        motorLeft.setPower(1.0);
-        double xTime = System.currentTimeMillis();
-        while (true) {
-            if (xTime + 100 <= System.currentTimeMillis()) {
-                motorRight.setPower(0.0);
-                motorLeft.setPower(0.0);
-                break;
-            }
-        }
-
-        motorRight.setPower(1.0);
-        motorLeft.setPower(-0.9);
-        double pTime = System.currentTimeMillis();
-        while (true) {
-            if (pTime + 800 <= System.currentTimeMillis()) {
-                motorRight.setPower(0.0);
-                motorLeft.setPower(0.0);
-                break;
-            }
+        // wait 8 seconds after the start
+        double timeTracker = System.currentTimeMillis() + 8000;
+        while (System.currentTimeMillis() < timeTracker) {
         }
 
 
-// catches up to the spot in front of the button
-        motorRight.setPower(0.9);
-        motorLeft.setPower(1.0);
-        double firstTime = System.currentTimeMillis();
-        while (true) {
-            if (firstTime + 7200 <= System.currentTimeMillis()) {
-                motorRight.setPower(0.0);
-                motorLeft.setPower(0.0);
-                break;
-            }
-        }
+        
 
     }
 }
