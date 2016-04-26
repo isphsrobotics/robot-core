@@ -22,7 +22,7 @@ import java.io.IOException;
  * THIS IS A TEMPLATE. COPY AND PASTE THIS TO CREATE THE MULTIPLE VERSIONS WHICH WE NEED
  *
  */
-public class AutonomousOpRichard extends LinearOpMode {
+public class RichardCamera extends LinearOpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
