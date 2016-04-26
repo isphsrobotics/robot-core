@@ -1,0 +1,27 @@
+## RED ##
+straight 60.96-91.44 cm
+turn L 45 deg
+straight 172.4209 cm
+turn L 45 deg
+straight 60.96 cm
+{drop the climber}
+turn L 180 deg
+straight 60.96 cm
+turn R 90 deg
+straight 60.96 cm
+turn R 45 deg
+straight up rano
+
+## BLUE ##
+straight 60.96-91.44 cm
+turn R 45 deg
+straight 172.4209 cm
+turn R 45 deg
+straight 60.96 cm
+{drop the climber}
+turn R 180 deg
+straight 60.96 cm
+turn L 90 deg
+straight 60.96 cm
+turn L 45 deg
+straight up rano
