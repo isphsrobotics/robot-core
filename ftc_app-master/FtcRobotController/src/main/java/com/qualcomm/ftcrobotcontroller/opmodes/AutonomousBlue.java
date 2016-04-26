@@ -35,7 +35,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * <p/>
  * Enables control of the robot via the gamepad
  */
-public class AutonomousRed extends LinearOpMode {
+public class AutonomousBlue extends LinearOpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
@@ -104,10 +104,10 @@ public class AutonomousRed extends LinearOpMode {
             motorRight.setPower(0.0);
         }
 
-        // turn R 45 deg
+        // turn L 45 deg
         timeTracker = System.currentTimeMillis() + 605;
         while (System.currentTimeMillis() < timeTracker) {
-            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
         }
 
         // wait for half second (just in case)
@@ -131,10 +131,10 @@ public class AutonomousRed extends LinearOpMode {
             motorRight.setPower(0.0);
         }
 
-        // turn R 45 deg
+        // turn L 45 deg
         timeTracker = System.currentTimeMillis() + 605;
         while (System.currentTimeMillis() < timeTracker) {
-            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
         }
 
         // wait for half second (just in case)
@@ -163,10 +163,10 @@ public class AutonomousRed extends LinearOpMode {
 
         //region BACK TO RAMP
         // FIXME: If not enough time, don't turn and instead go backwards!
-        // turn R 180 deg
+        // turn L 180 deg
         timeTracker = System.currentTimeMillis() + 2423;
         while (System.currentTimeMillis() < timeTracker) {
-            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
         }
 
         // wait for half second (just in case)
@@ -190,10 +190,10 @@ public class AutonomousRed extends LinearOpMode {
             motorRight.setPower(0.0);
         }
 
-       // turn L 90 deg
+       // turn R 90 deg
         timeTracker = System.currentTimeMillis() + 1211;
         while (System.currentTimeMillis() < timeTracker) {
-            motorRight.setPower(1.0);
+            motorLeft.setPower(1.0);
         }
 
         // wait for half second (just in case)
@@ -217,24 +217,10 @@ public class AutonomousRed extends LinearOpMode {
             motorRight.setPower(0.0);
         }
 
-        // turn L 45 deg
+        // turn R 45 deg
         timeTracker = System.currentTimeMillis() + 606;
         while (System.currentTimeMillis() < timeTracker) {
-            motorRight.setPower(1.0);
-        }
-
-        // wait for half second (just in case)
-        timeTracker = System.currentTimeMillis() + 500;
-        while (System.currentTimeMillis() < timeTracker) {
-            motorLeft.setPower(0.0);
-            motorRight.setPower(0.0);
-        }
-
-        // forward 1 square
-        timeTracker = System.currentTimeMillis() + 1194;
-        while (System.currentTimeMillis() < timeTracker) {
             motorLeft.setPower(1.0);
-            motorRight.setPower(1.0);
         }
 
         // wait for half second (just in case)
@@ -243,6 +229,7 @@ public class AutonomousRed extends LinearOpMode {
             motorLeft.setPower(0.0);
             motorRight.setPower(0.0);
         }
+
 
         // forward onto the ramp
         timeTracker = System.currentTimeMillis() + 10000;
