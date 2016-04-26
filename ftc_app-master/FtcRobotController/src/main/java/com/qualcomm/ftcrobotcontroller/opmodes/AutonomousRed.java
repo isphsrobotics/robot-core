@@ -53,6 +53,7 @@ public class AutonomousRed extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        //region INIT
         // Main motors (wheels) -- reverse one of them
         motorLeft = hardwareMap.dcMotor.get("lMotor");
         motorRight = hardwareMap.dcMotor.get("rMotor");
@@ -74,6 +75,7 @@ public class AutonomousRed extends LinearOpMode {
         climberArmRight = hardwareMap.servo.get("armRight");
         climberArmLeft.setPosition(1.0);
         climberArmRight.setPosition(0.0);
+        //endregion
 
         // IMPORTANT: DO THIS AFTER INIT IN EVERY AUTONOMOUS (LINEAR)
         try {
@@ -82,14 +84,177 @@ public class AutonomousRed extends LinearOpMode {
 
         }
 
-        // wait 8 seconds after the start
-        double timeTracker = System.currentTimeMillis() + 8000;
+        //region GOING TO BOX
+        // wait 1 sec after the start
+        double timeTracker = System.currentTimeMillis() + 1000;
         while (System.currentTimeMillis() < timeTracker) {
         }
 
+        // move forward one square
+        timeTracker = System.currentTimeMillis() + 1552;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
+        }
 
-        
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
 
+        // turn R 45 deg
+        timeTracker = System.currentTimeMillis() + 605;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(1.0);
+        }
+
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+
+        // forward 3 squares
+        timeTracker = System.currentTimeMillis() + 3377;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
+        }
+
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+
+        // turn R 45 deg
+        timeTracker = System.currentTimeMillis() + 605;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(1.0);
+        }
+
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+
+        // move forward 1 square
+        timeTracker = System.currentTimeMillis() + 1194;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
+        }
+
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+        //endregion
+
+        // DROP CLIMBER
+
+        //region BACK TO RAMP
+        // FIXME: If not enough time, don't turn and instead go backwards!
+        // turn R 180 deg
+        timeTracker = System.currentTimeMillis() + 2423;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(1.0);
+        }
+
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+
+        // forward 1 square
+        timeTracker = System.currentTimeMillis() + 1194;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
+        }
+
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+
+       // turn L 90 deg
+        timeTracker = System.currentTimeMillis() + 1211;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorRight.setPower(1.0);
+        }
+
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+
+        // forward 1 square
+        timeTracker = System.currentTimeMillis() + 1194;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
+        }
+
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+
+        // turn L 45 deg
+        timeTracker = System.currentTimeMillis() + 1194;
+        while (System.currentTimeMillis() < timeTracker) {
+
+        }
+
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+
+        // forward 1 square
+        timeTracker = System.currentTimeMillis() + 1194;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
+        }
+
+        // wait for half second (just in case)
+        timeTracker = System.currentTimeMillis() + 500;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+
+        // forward onto the ramp
+        timeTracker = System.currentTimeMillis() + 10000;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
+        }
+
+        motorLeft.setPower(0.0);
+        motorRight.setPower(0.0);
+
+        //endregion
     }
 }
 
