@@ -40,7 +40,6 @@ public class AutonomousBlue extends LinearOpMode {
     DcMotor motorRight;
     DcMotor motorLeft;
     DcMotor motorPuller;
-    Servo triggerServo;
     Servo pipeGrabberLeft;
     Servo pipeGrabberRight;
     Servo climberArmLeft;
@@ -62,10 +61,6 @@ public class AutonomousBlue extends LinearOpMode {
 
         // Grapple hook string puller
         motorPuller = hardwareMap.dcMotor.get("puller");
-
-        // Releases the springs on the grapple hook launcher
-        triggerServo = hardwareMap.servo.get("trigger");
-        triggerServo.setPosition(0.1);
 
         pipeGrabberLeft = hardwareMap.servo.get("grabLeft");
         pipeGrabberRight = hardwareMap.servo.get("grabRight");
