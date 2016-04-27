@@ -52,6 +52,7 @@ public class TeleOp extends OpMode {
     Servo pipeGrabberRight;
     Servo climberArmLeft;
     Servo climberArmRight;
+    Servo climberHolder;
 
     /**
      * Constructor
@@ -90,6 +91,9 @@ public class TeleOp extends OpMode {
         climberArmRight = hardwareMap.servo.get("armRight");
         climberArmLeft.setPosition(1.0);
         climberArmRight.setPosition(0.0);
+
+        climberHolder = hardwareMap.servo.get("holder");
+        climberHolder.setPosition(1.0);
     }
     //endregion
 
