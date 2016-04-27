@@ -45,6 +45,7 @@ public class AutonomousRed extends LinearOpMode {
     Servo pipeGrabberRight;
     Servo climberArmLeft;
     Servo climberArmRight;
+    Servo climberHolderServo;
 
     /*
        * Code to run when the op mode is first enabled goes here
@@ -75,6 +76,9 @@ public class AutonomousRed extends LinearOpMode {
         climberArmRight = hardwareMap.servo.get("armRight");
         climberArmLeft.setPosition(1.0);
         climberArmRight.setPosition(0.0);
+
+        climberHolderServo = hardwareMap.servo.get("holder");
+        climberHolderServo.setPosition(1.0);
         //endregion
 
         // IMPORTANT: DO THIS AFTER INIT IN EVERY AUTONOMOUS (LINEAR)
@@ -160,6 +164,17 @@ public class AutonomousRed extends LinearOpMode {
         //endregion
 
         // DROP CLIMBER
+        climberHolderServo.setPosition(0.1);
+
+        // wait for 1 second (just in case)
+        timeTracker = System.currentTimeMillis() + 1000;
+        while (System.currentTimeMillis() < timeTracker) {
+            motorLeft.setPower(0.0);
+            motorRight.setPower(0.0);
+        }
+
+        // Lift holder arm
+        climberHolderServo.setPosition(1.0);
 
         //region BACK TO RAMP
         // FIXME: If not enough time, don't turn and instead go backwards!

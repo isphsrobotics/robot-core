@@ -47,11 +47,12 @@ public class TeleOp extends OpMode {
     DcMotor motorRight;
     DcMotor motorLeft;
     DcMotor motorPuller;
-    Servo triggerServo;
+    DcMotor tapeAngler;
     Servo pipeGrabberLeft;
     Servo pipeGrabberRight;
     Servo climberArmLeft;
     Servo climberArmRight;
+    Servo climberHolderServo;
 
     /**
      * Constructor
@@ -77,9 +78,8 @@ public class TeleOp extends OpMode {
         // Grapple hook string puller
         motorPuller = hardwareMap.dcMotor.get("puller");
 
-        // Releases the springs on the grapple hook launcher
-        triggerServo = hardwareMap.servo.get("trigger");
-        triggerServo.setPosition(0.1);
+        // Tape angler
+        tapeAngler = hardwareMap.dcMotor.get("tapeAngler");
 
         pipeGrabberLeft = hardwareMap.servo.get("grabLeft");
         pipeGrabberRight = hardwareMap.servo.get("grabRight");
@@ -90,6 +90,9 @@ public class TeleOp extends OpMode {
         climberArmRight = hardwareMap.servo.get("armRight");
         climberArmLeft.setPosition(1.0);
         climberArmRight.setPosition(0.0);
+
+        climberHolderServo = hardwareMap.servo.get("holder");
+        climberHolderServo.setPosition(1.0);
     }
     //endregion
 
@@ -107,8 +110,8 @@ public class TeleOp extends OpMode {
 		 *
 		 * ## Gamepad 2 Controls ##
 		 *
-		 * Dpad up/down: grappling hook puller
-		 * A: shoot grappling hook
+		 * Dpad up/down: tape puller
+		 * Y/A: angle the tape
 		 * L/R bumpers: climber release lower pos
 		 * Dpad l/r: climber release higher pos
 		 * Joystick press: reset climber release
@@ -146,9 +149,15 @@ public class TeleOp extends OpMode {
         }
         //endregion
 
-        // Grappling hook shooting
+        // Tape angling
         if (gamepad2.a){
-            triggerServo.setPosition(0.5);
+            tapeAngler.setPower(0.2);
+        }
+        else  if (gamepad2.y) {
+            tapeAngler.setPower(-0.2);
+        }
+        else {
+            tapeAngler.setPower(0.0);
         }
 
         //region Top pipe grabbers
