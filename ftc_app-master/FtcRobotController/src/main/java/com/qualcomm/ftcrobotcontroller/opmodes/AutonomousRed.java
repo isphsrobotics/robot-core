@@ -57,7 +57,7 @@ public class AutonomousRed extends LinearOpMode {
         // Main motors (wheels) -- reverse one of them
         motorLeft = hardwareMap.dcMotor.get("lMotor");
         motorRight = hardwareMap.dcMotor.get("rMotor");
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorRight.setDirection(DcMotor.Direction.REVERSE);
 
         // Grapple hook string puller
         motorPuller = hardwareMap.dcMotor.get("puller");
@@ -90,7 +90,7 @@ public class AutonomousRed extends LinearOpMode {
         }
 
         // move forward one square
-        timeTracker = System.currentTimeMillis() + 1552;
+        timeTracker = System.currentTimeMillis() + 1470;
         while (System.currentTimeMillis() < timeTracker) {
             motorLeft.setPower(1.0);
             motorRight.setPower(1.0);
@@ -103,10 +103,10 @@ public class AutonomousRed extends LinearOpMode {
             motorRight.setPower(0.0);
         }
 
-        // turn R 45 deg
+        // turn L 45 deg
         timeTracker = System.currentTimeMillis() + 605;
         while (System.currentTimeMillis() < timeTracker) {
-            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
         }
 
         // wait for half second (just in case)
@@ -130,10 +130,10 @@ public class AutonomousRed extends LinearOpMode {
             motorRight.setPower(0.0);
         }
 
-        // turn R 45 deg
+        // turn L 45 deg
         timeTracker = System.currentTimeMillis() + 605;
         while (System.currentTimeMillis() < timeTracker) {
-            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
         }
 
         // wait for half second (just in case)
@@ -168,15 +168,15 @@ public class AutonomousRed extends LinearOpMode {
             motorRight.setPower(0.0);
         }
 
-        // Lift holder arm
+        // Lift climber holder arm
         climberHolderServo.setPosition(1.0);
 
         //region BACK TO RAMP
         // FIXME: If not enough time, don't turn and instead go backwards!
-        // turn R 180 deg
+        // turn L 180 deg
         timeTracker = System.currentTimeMillis() + 2423;
         while (System.currentTimeMillis() < timeTracker) {
-            motorLeft.setPower(1.0);
+            motorRight.setPower(1.0);
         }
 
         // wait for half second (just in case)
@@ -200,10 +200,10 @@ public class AutonomousRed extends LinearOpMode {
             motorRight.setPower(0.0);
         }
 
-       // turn L 90 deg
+       // turn R 90 deg
         timeTracker = System.currentTimeMillis() + 1211;
         while (System.currentTimeMillis() < timeTracker) {
-            motorRight.setPower(1.0);
+            motorLeft.setPower(1.0);
         }
 
         // wait for half second (just in case)
@@ -227,24 +227,10 @@ public class AutonomousRed extends LinearOpMode {
             motorRight.setPower(0.0);
         }
 
-        // turn L 45 deg
+        // turn R 45 deg
         timeTracker = System.currentTimeMillis() + 606;
         while (System.currentTimeMillis() < timeTracker) {
-            motorRight.setPower(1.0);
-        }
-
-        // wait for half second (just in case)
-        timeTracker = System.currentTimeMillis() + 500;
-        while (System.currentTimeMillis() < timeTracker) {
-            motorLeft.setPower(0.0);
-            motorRight.setPower(0.0);
-        }
-
-        // forward 1 square
-        timeTracker = System.currentTimeMillis() + 1194;
-        while (System.currentTimeMillis() < timeTracker) {
             motorLeft.setPower(1.0);
-            motorRight.setPower(1.0);
         }
 
         // wait for half second (just in case)
@@ -253,6 +239,7 @@ public class AutonomousRed extends LinearOpMode {
             motorLeft.setPower(0.0);
             motorRight.setPower(0.0);
         }
+
 
         // forward onto the ramp
         timeTracker = System.currentTimeMillis() + 10000;

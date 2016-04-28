@@ -92,7 +92,7 @@ public class TeleOp extends OpMode {
         climberArmRight.setPosition(0.0);
 
         climberHolderServo = hardwareMap.servo.get("holder");
-        climberHolderServo.setPosition(1.0);
+        climberHolderServo.setPosition(0.0);
     }
     //endregion
 
