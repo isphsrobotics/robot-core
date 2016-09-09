@@ -43,16 +43,9 @@ import com.qualcomm.robotcore.util.Range;
  */
 public class TeleOp extends OpMode {
 
-
     DcMotor motorRight;
     DcMotor motorLeft;
-    DcMotor motorPuller;
-    DcMotor tapeAngler;
-    Servo pipeGrabberLeft;
-    Servo pipeGrabberRight;
-    Servo climberArmLeft;
-    Servo climberArmRight;
-    Servo climberHolderServo;
+    DcMotor motorMiddle;
 
     /**
      * Constructor
@@ -69,30 +62,11 @@ public class TeleOp extends OpMode {
      */
     @Override
     public void init() {
-
         // Main motors (wheels) -- reverse one of them
         motorLeft = hardwareMap.dcMotor.get("lMotor");
         motorRight = hardwareMap.dcMotor.get("rMotor");
+        motorMiddle = hardwareMap.dcMotor.get("mMotor");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
-
-        // Grapple hook string puller
-        motorPuller = hardwareMap.dcMotor.get("puller");
-
-        // Tape angler
-        tapeAngler = hardwareMap.dcMotor.get("tapeAngler");
-
-        pipeGrabberLeft = hardwareMap.servo.get("grabLeft");
-        pipeGrabberRight = hardwareMap.servo.get("grabRight");
-        pipeGrabberLeft.setPosition(0.0);
-        pipeGrabberRight.setPosition(1.0);
-
-        climberArmLeft = hardwareMap.servo.get("armLeft");
-        climberArmRight = hardwareMap.servo.get("armRight");
-        climberArmLeft.setPosition(1.0);
-        climberArmRight.setPosition(0.0);
-
-        climberHolderServo = hardwareMap.servo.get("holder");
-        climberHolderServo.setPosition(0.0);
     }
     //endregion
 
@@ -100,106 +74,28 @@ public class TeleOp extends OpMode {
     @Override
     public void loop() {
 
-		/*
-         * ## Gamepad 1 Controls ##
-		 * 
-		 * Left joystick: Left wheels
-		 * Right joystick: Right wheels
-		 * Y: pipe grabbers forward
-		 * X: pipe grabbers backward
-		 *
-		 * ## Gamepad 2 Controls ##
-		 *
-		 * Dpad up/down: tape puller
-		 * Y/A: angle the tape
-		 * L/R bumpers: climber release lower pos
-		 * Dpad l/r: climber release higher pos
-		 * Joystick press: reset climber release
-		 *
-		 */
-
         //region WHEELS
         // ## WHEEL MOTORS ##
         // Gets values from joysticks
         float right1 = gamepad1.right_stick_y;
         float left1 = gamepad1.left_stick_y;
+        float mid1 = gamepad1.right_stick_x;
 
         // clip the right/left values so that the values never exceed +/- 1
         right1 = Range.clip(right1, -1, 1);
         left1 = Range.clip(left1, (float) -1.0, (float) 1.0);
+        mid1 = Range.clip(left1, (float) -1.0, (float) 1.0);
 
         // scale the joystick value with custom method to make it easier to control
         // the robot more precisely at slower speeds.
         right1 = (float) scaleInput(right1);
         left1 = (float) scaleInput(left1);
+        mid1 = (float) scaleInput(mid1);
 
         // write values from vars to the motors
         motorRight.setPower(right1);
         motorLeft.setPower(left1);
-        //endregion
-
-        //region Grapple puller
-        if(gamepad2.dpad_up){
-            motorPuller.setPower(-0.8);
-        }
-        else if(gamepad2.dpad_down){
-            motorPuller.setPower(0.8);
-        } else {
-            motorPuller.setPower(0.0);
-        }
-        //endregion
-
-        // Tape angling
-        if (gamepad2.a){
-            tapeAngler.setPower(0.2);
-        }
-        else  if (gamepad2.y) {
-            tapeAngler.setPower(-0.2);
-        }
-        else {
-            tapeAngler.setPower(0.0);
-        }
-
-        //region Top pipe grabbers
-        // Forward (grab)
-        if (gamepad1.y){
-            pipeGrabberLeft.setPosition(0.7);
-            pipeGrabberRight.setPosition(0.3);
-        }
-
-        // Backward  (release)
-        if (gamepad1.x) {
-            pipeGrabberLeft.setPosition(0.0);
-            pipeGrabberRight.setPosition(1.0);
-        }
-        //endregion\
-
-        //region Climber release arms
-
-        // Lower position
-        if (gamepad2.left_bumper) {
-            climberArmLeft.setPosition(0.3);
-        }
-        if (gamepad2.right_bumper) {
-            climberArmRight.setPosition(0.7);
-        }
-
-        // Higher position
-        if (gamepad2.dpad_left) {
-            climberArmLeft.setPosition(0.1);
-        }
-        if (gamepad2.dpad_right) {
-            climberArmRight.setPosition(0.9);
-        }
-
-        // Reset position to top
-        if (gamepad2.right_stick_button) {
-            climberArmRight.setPosition(0.0);
-        }
-        if (gamepad2.left_stick_button) {
-            climberArmLeft.setPosition(1.0);
-        }
-
+        motorMiddle.setPower(mid1);
         //endregion
     }
 
