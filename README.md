@@ -1,55 +1,60 @@
 # robot-core - FTC Robotics Prague
 ----
 
-# Please work on the `new-robot-hardware` branch until it gets merged to master. This is where all of the newest code is.
+## 00 - Intro
 
-## 00 - intro
+This is the main code repository for the FTC Robotics team at the International School of Prague. This repo contains the main Android Studio project, as well as other team files files.
 
-This is the main code repository for the FTC Robotics team at the International School of Prague, for the competition that will happen on the 5th of February 2016 at ISP. This repo contains the main Android Studio project, as well as other extra files that help with the competition.
+The main android studio code can be found under /ftc_app_master/. The main programming will be going on under the `opmodes/` folder ([direct link](ftc_app-master/FtcRobotController/src/main/java/com/qualcomm/ftcrobotcontroller/opmodes)), while minor changes will be found in the other folders.
 
-The main android studio code can be found under /ftc_app_master/. The main programming will be going on under /opmodes/ in the /src/ folder of the project, while minor changes will be found in the other folders.
+## 01 - How to 'download' this repository
 
-## 01 - how to 'download' this repository
+### GUI (Application)
 
-The best (and easiest) way to do this is to first install [Github Desktop](https://desktop.github.com) (also available through Homebrew's Caskroom, if you're familiar with that). Then, go to this repository in your browser ([link here](https://github.com/isphsrobotics/robot-core)), and click the 'save in Github Desktop' button on the top right (next to 'Download ZIP'). The Github app should open, asking you to save the repository. You can save it wherever you want, but it's best if you keep the name ('clone as') as it is.
+The best (and easiest) way to do this is to first install [Github Desktop](https://desktop.github.com) (also available through Homebrew's Caskroom, if you're familiar with that). Then, go to this repository in your browser ([link here](https://github.com/isphsrobotics/robot-core)), click the green 'Clone or download' button on the right, and click the 'save in Github Desktop' button in the menu (next to 'Download ZIP'). The Github app should open, asking you to save the repository. You can save it wherever you want, but it's best if you keep the name ('clone as') as it is.
 
-## 02 - contributors with push access
+![GIF showing cloning process](Documents/Images/cloning.gif)
+
+### Command-line
+
+You can also open Terminal and type the following commands to get the repository on your computer (the `$` symbol indicates the prompt):
+
+```
+$ cd ~/Desktop
+$ git clone https://github.com/isphsrobotics/robot-core.git
+```
+
+## 02 - Contributors with push access
 
 * @isphsrobotics
-    * This is the account used on school computers. Any robotics member can use these, however usually they are being used by either:
-    * Richard (rsedivy)
-    * Alex (insightdev)
-* @rsedivy
-    * Richard
+    * This is the account used on school computers. Any robotics member can use it, however usually it is used by Alex (insightdev).
 * @insightdev
     * Alex
 * @DanielHamill
     * Daniel
-* @drassaby
-    * This is other Danny (older one)
 * @champaru
 	* Roman
 
-## 03 - where stuff is
+## 03 - Where stuff is
 
 ###### Guide to Robotics
-Alex wrote a guide to how all of this works, you can find it in the root directory of the repo. The file is called robotics-guide.pdf. You can also [follow this link](https://github.com/isphsrobotics/robot-core/blob/master/robotics-guide.pdf).
+Alex wrote a (albeit very basic) guide to how all of this works, you can find it in the root directory of the repo. The file is called robotics-guide.pdf. You can also [follow this link](https://github.com/isphsrobotics/robot-core/blob/master/robotics-guide.pdf).  
+Feel free to edit it if you know LaTeX.
 
 ###### Bugs, issues, and checklists
 This will be found under the Issues tab in github (press `g` `i`)
 
 ###### Other links
-To be filled in later :neutral_face:  
 
-Color sensor: https://github.com/ftctechnh/ftc_app/blob/master/FtcRobotController/src/main/java/com/qualcomm/ftcrobotcontroller/opmodes/HTRGBExample.java
+* [This year's challenge](https://www.youtube.com/watch?v=iQLrcQbm8cg)
+* [Official FTC SDK (Github)](https://github.com/ftctechnh/ftc_app)
+* [FTC subreddit](https://www.reddit.com/r/ftc)
+* [Incremental servo movement code snippet](https://gist.github.com/insightdev/9ec8d15a31d9c179d5895650be30d060)
+* [How to use the color sensor](https://github.com/ftctechnh/ftc_app/blob/master/FtcRobotController/src/main/java/com/qualcomm/ftcrobotcontroller/opmodes/HTRGBExample.java)
 
-## 04 - contribution guidelines and style
+## 04 - Contributing
 
-Contribution is usually limited to the main robotics programmers (listed above), who are allowed to make any edits within reason. Programmers, please make any large changes on a new branch, as per the guide to robotics, so that it is easier to check for problems.
-
-The style of coding will be regular camelCase GNAT style code (aka the way everyone learnt java). Please do comment stuff too!
-
-If you're not from our team, we probably won't let you edit. Go write your own code!
+If you want to contribute, please read the [CONTRIBUTING](CONTRIBUTING.md) document.
 
 ----
-:copyright: *International School of Prague FTC Robotics Team 2016. All rights reserved*
+:copyright: *International School of Prague FTC Robotics Team 2016-2017. All rights reserved*
