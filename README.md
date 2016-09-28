@@ -1,6 +1,8 @@
 # robot-core - FTC Robotics Prague
 ----
 
+#  There were some major SDK updates for the new season, please read all READMEs/documentation before pushing to master.
+
 ## 00 - Intro
 
 This is the main code repository for the FTC Robotics team at the International School of Prague. This repo contains the main Android Studio project, as well as other team files files.
