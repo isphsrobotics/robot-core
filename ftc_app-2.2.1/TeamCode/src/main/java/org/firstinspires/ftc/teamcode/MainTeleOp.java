@@ -59,7 +59,7 @@ public class MainTeleOp extends OpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
-    DcMotor motorMiddle;
+    DcMotor motorHopper;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -74,8 +74,8 @@ public class MainTeleOp extends OpMode {
         // Main motors (wheels) -- reverse one of them
         motorLeft = hardwareMap.dcMotor.get("lMotor");
         motorRight = hardwareMap.dcMotor.get("rMotor");
-        motorMiddle = hardwareMap.dcMotor.get("mMotor");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorHopper = hardwareMap.dcMotor.get("hMotor");
     }
     //endregion
 
@@ -88,23 +88,27 @@ public class MainTeleOp extends OpMode {
         // Gets values from joysticks
         float right1 = gamepad1.right_stick_y;
         float left1 = gamepad1.left_stick_y;
-        float mid1 = gamepad1.right_stick_x;
 
         // clip the right/left values so that the values never exceed +/- 1
         right1 = Range.clip(right1, -1, 1);
         left1 = Range.clip(left1, (float) -1.0, (float) 1.0);
-        mid1 = Range.clip(left1, (float) -1.0, (float) 1.0);
 
         // scale the joystick value with custom method to make it easier to control
         // the robot more precisely at slower speeds.
         right1 = (float) scaleInput(right1);
         left1 = (float) scaleInput(left1);
-        mid1 = (float) scaleInput(mid1);
 
         // write values from vars to the motors
         motorRight.setPower(right1);
         motorLeft.setPower(left1);
-        motorMiddle.setPower(mid1);
+
+        // activates hopper motor
+        if(gamepad1.b) {
+            motorHopper.setPower(-0.5);
+        }
+        else {
+            motorHopper.setPower(0.0);
+        }
         //endregion
     }
 
