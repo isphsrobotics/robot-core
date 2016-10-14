@@ -59,7 +59,7 @@ public class MainTeleOp extends OpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
-    DcMotor motorHopper;
+    //DcMotor motorHopper;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -75,7 +75,7 @@ public class MainTeleOp extends OpMode {
         motorLeft = hardwareMap.dcMotor.get("lMotor");
         motorRight = hardwareMap.dcMotor.get("rMotor");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorHopper = hardwareMap.dcMotor.get("hMotor");
+        //motorHopper = hardwareMap.dcMotor.get("hMotor");
     }
     //endregion
 
@@ -102,6 +102,7 @@ public class MainTeleOp extends OpMode {
         motorRight.setPower(right1);
         motorLeft.setPower(left1);
 
+        /*
         // activates hopper motor
         if(gamepad1.b) {
             motorHopper.setPower(-0.5);
@@ -109,6 +110,7 @@ public class MainTeleOp extends OpMode {
         else {
             motorHopper.setPower(0.0);
         }
+        */
         //endregion
     }
 
