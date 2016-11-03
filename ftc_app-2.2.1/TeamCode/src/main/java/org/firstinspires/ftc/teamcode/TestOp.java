@@ -57,7 +57,7 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class TestOp extends OpMode {
 
-    
+    DcMotor motor;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -70,6 +70,8 @@ public class TestOp extends OpMode {
     @Override
     public void init() {
         // Main motors (wheels) -- reverse one of them
+        motor = hardwareMap.dcMotor.get("m");
+
 
     }
     //endregion
