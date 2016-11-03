@@ -57,7 +57,7 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class TestOp extends OpMode {
 
-    Servo test;
+    
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -70,8 +70,6 @@ public class TestOp extends OpMode {
     @Override
     public void init() {
         // Main motors (wheels) -- reverse one of them
-        test = hardwareMap.servo.get("test");
-        test.setPosition(1.0);
 
     }
     //endregion
