@@ -32,11 +32,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -53,13 +52,11 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Template: Iterative OpMode", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Template: Test teleop", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class MainTeleOp extends OpMode {
+public class TestTeleOp extends OpMode {
 
-    DcMotor motorRight;
-    DcMotor motorLeft;
-    DcMotor motorHopper;
+    DcMotor test;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -72,10 +69,15 @@ public class MainTeleOp extends OpMode {
     @Override
     public void init() {
         // Main motors (wheels) -- reverse one of them
-        motorLeft = hardwareMap.dcMotor.get("lMotor");
-        motorRight = hardwareMap.dcMotor.get("rMotor");
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorHopper = hardwareMap.dcMotor.get("hMotor");
+
+        test = hardwareMap.dcMotor.get("test");
+        test.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        test.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        test.setTargetPosition(1120);
+        
+
+
     }
     //endregion
 
@@ -83,34 +85,27 @@ public class MainTeleOp extends OpMode {
     @Override
     public void loop() {
 
-        //region WHEELS
-        // ## WHEEL MOTORS ##
-        // Gets values from joysticks
-        float right1 = gamepad1.right_stick_y;
-        float left1 = gamepad1.left_stick_y;
-
-        // clip the right/left values so that the values never exceed +/- 1
-        right1 = Range.clip(right1, -1, 1);
-        left1 = Range.clip(left1, (float) -1.0, (float) 1.0);
-
-        // scale the joystick value with custom method to make it easier to control
-        // the robot more precisely at slower speeds.
-        right1 = (float) scaleInput(right1);
-        left1 = (float) scaleInput(left1);
-
-        // write values from vars to the motors
-        motorRight.setPower(right1);
-        motorLeft.setPower(left1);
+        test.setPower(0.8);
+        test.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
+        while(test.isBusy()){
+
+        }
+
+
+        test.setPower(0.0);
+
+
+        /*
         // activates hopper motor
         if(gamepad1.b) {
-            motorHopper.setPower(-0.9);
+            motorHopper.setPower(-0.5);
         }
         else {
             motorHopper.setPower(0.0);
         }
-
+        */
         //endregion
     }
 

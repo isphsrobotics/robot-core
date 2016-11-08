@@ -59,7 +59,7 @@ public class TestAutonomous extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     DcMotor leftMotor = null;
-    DcMotor rightMotor = null;
+    //DcMotor rightMotor = null;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -71,13 +71,15 @@ public class TestAutonomous extends LinearOpMode {
          * step (using the FTC Robot Controller app on the phone).
          */
         leftMotor  = hardwareMap.dcMotor.get("lMotor");
-        rightMotor = hardwareMap.dcMotor.get("rMotor");
+        //rightMotor = hardwareMap.dcMotor.get("rMotor");
 
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftMotor.setTargetPosition(1120);
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -93,21 +95,21 @@ public class TestAutonomous extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
 
-            leftMotor.setTargetPosition(1120);
-            rightMotor.setTargetPosition(1120);
+
+            //rightMotor.setTargetPosition(1120);
 
             leftMotor.setPower(0.8);
-            rightMotor.setPower(0.8);
+            //rightMotor.setPower(0.8);
 
             leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            //rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            while(leftMotor.isBusy() && rightMotor.isBusy()){
+            while(leftMotor.isBusy()){
 
             }
 
             leftMotor.setPower(0.0);
-            rightMotor.setPower(0.0);
+            //rightMotor.setPower(0.0);
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
