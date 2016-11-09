@@ -75,7 +75,6 @@ public class TestTeleOp extends OpMode {
         test.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         test.setTargetPosition(1120);
-        
 
 
     }

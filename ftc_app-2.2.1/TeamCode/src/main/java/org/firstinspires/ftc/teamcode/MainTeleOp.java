@@ -105,7 +105,7 @@ public class MainTeleOp extends OpMode {
 
         // activates hopper motor
         if(gamepad1.b) {
-            motorHopper.setPower(-0.9);
+            motorHopper.setPower(0.6);
         }
         else {
             motorHopper.setPower(0.0);
