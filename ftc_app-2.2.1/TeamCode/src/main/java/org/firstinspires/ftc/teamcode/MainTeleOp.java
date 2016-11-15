@@ -77,7 +77,6 @@ public class MainTeleOp extends OpMode {
         motorRight = hardwareMap.dcMotor.get("rMotor");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
         motorHopper = hardwareMap.dcMotor.get("hMotor");
-        motorHopper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorLauncher = hardwareMap.dcMotor.get("launcher");
     }
     //endregion
@@ -105,16 +104,10 @@ public class MainTeleOp extends OpMode {
         motorRight.setPower(right1);
         motorLeft.setPower(left1);
 
-
-        // activates hopper motor
-        if(gamepad1.y) {
+        if(gamepad1.right_bumper) {
             motorHopper.setPower(0.6);
         }
-        else {
-            motorHopper.setPower(0.0);
-        }
-
-        if(gamepad1.a) {
+        else if(gamepad1.left_bumper) {
             motorHopper.setPower(-0.6);
         }
         else {

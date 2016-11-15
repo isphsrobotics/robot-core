@@ -114,5 +114,5 @@ public class TestAutonomous extends LinearOpMode {
 
 //            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
 //        }
-    }
+        }
 }
