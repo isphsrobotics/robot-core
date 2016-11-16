@@ -60,11 +60,11 @@ public class TestAutonomous extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     DcMotor leftMotor = null;
-    //DcMotor rightMotor = null;
+    DcMotor rightMotor = null;
 
-    int target = 1670;
+    int target = 7213;
     int startPositionL;
-    //int startPositionR;
+    int startPositionR;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -76,12 +76,13 @@ public class TestAutonomous extends LinearOpMode {
          * step (using the FTC Robot Controller app on the phone).
          */
         leftMotor  = hardwareMap.dcMotor.get("lMotor");
-        //rightMotor = hardwareMap.dcMotor.get("rMotor");
+        rightMotor = hardwareMap.dcMotor.get("rMotor");
 
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);
         startPositionL = leftMotor.getCurrentPosition();
-        //startPositionR = rightMotor.getCurrentPosition();
+        startPositionR = rightMotor.getCurrentPosition();
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -93,26 +94,26 @@ public class TestAutonomous extends LinearOpMode {
         runtime.reset();
 
         // run until the end of the match (driver presses `)
-//        while (opModeIsActive()) {
+        while (opModeIsActive()) {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
-            if(leftMotor.isBusy() /*&& rightMotor.isBusy()*/){
+            if(leftMotor.isBusy() && rightMotor.isBusy()){
 
             }
             else {
                 sleep(500);
                 leftMotor.setPower(0.5);
-                //rightMotor.setPower(0.5);
+                rightMotor.setPower(0.5);
                 leftMotor.setTargetPosition(target + startPositionL);
-                //rightMotor.setTargetPosition(target + startPositionR);
+                rightMotor.setTargetPosition(target + startPositionR);
             }
-            while(leftMotor.isBusy() /*&& rightMotor.isBusy()*/){
+            while(leftMotor.isBusy() && rightMotor.isBusy()){
             }
             leftMotor.setPower(0.0);
-//            rightMotor.setPower(0.0);
+            rightMotor.setPower(0.0);
 
 
-//            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
-//        }
+            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
+    }
 }
