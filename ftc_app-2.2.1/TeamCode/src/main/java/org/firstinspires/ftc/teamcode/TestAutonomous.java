@@ -62,9 +62,13 @@ public class TestAutonomous extends LinearOpMode {
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
 
-    int target = 7213;
+    int ticksPerMeter = 7168;
     int startPositionL;
     int startPositionR;
+
+    public double toMeter(int meters) {
+        return meters/ticksPerMeter;
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {

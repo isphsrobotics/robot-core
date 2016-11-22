@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -62,6 +63,11 @@ public class MainTeleOp extends OpMode {
     DcMotor motorLeft;
     DcMotor motorHopper;
     DcMotor motorLauncher;
+
+    Servo ballLoader;
+    double openPos;
+    double holdingPos;
+    double launchPos;
     private ElapsedTime runtime = new ElapsedTime();
 
     //region init()
@@ -72,12 +78,20 @@ public class MainTeleOp extends OpMode {
      */
     @Override
     public void init() {
+        // Launcher servo positions
+        openPos = 0.1;
+        holdingPos = 0.5;
+        launchPos = 1.0;
+
         // Main motors (wheels) -- reverse one of them
         motorLeft = hardwareMap.dcMotor.get("lMotor");
         motorRight = hardwareMap.dcMotor.get("rMotor");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
         motorHopper = hardwareMap.dcMotor.get("hMotor");
         motorLauncher = hardwareMap.dcMotor.get("launcher");
+
+        ballLoader = hardwareMap.servo.get("loader");
+        ballLoader.setPosition(openPos);
     }
     //endregion
 
@@ -104,6 +118,7 @@ public class MainTeleOp extends OpMode {
         motorRight.setPower(right1);
         motorLeft.setPower(left1);
 
+        // activates hopper motors
         if(gamepad1.right_bumper) {
             motorHopper.setPower(0.6);
         }
@@ -120,6 +135,19 @@ public class MainTeleOp extends OpMode {
         }
         else {
             motorLauncher.setPower(0.0);
+        }
+
+        // changes launcher servo positions
+        if(gamepad2.x) {
+            ballLoader.setPosition(openPos);
+        }
+
+        if(gamepad2.a) {
+            ballLoader.setPosition(holdingPos);
+        }
+
+        if(gamepad2.b) {
+            ballLoader.setPosition(launchPos);
         }
 
         //endregion
