@@ -61,8 +61,11 @@ public class MainTeleOp extends OpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
+
     DcMotor motorHopper;
-    DcMotor motorLauncher;
+
+    DcMotor motorLauncherL;
+    DcMotor motorLauncherR;
 
     Servo ballLoader;
     double openPos;
@@ -79,7 +82,7 @@ public class MainTeleOp extends OpMode {
     @Override
     public void init() {
         // Launcher servo positions
-        openPos = 0.1;
+        openPos = 0.0;
         holdingPos = 0.5;
         launchPos = 1.0;
 
@@ -87,8 +90,11 @@ public class MainTeleOp extends OpMode {
         motorLeft = hardwareMap.dcMotor.get("lMotor");
         motorRight = hardwareMap.dcMotor.get("rMotor");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
+
         motorHopper = hardwareMap.dcMotor.get("hMotor");
-        motorLauncher = hardwareMap.dcMotor.get("launcher");
+
+        motorLauncherL = hardwareMap.dcMotor.get("lLauncher");
+        motorLauncherR = hardwareMap.dcMotor.get("rLauncher");
 
         ballLoader = hardwareMap.servo.get("loader");
         ballLoader.setPosition(openPos);
@@ -131,10 +137,12 @@ public class MainTeleOp extends OpMode {
 
         // activates launcher motors
         if(gamepad2.y) {
-            motorLauncher.setPower(0.9);
+            motorLauncherL.setPower(0.9);
+            motorLauncherR.setPower(0.9);
         }
         else {
-            motorLauncher.setPower(0.0);
+            motorLauncherL.setPower(0.0);
+            motorLauncherR.setPower(0.0);
         }
 
         // changes launcher servo positions

@@ -61,6 +61,8 @@ public class TestAutonomous extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     ColorSensor colorSensor;
+    DcMotor leftMotor;
+    DcMotor rightMotor;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -73,6 +75,9 @@ public class TestAutonomous extends LinearOpMode {
          */
 
         colorSensor = hardwareMap.colorSensor.get("sensor");
+        leftMotor = hardwareMap.dcMotor.get("lMotor");
+        rightMotor = hardwareMap.dcMotor.get("rMotor");
+        colorSensor.enableLed(false);
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -86,13 +91,22 @@ public class TestAutonomous extends LinearOpMode {
         // run until the end of the match (driver presses `)
         while (opModeIsActive()) {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-
             colorSensor.enableLed(true);
-
             telemetry.addData("Alpha", colorSensor.alpha());
             telemetry.addData("ARGB", colorSensor.argb());
+            telemetry.addData("Red", colorSensor.red());
+            telemetry.addData("Green", colorSensor.green());
+            telemetry.addData("Blue", colorSensor.blue());
             telemetry.update();
 
+            if(colorSensor.alpha()<16) {
+                rightMotor.setPower(-0.5);
+                leftMotor.setPower(0.5);
+            }
+            else {
+                rightMotor.setPower(0.0);
+                leftMotor.setPower(0.0);
+            }
 
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
