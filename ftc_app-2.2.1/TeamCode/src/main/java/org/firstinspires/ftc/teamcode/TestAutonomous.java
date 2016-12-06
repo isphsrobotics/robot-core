@@ -100,8 +100,8 @@ public class TestAutonomous extends LinearOpMode {
             telemetry.update();
 
             if(colorSensor.alpha()<16) {
-                rightMotor.setPower(-0.5);
-                leftMotor.setPower(0.5);
+                rightMotor.setPower(-0.2);
+                leftMotor.setPower(0.2);
             }
             else {
                 rightMotor.setPower(0.0);
