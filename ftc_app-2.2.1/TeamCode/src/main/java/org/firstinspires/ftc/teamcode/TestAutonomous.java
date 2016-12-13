@@ -60,9 +60,9 @@ public class TestAutonomous extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
 
-    ColorSensor colorSensor;
     DcMotor leftMotor;
     DcMotor rightMotor;
+    int startingPos;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -74,11 +74,13 @@ public class TestAutonomous extends LinearOpMode {
          * step (using the FTC Robot Controller app on the phone).
          */
 
-        colorSensor = hardwareMap.colorSensor.get("sensor");
         leftMotor = hardwareMap.dcMotor.get("lMotor");
         rightMotor = hardwareMap.dcMotor.get("rMotor");
-        colorSensor.enableLed(false);
 
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        startingPos = leftMotor.getCurrentPosition();
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
         //leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
@@ -91,25 +93,25 @@ public class TestAutonomous extends LinearOpMode {
         // run until the end of the match (driver presses `)
         while (opModeIsActive()) {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            colorSensor.enableLed(true);
-            telemetry.addData("Alpha", colorSensor.alpha());
-            telemetry.addData("ARGB", colorSensor.argb());
-            telemetry.addData("Red", colorSensor.red());
-            telemetry.addData("Green", colorSensor.green());
-            telemetry.addData("Blue", colorSensor.blue());
-            telemetry.update();
 
-            if(colorSensor.alpha()<16) {
-                rightMotor.setPower(-0.2);
-                leftMotor.setPower(0.2);
+            if(leftMotor.isBusy()&&rightMotor.isBusy()) {
+
             }
             else {
-                rightMotor.setPower(0.0);
-                leftMotor.setPower(0.0);
-            }
+                leftMotor.setTargetPosition(startingPos + goMeter((float)0.9592));
+                rightMotor.setTargetPosition(startingPos + goMeter((float)0.9592));
 
+
+                leftMotor.setPower(0.5);
+                rightMotor.setPower(0.5);
+            }
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
+
+    public int goMeter(float distance) {
+        return (int) distance * 4779;
+    }
+
 }

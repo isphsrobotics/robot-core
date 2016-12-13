@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -56,7 +57,8 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class TestTeleOp extends OpMode {
 
-    DcMotor test;
+    DcMotor left;
+    DcMotor right;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -70,12 +72,9 @@ public class TestTeleOp extends OpMode {
     public void init() {
         // Main motors (wheels) -- reverse one of them
 
-        test = hardwareMap.dcMotor.get("test");
-        test.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        test.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        test.setTargetPosition(1120);
-
+        left = hardwareMap.dcMotor.get("left");
+        left.setDirection(DcMotorSimple.Direction.REVERSE);
+        right = hardwareMap.dcMotor.get("right");
 
     }
     //endregion
@@ -84,28 +83,15 @@ public class TestTeleOp extends OpMode {
     @Override
     public void loop() {
 
-        test.setPower(0.8);
-        test.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
-        while(test.isBusy()){
-
-        }
-
-
-        test.setPower(0.0);
-
-
-        /*
-        // activates hopper motor
-        if(gamepad1.b) {
-            motorHopper.setPower(-0.5);
+        if(gamepad1.a){
+            left.setPower(0.9);
+            right.setPower(0.9);
         }
         else {
-            motorHopper.setPower(0.0);
+            left.setPower(0.0);
+            right.setPower(0.0);
         }
-        */
-        //endregion
+
     }
 
     /*
