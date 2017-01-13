@@ -93,7 +93,7 @@ public class TestAutonomous extends LinearOpMode {
         runtime.reset();
 
         // run until the end of the match (driver presses `)
-        if (opModeIsActive()) {
+        while (opModeIsActive()) {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 
 
