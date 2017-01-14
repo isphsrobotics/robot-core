@@ -62,7 +62,9 @@ public class TestAutonomous extends LinearOpMode {
 
     DcMotor leftMotor;
     DcMotor rightMotor;
-    int startingPos;
+    int position;
+    boolean test1, test2;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -79,12 +81,12 @@ public class TestAutonomous extends LinearOpMode {
 
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        startingPos = leftMotor.getCurrentPosition();
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
-        //leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+
+        test2 = false;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -94,24 +96,47 @@ public class TestAutonomous extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 
+
+            position = leftMotor.getCurrentPosition();
+
             if(leftMotor.isBusy()&&rightMotor.isBusy()) {
 
             }
             else {
-                leftMotor.setTargetPosition(startingPos + goMeter((float)0.9592));
-                rightMotor.setTargetPosition(startingPos + goMeter((float)0.9592));
 
+                if (test1) {
+                    if (leftMotor.isBusy() && rightMotor.isBusy()) {
+                        telemetry.addData("Test1 Running", 2);
+                    }
+                    else {
+                        leftMotor.setTargetPosition(goPosition(0.9592f));
+                        rightMotor.setTargetPosition(goPosition(0.9592f));
+                        leftMotor.setPower(0.5);
+                        rightMotor.setPower(0.5);
+                        test1 = false;
+                        test2 = true;
+                    }
 
-                leftMotor.setPower(0.5);
-                rightMotor.setPower(0.5);
+                }
+
+                if(test2) {
+                    telemetry.addData("Test2 Running", 2);
+                }
+
             }
+
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
 
+    public int goPosition(float distance){
+        return position + goMeter(distance);
+    }
+
     public int goMeter(float distance) {
-        return (int) distance * 4779;
+        position += (int) distance * 4779;
+        return position;
     }
 
 }

@@ -1,4 +1,3 @@
-# TEST LINE
 # robot-core - FTC Robotics Prague
 ----
 
