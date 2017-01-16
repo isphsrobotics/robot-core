@@ -64,8 +64,7 @@ public class MainTeleOp extends OpMode {
 
     DcMotor motorHopper;
 
-    DcMotor motorLauncherL;
-    DcMotor motorLauncherR;
+    DcMotor motorLauncher;
 
     boolean slow;
 
@@ -92,8 +91,7 @@ public class MainTeleOp extends OpMode {
 
         motorHopper = hardwareMap.dcMotor.get("hMotor");
 
-        motorLauncherL = hardwareMap.dcMotor.get("lLauncher");
-        motorLauncherR = hardwareMap.dcMotor.get("rLauncher");
+        motorLauncher = hardwareMap.dcMotor.get("launcher");
 
         slow = false;
 
@@ -156,12 +154,10 @@ public class MainTeleOp extends OpMode {
 
         // activates launcher motors
         if(gamepad2.y) {
-            motorLauncherL.setPower(0.9);
-            motorLauncherR.setPower(0.9);
+            motorLauncher.setPower(0.5);
         }
         else {
-            motorLauncherL.setPower(0.0);
-            motorLauncherR.setPower(0.0);
+            motorLauncher.setPower(0.0);
         }
 
         /* changes launcher servo positions
