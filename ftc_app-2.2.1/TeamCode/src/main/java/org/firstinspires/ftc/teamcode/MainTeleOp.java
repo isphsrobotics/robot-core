@@ -63,10 +63,12 @@ public class MainTeleOp extends OpMode {
     DcMotor motorLeft;
 
     DcMotor motorHopper;
-
     DcMotor motorLauncher;
 
+    DcMotor motorExtender;
+
     boolean slow;
+    int currentPosition;
 
     //Servo ballLoader;
     //double openPos;
@@ -82,7 +84,7 @@ public class MainTeleOp extends OpMode {
      */
     @Override
     public void init() {
-        // Launcher servo positions
+        // Launcher encoder positions
 
         // Main motors (wheels) -- reverse one of them
         motorLeft = hardwareMap.dcMotor.get("lMotor");
@@ -92,6 +94,10 @@ public class MainTeleOp extends OpMode {
         motorHopper = hardwareMap.dcMotor.get("hMotor");
 
         motorLauncher = hardwareMap.dcMotor.get("launcher");
+        //motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //currentPosition = motorLauncher.getCurrentPosition();
+
+        motorExtender = hardwareMap.dcMotor.get("extender");
 
         slow = false;
 
@@ -104,10 +110,11 @@ public class MainTeleOp extends OpMode {
     @Override
     public void loop() {
 
+        currentPosition = motorLauncher.getCurrentPosition();
+
         //region WHEELS
         // ## WHEEL MOTORS ##
         // Gets values from joysticks
-
         float right1;
         float left1;
 
@@ -154,24 +161,31 @@ public class MainTeleOp extends OpMode {
 
         // activates launcher motors
         if(gamepad2.y) {
-            motorLauncher.setPower(0.5);
+            motorLauncher.setPower(0.7);
         }
         else {
             motorLauncher.setPower(0.0);
         }
 
-        /* changes launcher servo positions
-        if(gamepad2.x) {
-            ballLoader.setPosition(openPos);
+        if(gamepad2.right_bumper) {
+            motorExtender.setPower(0.5);
+        }
+        else if(gamepad2.left_bumper) {
+            motorExtender.setPower(-0.5);
+        }
+        else {
+            motorExtender.setPower(0.0);
         }
 
-        if(gamepad2.a) {
-            ballLoader.setPosition(holdingPos);
-        }
-
-        if(gamepad2.b) {
-            ballLoader.setPosition(launchPos);
-        }*/
+//        if(gamepad2.dpad_up) {
+//            motorExtender.setPower(0.5);
+//        }
+//        else if(gamepad2.dpad_down) {
+//            motorExtender.setPower(-0.5);
+//        }
+//        else {
+//            motorExtender.setPower(0.0);
+//        }
 
         //endregion
     }
