@@ -65,7 +65,8 @@ public class MainTeleOp extends OpMode {
     DcMotor motorHopper;
     DcMotor motorLauncher;
 
-    DcMotor motorExtender;
+    DcMotor motorExtenderL;
+    DcMotor motorExtenderR;
 
     boolean slow;
     int currentPosition;
@@ -97,7 +98,9 @@ public class MainTeleOp extends OpMode {
         //motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //currentPosition = motorLauncher.getCurrentPosition();
 
-        motorExtender = hardwareMap.dcMotor.get("extender");
+        motorExtenderL = hardwareMap.dcMotor.get("lExtender");
+        motorExtenderR = hardwareMap.dcMotor.get("rExtender");
+
 
         slow = false;
 
@@ -168,13 +171,16 @@ public class MainTeleOp extends OpMode {
         }
 
         if(gamepad2.right_bumper) {
-            motorExtender.setPower(0.5);
+            motorExtenderL.setPower(0.5);
+            motorExtenderR.setPower(-0.5);
         }
         else if(gamepad2.left_bumper) {
-            motorExtender.setPower(-0.5);
+            motorExtenderL.setPower(-0.5);
+            motorExtenderR.setPower(0.5);
         }
         else {
-            motorExtender.setPower(0.0);
+            motorExtenderL.setPower(0.0);
+            motorExtenderR.setPower(0.0);
         }
 
 //        if(gamepad2.dpad_up) {
