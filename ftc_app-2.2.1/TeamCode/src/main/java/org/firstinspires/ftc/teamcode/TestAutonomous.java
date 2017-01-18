@@ -61,8 +61,7 @@ public class TestAutonomous extends LinearOpMode {
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
 
-    boolean test1;
-    boolean test2;
+    int phase;
     int currentPosition;
 
     @Override
@@ -80,12 +79,11 @@ public class TestAutonomous extends LinearOpMode {
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         currentPosition = leftMotor.getCurrentPosition();
 
-        test1 = true;
-        test2 = false;
+        phase = 0;
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
-        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        rightMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Wait for the game to start (driver presses PLAY)
@@ -100,24 +98,32 @@ public class TestAutonomous extends LinearOpMode {
             if(leftMotor.isBusy()&&rightMotor.isBusy()) {
                 telemetry.addData("busy", null);
             }
-        else {
+            else {
 
-                if (test1) {
+                if (phase == 0) {
 
-                    leftMotor.setTargetPosition(currentPosition+500);
-                    rightMotor.setTargetPosition(currentPosition+500);
+                    leftMotor.setTargetPosition(goPosition(1));
+                    //rightMotor.setTargetPosition(goPosition(-1));
                     leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    //rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     leftMotor.setPower(0.5);
-                    rightMotor.setPower(0.5);
-                    test1 = false;
-                    test2 = true;
+                    //rightMotor.setPower(0.0);
+                    phase++;
 
                 }
-                else if(test2) {
-                    leftMotor.setPower(0.0);
-                    rightMotor.setPower(0.0);
-                    telemetry.addData("Test2 Running", 2);
+                else if(phase == 1) {
+//                    telemetry.addData("Test2 Running", 2);
+//                    leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    leftMotor.setTargetPosition(goPosition(-1));
+//                    rightMotor.setTargetPosition(goPosition(-1));
+//                    leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    phase++;
+                }
+                else if(phase == 2) {
+                    //leftMotor.setPower(0.0);
+                    //rightMotor.setPower(0.0);
                 }
 
             }
@@ -129,4 +135,9 @@ public class TestAutonomous extends LinearOpMode {
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
+
+    public int goPosition(double distance) {
+        return currentPosition + (int)(distance*4779);
+    }
+
 }
