@@ -60,6 +60,7 @@ public class TestAutonomous extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
+    DcMotor launcherMotor = null;
 
     int phase;
     int currentPosition;
@@ -73,17 +74,20 @@ public class TestAutonomous extends LinearOpMode {
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
          */
-        leftMotor  = hardwareMap.dcMotor.get("lMotor");
-        rightMotor = hardwareMap.dcMotor.get("rMotor");
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        currentPosition = leftMotor.getCurrentPosition();
+        //leftMotor  = hardwareMap.dcMotor.get("lMotor");
+        //rightMotor = hardwareMap.dcMotor.get("rMotor");
+        //leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //currentPosition = leftMotor.getCurrentPosition();
+
+        launcherMotor = hardwareMap.dcMotor.get("launcher");
+        launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         phase = 0;
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
-        rightMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        //rightMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Wait for the game to start (driver presses PLAY)
@@ -95,19 +99,23 @@ public class TestAutonomous extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
 
-            if(leftMotor.isBusy()&&rightMotor.isBusy()) {
+            if(/*leftMotor.isBusy()&&rightMotor.isBusy()*/launcherMotor.isBusy()) {
                 telemetry.addData("busy", null);
             }
             else {
 
                 if (phase == 0) {
 
-                    leftMotor.setTargetPosition(goPosition(1));
+                    //leftMotor.setTargetPosition(goPosition(1));
                     //rightMotor.setTargetPosition(goPosition(-1));
-                    leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    //leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     //rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    leftMotor.setPower(0.5);
+                    //leftMotor.setPower(0.5);
                     //rightMotor.setPower(0.0);
+
+                    launcherMotor.setTargetPosition(launcherMotor.getCurrentPosition()+1120);
+                    launcherMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    launcherMotor.setPower(0.5);
                     phase++;
 
                 }
@@ -119,6 +127,7 @@ public class TestAutonomous extends LinearOpMode {
 //                    rightMotor.setTargetPosition(goPosition(-1));
 //                    leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //                    rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    launcherMotor.setPower(0.0);
                     phase++;
                 }
                 else if(phase == 2) {

@@ -69,12 +69,12 @@ public class MainTeleOp extends OpMode {
     DcMotor motorExtenderR;
 
     boolean slow;
-    int currentPosition;
+    //int currentPosition;
 
-    //Servo ballLoader;
-    //double openPos;
-    //double holdingPos;
-    //double launchPos;
+    Servo gripLeft;
+    Servo gripRight;
+    boolean toggle;
+    int toggleTimer;
     private ElapsedTime runtime = new ElapsedTime();
 
     //region init()
@@ -101,6 +101,12 @@ public class MainTeleOp extends OpMode {
         motorExtenderL = hardwareMap.dcMotor.get("lExtender");
         motorExtenderR = hardwareMap.dcMotor.get("rExtender");
 
+        gripLeft = hardwareMap.servo.get("gLeft");
+        gripRight = hardwareMap.servo.get("gRight");
+        gripLeft.setPosition(1.0);
+        gripRight.setPosition(0.0);
+        toggle = true;
+        toggleTimer = 0;
 
         slow = false;
 
@@ -113,7 +119,7 @@ public class MainTeleOp extends OpMode {
     @Override
     public void loop() {
 
-        currentPosition = motorLauncher.getCurrentPosition();
+        //currentPosition = motorLauncher.getCurrentPosition();
 
         //region WHEELS
         // ## WHEEL MOTORS ##
@@ -164,10 +170,24 @@ public class MainTeleOp extends OpMode {
 
         // activates launcher motors
         if(gamepad2.y) {
+//            if(motorLauncher.isBusy()) {
+//
+//            }
+//            else {
+                //motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()+50);
+                //motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motorLauncher.setPower(0.7);
+            //}
+
         }
         else {
-            motorLauncher.setPower(0.0);
+//            if(motorLauncher.isBusy()) {
+//
+//            }
+//            else {
+//                motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                motorLauncher.setPower(0.0);
+//            }
         }
 
         if(gamepad2.right_bumper) {
@@ -192,6 +212,24 @@ public class MainTeleOp extends OpMode {
 //        else {
 //            motorExtender.setPower(0.0);
 //        }
+
+        if(gamepad2.a) {
+            if(toggleTimer==1) {
+                if(toggle) {
+                    gripLeft.setPosition(0.3);
+                    gripRight.setPosition(0.7);
+                }
+                else {
+                    gripLeft.setPosition(1.0);
+                    gripRight.setPosition(0.0);
+                }
+                toggle = !toggle;
+            }
+            toggleTimer++;
+        }
+        else {
+            toggleTimer = 0;
+        }
 
         //endregion
     }
