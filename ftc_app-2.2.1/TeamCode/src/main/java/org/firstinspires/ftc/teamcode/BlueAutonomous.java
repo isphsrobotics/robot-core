@@ -103,47 +103,26 @@ public class BlueAutonomous extends LinearOpMode {
 
                 if (step == 0) {
 
-                    // set position to 1 meter
-                    leftMotor.setTargetPosition(goPosition(1));
-                    rightMotor.setTargetPosition(goPosition(1));
-
-                    // run to position
-                    leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    leftMotor.setPower(0.5);
-                    rightMotor.setPower(0.5);
+                    //calls goPosition method
+                    goPosition(leftMotor, rightMotor, 0.9592, 0.9592);
 
                     // move to step 1
                     step++;
 
                 }
                 else if(step == 1) {
-                    telemetry.addData("Test2 Running", 2);
+                    //telemetry.addData("Test2 Running", 2);
 
-                    // stopping motors
-                    leftMotor.setPower(0.0);
-                    rightMotor.setPower(0.0);
-
-                    // resetting encoders
-                    leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                    // setting position to 1 and -1 meters
-                    leftMotor.setTargetPosition(goPosition(1));
-                    rightMotor.setTargetPosition(goPosition(-1));
-
-                    // run to position
-                    leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    leftMotor.setPower(0.5);
-                    rightMotor.setPower(0.5);
+                    //calls goPosition method
+                    goPosition(leftMotor,rightMotor, -0.088, 0.088);
                     // move to step 2
                     step++;
                 }
                 else if(step == 2) {
-                    // stop motors
-                    leftMotor.setPower(0.0);
-                    rightMotor.setPower(0.0);
+
+                }
+                else if(step == 3) {
+                    
                 }
 
             }
@@ -156,9 +135,21 @@ public class BlueAutonomous extends LinearOpMode {
         }
     }
 
-    public int goPosition(double distance) {
+    public void goPosition(DcMotor motor1, DcMotor motor2, double distance, double distance1) {
+        //resets encoders
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        return currentPosition + (int)(distance*4779);
+        //sets position
+        motor1.setTargetPosition((int)(distance*4779));
+        motor2.setTargetPosition((int)(distance*4779));
+
+        // run to position
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor1.setPower(0.5);
+        motor2.setPower(0.5);
+
     }
 
 }
