@@ -35,10 +35,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -59,10 +58,12 @@ public class TestAutonomous extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
+    DcMotor leftMotor = null;
+    DcMotor rightMotor = null;
+    DcMotor launcherMotor = null;
 
-    DcMotor leftMotor;
-    DcMotor rightMotor;
-    int startingPos;
+    int phase;
+    int currentPosition;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -73,45 +74,80 @@ public class TestAutonomous extends LinearOpMode {
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
          */
+        //leftMotor  = hardwareMap.dcMotor.get("lMotor");
+        //rightMotor = hardwareMap.dcMotor.get("rMotor");
+        //leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //currentPosition = leftMotor.getCurrentPosition();
 
-        leftMotor = hardwareMap.dcMotor.get("lMotor");
-        rightMotor = hardwareMap.dcMotor.get("rMotor");
+        launcherMotor = hardwareMap.dcMotor.get("launcher");
+        launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        phase = 0;
 
-        startingPos = leftMotor.getCurrentPosition();
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
-        //leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        //rightMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        // run until the end of the match (driver presses `)
-        if (opModeIsActive()) {
+        // run until the end of the match (driver presses STOP)
+        while (opModeIsActive()) {
+
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.update();
 
-            if(leftMotor.isBusy()&&rightMotor.isBusy()) {
-
+            if(/*leftMotor.isBusy()&&rightMotor.isBusy()*/launcherMotor.isBusy()) {
+                telemetry.addData("busy", null);
             }
             else {
-                leftMotor.setTargetPosition(startingPos + goMeter((float)0.9592));
-                rightMotor.setTargetPosition(startingPos + goMeter((float)0.9592));
 
+                if (phase == 0) {
 
-                leftMotor.setPower(0.5);
-                rightMotor.setPower(0.5);
+                    //leftMotor.setTargetPosition(goPosition(1));
+                    //rightMotor.setTargetPosition(goPosition(-1));
+                    //leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    //rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    //leftMotor.setPower(0.5);
+                    //rightMotor.setPower(0.0);
+
+                    launcherMotor.setTargetPosition(launcherMotor.getCurrentPosition()+1120);
+                    launcherMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    launcherMotor.setPower(0.5);
+                    phase++;
+
+                }
+                else if(phase == 1) {
+//                    telemetry.addData("Test2 Running", 2);
+//                    leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    leftMotor.setTargetPosition(goPosition(-1));
+//                    rightMotor.setTargetPosition(goPosition(-1));
+//                    leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    launcherMotor.setPower(0.0);
+                    phase++;
+                }
+                else if(phase == 2) {
+                    //leftMotor.setPower(0.0);
+                    //rightMotor.setPower(0.0);
+                }
+
             }
+
+            // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
+            // leftMotor.setPower(-gamepad1.left_stick_y);
+            // rightMotor.setPower(-gamepad1.right_stick_y);
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
 
-    public int goMeter(float distance) {
-        return (int) distance * 4779;
+    public int goPosition(double distance) {
+        return currentPosition + (int)(distance*4779);
     }
 
 }
