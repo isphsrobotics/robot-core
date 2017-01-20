@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -53,12 +54,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Blue Autonomous", group="Autonomous")
 //@Disabled
-public class NewBlueAutonomous extends LinearOpMode {
+public class BlueAutonomous extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-    // DcMotor leftMotor = null;
-    // DcMotor rightMotor = null;
+    DcMotor leftMotor = null;
+    DcMotor rightMotor = null;
+    DcMotor launcherMotor = null;
+
+    int step;
+    int currentPosition;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -69,13 +74,18 @@ public class NewBlueAutonomous extends LinearOpMode {
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
          */
-        // leftMotor  = hardwareMap.dcMotor.get("left motor");
-        // rightMotor = hardwareMap.dcMotor.get("right motor");
+        leftMotor  = hardwareMap.dcMotor.get("lMotor");
+        rightMotor = hardwareMap.dcMotor.get("rMotor");
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        currentPosition = leftMotor.getCurrentPosition();
+
+        step = 0;
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
-        // leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        // leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -86,6 +96,58 @@ public class NewBlueAutonomous extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
 
+            if(/*leftMotor.isBusy()&&rightMotor.isBusy()*/launcherMotor.isBusy()) {
+                telemetry.addData("busy", null);
+            }
+            else {
+
+                if (step == 0) {
+
+                    // set position to 1 meter
+                    leftMotor.setTargetPosition(goPosition(1));
+                    rightMotor.setTargetPosition(goPosition(1));
+
+                    // run to position
+                    leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    leftMotor.setPower(0.5);
+                    rightMotor.setPower(0.5);
+
+                    // move to step 1
+                    step++;
+
+                }
+                else if(step == 1) {
+                    telemetry.addData("Test2 Running", 2);
+
+                    // stopping motors
+                    leftMotor.setPower(0.0);
+                    rightMotor.setPower(0.0);
+
+                    // resetting encoders
+                    leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                    // setting position to 1 and -1 meters
+                    leftMotor.setTargetPosition(goPosition(1));
+                    rightMotor.setTargetPosition(goPosition(-1));
+
+                    // run to position
+                    leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    leftMotor.setPower(0.5);
+                    rightMotor.setPower(0.5);
+                    // move to step 2
+                    step++;
+                }
+                else if(step == 2) {
+                    // stop motors
+                    leftMotor.setPower(0.0);
+                    rightMotor.setPower(0.0);
+                }
+
+            }
+
             // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
             // leftMotor.setPower(-gamepad1.left_stick_y);
             // rightMotor.setPower(-gamepad1.right_stick_y);
@@ -93,4 +155,10 @@ public class NewBlueAutonomous extends LinearOpMode {
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
+
+    public int goPosition(double distance) {
+
+        return currentPosition + (int)(distance*4779);
+    }
+
 }
