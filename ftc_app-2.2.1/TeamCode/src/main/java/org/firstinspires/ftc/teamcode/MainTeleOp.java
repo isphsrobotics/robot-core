@@ -69,7 +69,7 @@ public class MainTeleOp extends OpMode {
     DcMotor motorExtenderR;
 
     boolean slow;
-    //int currentPosition;
+    int currentPosition;
 
     Servo gripLeft;
     Servo gripRight;
@@ -95,7 +95,6 @@ public class MainTeleOp extends OpMode {
         motorHopper = hardwareMap.dcMotor.get("hMotor");
 
         motorLauncher = hardwareMap.dcMotor.get("launcher");
-        //motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //currentPosition = motorLauncher.getCurrentPosition();
 
         motorExtenderL = hardwareMap.dcMotor.get("lExtender");
@@ -119,7 +118,7 @@ public class MainTeleOp extends OpMode {
     @Override
     public void loop() {
 
-        //currentPosition = motorLauncher.getCurrentPosition();
+        currentPosition = motorLauncher.getCurrentPosition();
 
         //region WHEELS
         // ## WHEEL MOTORS ##
@@ -174,10 +173,12 @@ public class MainTeleOp extends OpMode {
 //
 //            }
 //            else {
-                //motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()+50);
-                //motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorLauncher.setPower(-0.6);
-            //}
+//                motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()+1120);
+//                motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorLauncher.setMaxSpeed(50);
+            motorLauncher.setPower(0.3 );
+//            motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            }
 
         }
         else {
@@ -185,8 +186,9 @@ public class MainTeleOp extends OpMode {
 //
 //            }
 //            else {
-//                motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                motorLauncher.setPower(0.0);
+            motorLauncher.setMaxSpeed(0);
+            motorLauncher.setPower(0.0);
+//            motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
         }
 
