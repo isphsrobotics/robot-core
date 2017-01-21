@@ -105,7 +105,7 @@ public class BlueAutonomous extends LinearOpMode {
 
                     //calls goPosition method
                     //move forwards  0.9592m
-                    goPosition(leftMotor, rightMotor, 0.9592);
+                   // goPosition(leftMotor, rightMotor, 0.9592);
 
                     // move to step 1
                     step++;
@@ -117,17 +117,20 @@ public class BlueAutonomous extends LinearOpMode {
                     //calls goPosition method
                     //turn left 45˚
                     //180˚ for testing
-                    turn(leftMotor,rightMotor, 360, true);
+                    turn(leftMotor,rightMotor, 10000, true);
+                    //if 360 degrees in theory was actually about 150 degrees, then 1 degree in actual should be about 12/5=2.4
+                    //2.4*180=432
                     // move to step 2
                     step++;
                 }
                 else if(step == 2) {
-                    leftMotor.setPower(0.0);
-                    rightMotor.setPower(0.0);
 
+                    //turn(leftMotor,rightMotor, 432, false);
+                    step++;
                 }
                 else if(step == 3) {
-
+                    leftMotor.setPower(0.0);
+                    rightMotor.setPower(0.0);
                 }
 
             }
@@ -157,8 +160,8 @@ public class BlueAutonomous extends LinearOpMode {
 
     }
 
-    public void turn(DcMotor motor1, DcMotor motor2, int degrees, boolean left){
-        int ticks = (int)(0.1125*(degrees*(Math.PI)/180)*4779);
+    public void turn(DcMotor motor1, DcMotor motor2, int ticks, boolean left){
+
 
         motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
