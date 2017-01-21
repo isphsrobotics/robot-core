@@ -96,7 +96,7 @@ public class BlueAutonomous extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
 
-            if(/*leftMotor.isBusy()&&rightMotor.isBusy()*/launcherMotor.isBusy()) {
+            if(leftMotor.isBusy()&&rightMotor.isBusy()) {
                 telemetry.addData("busy", null);
             }
             else {
@@ -104,7 +104,8 @@ public class BlueAutonomous extends LinearOpMode {
                 if (step == 0) {
 
                     //calls goPosition method
-                    goPosition(leftMotor, rightMotor, 0.9592, 0.9592);
+                    //move forwards  0.9592m
+                    goPosition(leftMotor, rightMotor, 0.9592);
 
                     // move to step 1
                     step++;
@@ -114,15 +115,19 @@ public class BlueAutonomous extends LinearOpMode {
                     //telemetry.addData("Test2 Running", 2);
 
                     //calls goPosition method
-                    goPosition(leftMotor,rightMotor, -0.088, 0.088);
+                    //turn left 45˚
+                    //180˚ for testing
+                    turn(leftMotor,rightMotor, 360, true);
                     // move to step 2
                     step++;
                 }
                 else if(step == 2) {
+                    leftMotor.setPower(0.0);
+                    rightMotor.setPower(0.0);
 
                 }
                 else if(step == 3) {
-                    
+
                 }
 
             }
@@ -135,7 +140,7 @@ public class BlueAutonomous extends LinearOpMode {
         }
     }
 
-    public void goPosition(DcMotor motor1, DcMotor motor2, double distance, double distance1) {
+    public void goPosition(DcMotor motor1, DcMotor motor2, double distance) {
         //resets encoders
         motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -150,6 +155,29 @@ public class BlueAutonomous extends LinearOpMode {
         motor1.setPower(0.5);
         motor2.setPower(0.5);
 
+    }
+
+    public void turn(DcMotor motor1, DcMotor motor2, int degrees, boolean left){
+        int ticks = (int)(0.1125*(degrees*(Math.PI)/180)*4779);
+
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //sets position
+        if(left){
+            motor1.setTargetPosition(-ticks);
+            motor2.setTargetPosition(ticks);
+        }else{
+            motor1.setTargetPosition(ticks);
+            motor2.setTargetPosition(-ticks);
+        }
+
+
+        // run to position
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor1.setPower(0.5);
+        motor2.setPower(0.5);
     }
 
 }
