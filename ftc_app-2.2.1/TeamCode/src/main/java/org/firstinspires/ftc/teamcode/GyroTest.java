@@ -66,9 +66,11 @@ public class GyroTest extends LinearOpMode implements SensorEventListener{
 
     SensorManager sensorManager;
     Sensor sensor;
-    double rawData;
+    SensorEvent rawData;
     double calibrated;
+    double average;
     double timer;
+    double timer2;
     double rotations;
 
     /* Declare OpMode members. */
@@ -98,19 +100,12 @@ public class GyroTest extends LinearOpMode implements SensorEventListener{
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            calibrated = Math.abs(rawData - 0.024);
-            //calibrated = rawData - 0.024;
-            if(calibrated < 0.01) calibrated = 0;
-            else calibrated = round(calibrated,8);
+            gyro();
 
-            if(runtime.milliseconds()-timer >= 100) {
-                timer = runtime.milliseconds();
-                rotations += (calibrated*57.2958)/10;
-            }
-
-            telemetry.addData("Raw", rawData);
+            telemetry.addData("Raw", rawData.values[2]);
+            telemetry.addData("Average", average);
             telemetry.addData("Calibrated", calibrated);
-            telemetry.addData("Degrees", rotations);
+            telemetry.addData("Rotations", rotations);
             telemetry.update();
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
@@ -119,7 +114,7 @@ public class GyroTest extends LinearOpMode implements SensorEventListener{
 
     @Override
     public void onSensorChanged(SensorEvent e) {
-        this.rawData = round(e.values[2],8);
+        this.rawData = e;
     }
 
     @Override
@@ -132,7 +127,24 @@ public class GyroTest extends LinearOpMode implements SensorEventListener{
             double round = Double.parseDouble(Double.toString(num).substring(0,places));
             return round;
         }
+        catch(IndexOutOfBoundsException e) {}
         catch(Exception e) {};
         return num;
     }
+
+    public void gyro() {
+        if(runtime.milliseconds()-timer >=100) {
+            if(runtime.milliseconds()-timer2 >= 10) {
+                timer2 = runtime.milliseconds();
+                average += round(rawData.values[2], 8)/10;
+            }
+
+            rotations += (calibrated*57.2958)/10;
+            timer = runtime.milliseconds();
+        }
+
+        if(rawData.values[2]<=0.05) calibrated = 0;
+        else calibrated = rawData.values[2];
+    }
+
 }

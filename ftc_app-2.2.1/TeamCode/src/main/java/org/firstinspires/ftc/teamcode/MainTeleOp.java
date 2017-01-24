@@ -175,8 +175,8 @@ public class MainTeleOp extends OpMode {
 //            else {
 //                motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()+1120);
 //                motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorLauncher.setMaxSpeed(50);
-            motorLauncher.setPower(0.3 );
+            //motorLauncher.setMaxSpeed(50);
+            motorLauncher.setPower(0.8);
 //            motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
 
