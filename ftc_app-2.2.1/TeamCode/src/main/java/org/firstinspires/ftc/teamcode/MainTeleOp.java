@@ -75,6 +75,7 @@ public class MainTeleOp extends OpMode {
     Servo gripRight;
     boolean toggle;
     int toggleTimer;
+
     private ElapsedTime runtime = new ElapsedTime();
 
     //region init()
@@ -95,6 +96,7 @@ public class MainTeleOp extends OpMode {
         motorHopper = hardwareMap.dcMotor.get("hMotor");
 
         motorLauncher = hardwareMap.dcMotor.get("launcher");
+        //motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //currentPosition = motorLauncher.getCurrentPosition();
 
         motorExtenderL = hardwareMap.dcMotor.get("lExtender");
@@ -128,11 +130,15 @@ public class MainTeleOp extends OpMode {
 
         if(slow) {
             right1 = gamepad1.right_stick_y * (float)0.5;
+            right1 *= 0.9;
             left1 = gamepad1.left_stick_y * (float)0.5;
+            left1 *= 1;
         }
         else{
             right1 = gamepad1.right_stick_y;
+            right1 *= 0.9;
             left1 = gamepad1.left_stick_y;
+            left1 *= 1;
         }
 
 
@@ -175,7 +181,7 @@ public class MainTeleOp extends OpMode {
 //            else {
 //                motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()+1120);
 //                motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //motorLauncher.setMaxSpeed(50);
+            //motorLauncher.setMaxSpeed(100);
             motorLauncher.setPower(0.8);
 //            motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
@@ -186,7 +192,7 @@ public class MainTeleOp extends OpMode {
 //
 //            }
 //            else {
-            motorLauncher.setMaxSpeed(0);
+            //motorLauncher.setMaxSpeed(0);
             motorLauncher.setPower(0.0);
 //            motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
