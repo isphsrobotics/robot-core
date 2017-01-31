@@ -32,6 +32,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -54,33 +60,52 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Blue Autonomous", group="Autonomous")
 //@Disabled
-public class BlueAutonomous extends LinearOpMode {
+public class BlueAutonomous extends LinearOpMode implements SensorEventListener {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
+
+    // sensor stuff
+    SensorManager sensorManager;
+    Sensor sensor;
+    SensorEvent rawData;
+
+    double average;
+    double tempAverage;
+
+    double timer;
+    double timer2;
+    double rotations;
+
+    // motors
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
     DcMotor launcherMotor = null;
 
+    // data
     int step;
-    int currentPosition;
+    boolean turning;
+    double leftMultiplier;
+    double rightMultiplier;
 
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        /* eg: Initialize the hardware variables. Note that the strings used here as parameters
-         * to 'get' must correspond to the names assigned during the robot configuration
-         * step (using the FTC Robot Controller app on the phone).
-         */
+        sensorManager = (SensorManager) hardwareMap.appContext.getSystemService(Context.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
+
         leftMotor  = hardwareMap.dcMotor.get("lMotor");
         rightMotor = hardwareMap.dcMotor.get("rMotor");
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        currentPosition = leftMotor.getCurrentPosition();
+        launcherMotor = hardwareMap.dcMotor.get("launcher");
 
-        step = 0;
+        step = 4;
+        leftMultiplier = 1.05;
+        rightMultiplier = 0.95;
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -95,49 +120,46 @@ public class BlueAutonomous extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
-
-            if(leftMotor.isBusy()&&rightMotor.isBusy()) {
+            if(busy()) {
                 telemetry.addData("busy", null);
             }
             else {
 
                 if (step == 0) {
-
-                    //calls goPosition method
-                    //move forwards  0.9592m
-                   // goPosition(leftMotor, rightMotor, 0.9592);
-
-                    // move to step 1
+                    goPosition(leftMotor, rightMotor, 0.66);
                     step++;
 
                 }
                 else if(step == 1) {
-                    //telemetry.addData("Test2 Running", 2);
-
-                    //calls goPosition method
-                    //turn left 45˚
-                    //180˚ for testing
-                    turn(leftMotor,rightMotor, 10000, true);
-                    //if 360 degrees in theory was actually about 150 degrees, then 1 degree in actual should be about 12/5=2.4
-                    //2.4*180=432
-                    // move to step 2
-                    step++;
+                    turn(leftMotor, rightMotor, false, 45);
+                    if(!turning) {
+                        rotations = 0;
+                        step++;
+                    }
                 }
                 else if(step == 2) {
-
-                    //turn(leftMotor,rightMotor, 432, false);
+                    goPosition(leftMotor, rightMotor, 2.27);
                     step++;
                 }
                 else if(step == 3) {
-                    leftMotor.setPower(0.0);
-                    rightMotor.setPower(0.0);
+                    turn(leftMotor, rightMotor, false, 90);
+                    if(!turning) {
+                        rotations = 0;
+                        step++;
+                    }
+
+                }
+                else if(step == 4) {
+                    shoot(1);
+                    step++;
                 }
 
             }
 
-            // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
-            // leftMotor.setPower(-gamepad1.left_stick_y);
-            // rightMotor.setPower(-gamepad1.right_stick_y);
+            telemetry.addData("Raw", rawData.values[2]);
+            telemetry.addData("Rotations", rotations);
+            telemetry.addData("Turning", turning);
+            telemetry.update();
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
@@ -149,38 +171,73 @@ public class BlueAutonomous extends LinearOpMode {
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //sets position
-        motor1.setTargetPosition((int)(distance*4779));
-        motor2.setTargetPosition((int)(distance*4779));
+        motor1.setTargetPosition(motor1.getCurrentPosition()+(int)(distance*4779));
+        motor2.setTargetPosition(motor2.getCurrentPosition()+(int)(distance*4779));
 
         // run to position
         motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor1.setPower(0.5);
-        motor2.setPower(0.5);
+        motor1.setPower(0.5*leftMultiplier);
+        motor2.setPower(0.5*rightMultiplier);
 
     }
 
-    public void turn(DcMotor motor1, DcMotor motor2, int ticks, boolean left){
+    public void turn(DcMotor motor1, DcMotor motor2, boolean left, int degrees) {
+        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
-        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //sets position
-        if(left){
-            motor1.setTargetPosition(-ticks);
-            motor2.setTargetPosition(ticks);
-        }else{
-            motor1.setTargetPosition(ticks);
-            motor2.setTargetPosition(-ticks);
+        if(runtime.milliseconds()-timer >=10) {
+            rotations += (Math.abs(rawData.values[2])+0.005)/100*57.2958;
+            timer = runtime.milliseconds();
         }
+        turning = rotations < degrees;
+        if(turning) {
+            if(left){
+                motor1.setPower(-0.3);
+                motor2.setPower(0.3);
+            }
+            else {
+                motor1.setPower(0.3);
+                motor2.setPower(-0.3);
+            }
 
-
-        // run to position
-        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor1.setPower(0.5);
-        motor2.setPower(0.5);
+        }
+        else {
+            motor1.setPower(0.0);
+            motor2.setPower(0.0);
+        }
     }
+
+    public void shoot(int num) {
+        for(int i = 0; i < num; i++) {
+            launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            launcherMotor.setTargetPosition(launcherMotor.getCurrentPosition()+1120);
+            launcherMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            launcherMotor.setPower(0.8);
+        }
+    }
+
+    public boolean busy() {
+        if(launcherMotor.isBusy()) {
+            return true;
+        }
+        else if(leftMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)&&rightMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
+            return leftMotor.isBusy() && rightMotor.isBusy();
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent e) {
+        this.rawData = e;
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
 
 }

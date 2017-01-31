@@ -69,12 +69,15 @@ public class MainTeleOp extends OpMode {
     DcMotor motorExtenderR;
 
     boolean slow;
-    //int currentPosition;
+    int position;
 
     Servo gripLeft;
     Servo gripRight;
-    boolean toggle;
+    //boolean toggle;
     int toggleTimer;
+
+    boolean bool;
+
     private ElapsedTime runtime = new ElapsedTime();
 
     //region init()
@@ -95,20 +98,22 @@ public class MainTeleOp extends OpMode {
         motorHopper = hardwareMap.dcMotor.get("hMotor");
 
         motorLauncher = hardwareMap.dcMotor.get("launcher");
-        //motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //currentPosition = motorLauncher.getCurrentPosition();
+        motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //position = motorLauncher.getCurrentPosition();
 
         motorExtenderL = hardwareMap.dcMotor.get("lExtender");
-        motorExtenderR = hardwareMap.dcMotor.get("rExtender");
+        //motorExtenderR = hardwareMap.dcMotor.get("rExtender");
 
         gripLeft = hardwareMap.servo.get("gLeft");
         gripRight = hardwareMap.servo.get("gRight");
         gripLeft.setPosition(1.0);
         gripRight.setPosition(0.0);
-        toggle = true;
         toggleTimer = 0;
 
         slow = false;
+
+        bool = true;
 
         //ballLoader = hardwareMap.servo.get("loader");
         //ballLoader.setPosition(openPos);
@@ -119,29 +124,29 @@ public class MainTeleOp extends OpMode {
     @Override
     public void loop() {
 
-        //currentPosition = motorLauncher.getCurrentPosition();
-
         //region WHEELS
         // ## WHEEL MOTORS ##
         // Gets values from joysticks
         float right1;
         float left1;
 
-        if(slow) {
-            right1 = gamepad1.right_stick_y * (float)0.5;
-            left1 = gamepad1.left_stick_y * (float)0.5;
-        }
-        else{
+        if (slow) {
+            right1 = gamepad1.right_stick_y * (float) 0.5;
+            right1 *= 0.9;
+            left1 = gamepad1.left_stick_y * (float) 0.5;
+            left1 *= 1;
+        } else {
             right1 = gamepad1.right_stick_y;
+            right1 *= 0.9;
             left1 = gamepad1.left_stick_y;
+            left1 *= 1;
         }
 
 
         // clip the right/left values so that the values never exceed +/- 1
-        if(gamepad1.dpad_up) {
+        if (gamepad1.dpad_up) {
             slow = false;
-        }
-        else if(gamepad1.dpad_down) {
+        } else if (gamepad1.dpad_down) {
             slow = true;
         }
 
@@ -158,49 +163,66 @@ public class MainTeleOp extends OpMode {
         motorLeft.setPower(left1);
 
         // activates hopper motors
-        if(gamepad1.right_bumper) {
+        if (gamepad1.right_bumper) {
             motorHopper.setPower(0.6);
-        }
-        else if(gamepad1.left_bumper) {
+        } else if (gamepad1.left_bumper) {
             motorHopper.setPower(-0.6);
-        }
-        else {
+        } else {
             motorHopper.setPower(0.0);
         }
 
         // activates launcher motors
-        if(gamepad2.y) {
-//            if(motorLauncher.isBusy()) {
+//       if(gamepad2.y) {
+//           toggleTimer++;
+//           if(!motorLauncher.isBusy() && toggleTimer==1) {
+//               motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()+1120);
+//               motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//               motorLauncher.setPower(0.5);
+//           }
+//           else {
 //
-//            }
-//            else {
-                //motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()+50);
-                //motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorLauncher.setPower(-0.6);
-            //}
+//           }
+//       }
+//       else {
+//           toggleTimer=0;
+//           if(!motorLauncher.isBusy()){
+//              motorLauncher.setPower(0.0);
+//              motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//           }
+//       }
+
+        if(motorLauncher.isBusy()) {
 
         }
         else {
-//            if(motorLauncher.isBusy()) {
-//
-//            }
-//            else {
-//                motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                motorLauncher.setPower(0.0);
-//            }
+            if(gamepad2.y) {
+                motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()+1120);
+                motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motorLauncher.setPower(0.3);
+            }
         }
 
+
+
+//        if(gamepad2.y) {
+//            motorLauncher.setPower(0.7);
+//        }
+//        else {
+//            motorLauncher.setPower(0.0);
+//        }
+
         if(gamepad2.right_bumper) {
-            motorExtenderL.setPower(0.5);
-            motorExtenderR.setPower(-0.5);
+            motorExtenderL.setPower(0.9);
+            //motorExtenderR.setPower(-0.5);
         }
         else if(gamepad2.left_bumper) {
-            motorExtenderL.setPower(-0.5);
-            motorExtenderR.setPower(0.5);
+            motorExtenderL.setPower(-0.9);
+            //motorExtenderR.setPower(0.5);
         }
         else {
             motorExtenderL.setPower(0.0);
-            motorExtenderR.setPower(0.0);
+            //motorExtenderR.setPower(0.0);
         }
 
 //        if(gamepad2.dpad_up) {
@@ -213,23 +235,7 @@ public class MainTeleOp extends OpMode {
 //            motorExtender.setPower(0.0);
 //        }
 
-        if(gamepad2.a) {
-            if(toggleTimer==1) {
-                if(toggle) {
-                    gripLeft.setPosition(0.3);
-                    gripRight.setPosition(0.7);
-                }
-                else {
-                    gripLeft.setPosition(1.0);
-                    gripRight.setPosition(0.0);
-                }
-                toggle = !toggle;
-            }
-            toggleTimer++;
-        }
-        else {
-            toggleTimer = 0;
-        }
+
 
         //endregion
     }
