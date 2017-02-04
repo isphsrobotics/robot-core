@@ -99,11 +99,12 @@ public class MainTeleOp extends OpMode {
 
         motorLauncher = hardwareMap.dcMotor.get("launcher");
         motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //position = motorLauncher.getCurrentPosition();
 
         motorExtenderL = hardwareMap.dcMotor.get("lExtender");
-        //motorExtenderR = hardwareMap.dcMotor.get("rExtender");
+        motorExtenderR = hardwareMap.dcMotor.get("rExtender");
 
         gripLeft = hardwareMap.servo.get("gLeft");
         gripRight = hardwareMap.servo.get("gRight");
@@ -171,69 +172,34 @@ public class MainTeleOp extends OpMode {
             motorHopper.setPower(0.0);
         }
 
-        // activates launcher motors
-//       if(gamepad2.y) {
-//           toggleTimer++;
-//           if(!motorLauncher.isBusy() && toggleTimer==1) {
-//               motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()+1120);
-//               motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//               motorLauncher.setPower(0.5);
-//           }
-//           else {
-//
-//           }
-//       }
-//       else {
-//           toggleTimer=0;
-//           if(!motorLauncher.isBusy()){
-//              motorLauncher.setPower(0.0);
-//              motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//           }
-//       }
-
         if(motorLauncher.isBusy()) {
 
         }
         else {
             if(gamepad2.y) {
                 motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()+1120);
+                motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()-1120);
                 motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorLauncher.setPower(0.3);
+                motorLauncher.setPower(0.7);
+            }
+            else {
+                motorLauncher.setPower(0.0);
+                motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
         }
 
-
-
-//        if(gamepad2.y) {
-//            motorLauncher.setPower(0.7);
-//        }
-//        else {
-//            motorLauncher.setPower(0.0);
-//        }
-
         if(gamepad2.right_bumper) {
             motorExtenderL.setPower(0.9);
-            //motorExtenderR.setPower(-0.5);
+            motorExtenderR.setPower(-0.9);
         }
         else if(gamepad2.left_bumper) {
             motorExtenderL.setPower(-0.9);
-            //motorExtenderR.setPower(0.5);
+            motorExtenderR.setPower(0.9);
         }
         else {
             motorExtenderL.setPower(0.0);
-            //motorExtenderR.setPower(0.0);
+            motorExtenderR.setPower(0.0);
         }
-
-//        if(gamepad2.dpad_up) {
-//            motorExtender.setPower(0.5);
-//        }
-//        else if(gamepad2.dpad_down) {
-//            motorExtender.setPower(-0.5);
-//        }
-//        else {
-//            motorExtender.setPower(0.0);
-//        }
 
 
 

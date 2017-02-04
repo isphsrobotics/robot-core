@@ -32,11 +32,18 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -54,34 +61,35 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Test Autonomous", group="Autonomous")
 //@Disabled
-public class TestAutonomous extends LinearOpMode {
+public class TestAutonomous extends LinearOpMode implements SensorEventListener {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-    DcMotor launcherMotor = null;
+
+    // sensor stuff
+    SensorManager sensorManager;
+    Sensor sensor;
+    SensorEvent rawData;
+
+    int step;
+    Servo servo;
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        /* eg: Initialize the hardware variables. Note that the strings used here as parameters
-         * to 'get' must correspond to the names assigned during the robot configuration
-         * step (using the FTC Robot Controller app on the phone).
-         */
-        //leftMotor  = hardwareMap.dcMotor.get("lMotor");
-        //rightMotor = hardwareMap.dcMotor.get("rMotor");
-        //leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //currentPosition = leftMotor.getCurrentPosition();
+        sensorManager = (SensorManager) hardwareMap.appContext.getSystemService(Context.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
 
-        launcherMotor = hardwareMap.dcMotor.get("launcher");
-        launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        servo = hardwareMap.servo.get("servo");
+        servo.setPosition(0.7);
 
-        // eg: Set the drive motor directions:
-        // "Reverse" the motor that runs backwards when connected directly to the battery
-        //rightMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        step = 0;
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -90,32 +98,98 @@ public class TestAutonomous extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
-
-            if(launcherMotor.isBusy()) {
-
+            if(false) {
+                telemetry.addData("busy", null);
             }
             else {
-                goPosition(launcherMotor, 0.1);
+
+                if (step == 0) {
+                    servo.setPosition(0.4);
+                }
+
+
             }
+
 
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
 
-    public void goPosition(DcMotor motor1, double distance) {
-        //resets encoders
-        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//    public void goPosition(DcMotor motor1, DcMotor motor2, double distance) {
+//        //resets encoders
+//        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//
+//        //sets position
+//        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*leftMultiplier));
+//        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*rightMultiplier));
+//
+//        // run to position
+//        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        motor1.setPower(0.6*leftMultiplier);
+//        motor2.setPower(0.6*rightMultiplier);
+//
+//    }
+//
+//    public void turn(DcMotor motor1, DcMotor motor2, boolean left, int degrees) {
+//        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//
+//        if(runtime.milliseconds()-timer >=10) {
+//            rotations += (Math.abs(rawData.values[2])+0.005)/100*57.2958;
+//            timer = runtime.milliseconds();
+//        }
+//        turning = rotations < degrees;
+//        if(turning) {
+//            if(left){
+//                motor1.setPower(-0.3);
+//                motor2.setPower(0.3);
+//            }
+//            else {
+//                motor1.setPower(0.3);
+//                motor2.setPower(-0.3);
+//            }
+//
+//        }
+//        else {
+//            motor1.setPower(0.0);
+//            motor2.setPower(0.0);
+//        }
+//    }
+//
+//    public void shoot(int num) {
+//        for(int i = 0; i < num; i++) {
+//            launcherMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            launcherMotor.setTargetPosition(launcherMotor.getCurrentPosition()-1120);
+//            launcherMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            launcherMotor.setPower(0.5);
+//        }
+//    }
+//
+//    public boolean busy() {
+//        if(launcherMotor.isBusy()) {
+//            return true;
+//        }
+//        else if(leftMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)&&rightMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
+//            return leftMotor.isBusy() && rightMotor.isBusy();
+//        }
+//        else {
+//            return false;
+//        }
+//    }
 
-        //sets position
-        motor1.setTargetPosition(motor1.getCurrentPosition()+(int)(distance*4779));
+    @Override
+    public void onSensorChanged(SensorEvent e) {
+        this.rawData = e;
+    }
 
-        // run to position
-        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor1.setPower(0.5);
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
 
 }

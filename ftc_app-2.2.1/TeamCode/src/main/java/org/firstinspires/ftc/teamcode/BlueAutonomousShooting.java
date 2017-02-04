@@ -59,9 +59,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue Autonomous", group="Autonomous")
+@Autonomous(name="Blue Autonomous Shooting", group="Autonomous")
 //@Disabled
-public class BlueAutonomous extends LinearOpMode implements SensorEventListener {
+public class BlueAutonomousShooting extends LinearOpMode implements SensorEventListener {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -117,7 +117,7 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
         // leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -135,31 +135,33 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
                 telemetry.addData("busy", null);
             }
             else {
-
                 if (step == 0) {
-                    goPosition(leftMotor, rightMotor, 0.6293);
+                    goPosition(leftMotor, rightMotor, 0.66);
                     step++;
 
                 }
                 else if(step == 1) {
-                    turn(leftMotor, rightMotor, false, 70);
-                    if (!turning) {
-                        rotations = 0;
-                        step++;
-                    }
-                }
-                else if(step == 2) {
-                    goPosition(leftMotor, rightMotor, 1.18);
-                    step++;
-                }
-                else if(step == 3) {
-                    turn(leftMotor, rightMotor, true, 65);
+                    turn(leftMotor, rightMotor, false, 45);
                     if(!turning) {
                         rotations = 0;
                         step++;
                     }
                 }
-
+                else if(step == 2) {
+                    goPosition(leftMotor, rightMotor, 1.5);
+                    step++;
+                }
+                else if(step == 3) {
+                    turn(leftMotor, rightMotor, false, 90);
+                    if(!turning) {
+                        rotations = 0;
+                        step++;
+                    }
+                }
+                else if(step == 4) {
+                    shoot(1);
+                    step++;
+                }
             }
 
 
