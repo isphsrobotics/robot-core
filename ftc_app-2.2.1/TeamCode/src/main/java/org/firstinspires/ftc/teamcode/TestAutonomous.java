@@ -42,6 +42,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -70,11 +71,27 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
     SensorManager sensorManager;
     Sensor sensor;
     SensorEvent rawData;
+    ColorSensor colorSensor;
 
-    int step;
+    double average;
+    double tempAverage;
+
+    double timer;
+    double timer2;
+    double rotations;
+
+    // motors
+    DcMotor leftMotor = null;
+    DcMotor rightMotor = null;
+    DcMotor launcherMotor = null;
+
     Servo servo;
 
-
+    // data
+    int step;
+    boolean turning;
+    double leftMultiplier;
+    double rightMultiplier;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -85,11 +102,28 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
 
+        leftMotor  = hardwareMap.dcMotor.get("lMotor");
+        rightMotor = hardwareMap.dcMotor.get("rMotor");
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        launcherMotor = hardwareMap.dcMotor.get("launcher");
+        launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         servo = hardwareMap.servo.get("servo");
-        servo.setPosition(0.7);
+        servo.setPosition(0.0);
+
+        colorSensor = hardwareMap.colorSensor.get("cSensor");
 
         step = 0;
+        leftMultiplier = 1.08;
+        rightMultiplier = 0.9;
 
+        // eg: Set the drive motor directions:
+        // "Reverse" the motor that runs backwards when connected directly to the battery
+        // leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -97,16 +131,27 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Raw", rawData.values[2]);
+            telemetry.addData("Rotations", rotations);
+            telemetry.addData("Turning", turning);
+            telemetry.addData("Blue", colorSensor.blue());
 
             telemetry.update();
-            if(false) {
+            if(busy()) {
                 telemetry.addData("busy", null);
             }
             else {
 
                 if (step == 0) {
-                    servo.setPosition(0.4);
+                    turn(leftMotor, rightMotor, true, 90);
+                    if(!(turning)){
+                        step++;
+                        rotations = 0;
+                    }
+
                 }
+
 
 
             }
@@ -117,69 +162,90 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
         }
     }
 
-//    public void goPosition(DcMotor motor1, DcMotor motor2, double distance) {
-//        //resets encoders
-//        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//
-//        //sets position
-//        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*leftMultiplier));
-//        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*rightMultiplier));
-//
-//        // run to position
-//        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        motor1.setPower(0.6*leftMultiplier);
-//        motor2.setPower(0.6*rightMultiplier);
-//
-//    }
-//
-//    public void turn(DcMotor motor1, DcMotor motor2, boolean left, int degrees) {
-//        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//
-//        if(runtime.milliseconds()-timer >=10) {
-//            rotations += (Math.abs(rawData.values[2])+0.005)/100*57.2958;
-//            timer = runtime.milliseconds();
-//        }
-//        turning = rotations < degrees;
-//        if(turning) {
-//            if(left){
-//                motor1.setPower(-0.3);
-//                motor2.setPower(0.3);
-//            }
-//            else {
-//                motor1.setPower(0.3);
-//                motor2.setPower(-0.3);
-//            }
-//
-//        }
-//        else {
-//            motor1.setPower(0.0);
-//            motor2.setPower(0.0);
-//        }
-//    }
-//
-//    public void shoot(int num) {
-//        for(int i = 0; i < num; i++) {
-//            launcherMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//            launcherMotor.setTargetPosition(launcherMotor.getCurrentPosition()-1120);
-//            launcherMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            launcherMotor.setPower(0.5);
-//        }
-//    }
-//
-//    public boolean busy() {
-//        if(launcherMotor.isBusy()) {
-//            return true;
-//        }
-//        else if(leftMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)&&rightMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
-//            return leftMotor.isBusy() && rightMotor.isBusy();
-//        }
-//        else {
-//            return false;
-//        }
-//    }
+    public void goPosition(DcMotor motor1, DcMotor motor2, double distance) {
+        //resets encoders
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //sets position
+        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*leftMultiplier));
+        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*rightMultiplier));
+
+        // run to position
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor1.setPower(0.6*leftMultiplier);
+        motor2.setPower(0.6*rightMultiplier);
+
+    }
+
+    public void goPosition(DcMotor motor1, DcMotor motor2, double distance, double power) {
+        //resets encoders
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //sets position
+        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*leftMultiplier));
+        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*rightMultiplier));
+
+        // run to position
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor1.setPower(power*leftMultiplier);
+        motor2.setPower(power*rightMultiplier);
+
+    }
+
+    public void turn(DcMotor motor1, DcMotor motor2, boolean left, int degrees) {
+        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        if(runtime.milliseconds()-timer >=10) {
+            rotations += (Math.abs(rawData.values[2])+0.015)/100*57.2958;
+            timer = runtime.milliseconds();
+        }
+        turning = rotations < degrees;
+        if(turning) {
+            if(left){
+                motor1.setPower(-0.5);
+                motor2.setPower(0.3);
+            }
+            else {
+                motor1.setPower(0.5);
+                motor2.setPower(-0.3);
+            }
+
+        }
+        else {
+            motor1.setPower(0.0);
+            motor2.setPower(0.0);
+        }
+    }
+
+    public void shoot(int num) {
+        for(int i = 0; i < num; i++) {
+            launcherMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            launcherMotor.setTargetPosition(launcherMotor.getCurrentPosition()-1120);
+            launcherMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            launcherMotor.setPower(0.5);
+        }
+    }
+
+    public boolean color(int color) {
+        return colorSensor.red() > 5;
+    }
+
+    public boolean busy() {
+        if(launcherMotor.isBusy()) {
+            return true;
+        }
+        else if(leftMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)&&rightMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
+            return leftMotor.isBusy() && rightMotor.isBusy();
+        }
+        else {
+            return false;
+        }
+    }
 
     @Override
     public void onSensorChanged(SensorEvent e) {

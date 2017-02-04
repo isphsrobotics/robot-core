@@ -44,6 +44,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -84,6 +85,8 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
     DcMotor rightMotor = null;
     DcMotor launcherMotor = null;
 
+    Servo servo;
+
     // data
     int step;
     boolean turning;
@@ -108,10 +111,13 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
         launcherMotor = hardwareMap.dcMotor.get("launcher");
         launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        servo = hardwareMap.servo.get("servo");
+        servo.setPosition(0.0);
+
         colorSensor = hardwareMap.colorSensor.get("cSensor");
 
         step = 0;
-        leftMultiplier = 1.1;
+        leftMultiplier = 1.08;
         rightMultiplier = 0.9;
 
         // eg: Set the drive motor directions:
@@ -129,6 +135,7 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
             telemetry.addData("Raw", rawData.values[2]);
             telemetry.addData("Rotations", rotations);
             telemetry.addData("Turning", turning);
+            telemetry.addData("Blue", colorSensor.blue());
 
             telemetry.update();
             if(busy()) {
@@ -149,16 +156,43 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
                     }
                 }
                 else if(step == 2) {
-                    goPosition(leftMotor, rightMotor, 1.18);
+                    goPosition(leftMotor, rightMotor, 1.05);
                     step++;
                 }
                 else if(step == 3) {
-                    turn(leftMotor, rightMotor, true, 65);
+                    turn(leftMotor, rightMotor, true, 43);
                     if(!turning) {
                         rotations = 0;
                         step++;
                     }
                 }
+                else if(step == 4) {
+                    goPosition(leftMotor, rightMotor, 0.09);
+                    step++;
+                }
+                else if(step == 5) {
+                    turn(leftMotor, rightMotor, true, 18);
+                    if(!turning) {
+                        rotations = 0;
+                        step++;
+                    }
+                }
+                else if(step == 6){
+                    goPosition(leftMotor, rightMotor, 0.06, 0.2);
+                    step++;
+                }
+                else if(step ==7){
+                    servo.setPosition(0.3);
+                    step++;
+                }
+//                else if (step == 5){
+//                    if(colorSensor.blue() > 4){
+//
+//                    }
+//                    else{
+//                        goPosition(leftMotor, rightMotor, 0.13, 0.2);
+//                    }
+//                }
 
             }
 
@@ -185,6 +219,23 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
 
     }
 
+    public void goPosition(DcMotor motor1, DcMotor motor2, double distance, double power) {
+        //resets encoders
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //sets position
+        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*leftMultiplier));
+        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*rightMultiplier));
+
+        // run to position
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor1.setPower(power*leftMultiplier);
+        motor2.setPower(power*rightMultiplier);
+
+    }
+
     public void turn(DcMotor motor1, DcMotor motor2, boolean left, int degrees) {
         motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -197,11 +248,11 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
         if(turning) {
             if(left){
                 motor1.setPower(-0.35);
-                motor2.setPower(0.15);
+                motor2.setPower(0.25);
             }
             else {
                 motor1.setPower(0.35);
-                motor2.setPower(-0.15);
+                motor2.setPower(-0.25);
             }
 
         }
