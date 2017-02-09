@@ -156,18 +156,18 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
                     }
                 }
                 else if(step == 2) {
-                    goPosition(leftMotor, rightMotor, 1.05);
+                    goPosition(leftMotor, rightMotor, 1);
                     step++;
                 }
                 else if(step == 3) {
-                    turn(leftMotor, rightMotor, true, 43);
+                    turn(leftMotor, rightMotor, true, 45);
                     if(!turning) {
                         rotations = 0;
                         step++;
                     }
                 }
                 else if(step == 4) {
-                    goPosition(leftMotor, rightMotor, 0.09);
+                    goPosition(leftMotor, rightMotor, 0.08);
                     step++;
                 }
                 else if(step == 5) {
@@ -178,7 +178,7 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
                     }
                 }
                 else if(step == 6){
-                    goPosition(leftMotor, rightMotor, 0.06, 0.2);
+                    goPosition(leftMotor, rightMotor, 0.1, 0.2);
                     step++;
                 }
                 else if(step ==7){
@@ -264,10 +264,13 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
 
     public void shoot(int num) {
         for(int i = 0; i < num; i++) {
-            launcherMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            launcherMotor.setTargetPosition(launcherMotor.getCurrentPosition()-1120);
-            launcherMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            launcherMotor.setPower(0.5);
+
+
+
+//            launcherMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            launcherMotor.setTargetPosition(launcherMotor.getCurrentPosition()-1120);
+//            launcherMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            launcherMotor.setPower(0.5);
         }
     }
 

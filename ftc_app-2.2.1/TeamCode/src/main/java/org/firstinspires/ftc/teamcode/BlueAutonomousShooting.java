@@ -89,6 +89,7 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
     boolean turning;
     double leftMultiplier;
     double rightMultiplier;
+    double startTime;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -111,8 +112,8 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
         colorSensor = hardwareMap.colorSensor.get("cSensor");
 
         step = 0;
-        leftMultiplier = 1.1;
-        rightMultiplier = 0.9;
+        leftMultiplier = 1.5;
+        rightMultiplier = 0.5;
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -159,8 +160,15 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
                     }
                 }
                 else if(step == 4) {
-                    shoot(1);
+                    startTime = runtime.seconds();
                     step++;
+                }
+                else if(step == 5) {
+                    startTime = runtime.seconds();
+                    step++;
+                }
+                else if(step == 6) {
+                    shoot();
                 }
             }
 
@@ -213,12 +221,10 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
         }
     }
 
-    public void shoot(int num) {
-        for(int i = 0; i < num; i++) {
-            launcherMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            launcherMotor.setTargetPosition(launcherMotor.getCurrentPosition()-1120);
-            launcherMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            launcherMotor.setPower(0.5);
+    public void shoot() {
+        if(startTime+0.42 < runtime.seconds()) launcherMotor.setPower(0.0);
+        else {
+            launcherMotor.setPower(-0.75);
         }
     }
 

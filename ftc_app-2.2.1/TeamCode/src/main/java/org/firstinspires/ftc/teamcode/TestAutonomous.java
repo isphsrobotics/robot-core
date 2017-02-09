@@ -44,7 +44,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -85,13 +84,12 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
     DcMotor rightMotor = null;
     DcMotor launcherMotor = null;
 
-    Servo servo;
-
     // data
     int step;
     boolean turning;
     double leftMultiplier;
     double rightMultiplier;
+    double startTime;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -111,14 +109,11 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
         launcherMotor = hardwareMap.dcMotor.get("launcher");
         launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        servo = hardwareMap.servo.get("servo");
-        servo.setPosition(0.0);
-
         colorSensor = hardwareMap.colorSensor.get("cSensor");
 
         step = 0;
-        leftMultiplier = 1.08;
-        rightMultiplier = 0.9;
+        leftMultiplier = 1.3;
+        rightMultiplier = 0.7;
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -131,29 +126,19 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Raw", rawData.values[2]);
-            telemetry.addData("Rotations", rotations);
-            telemetry.addData("Turning", turning);
-            telemetry.addData("Blue", colorSensor.blue());
 
-            telemetry.update();
             if(busy()) {
                 telemetry.addData("busy", null);
             }
             else {
-
-                if (step == 0) {
-                    turn(leftMotor, rightMotor, true, 90);
-                    if(!(turning)){
-                        step++;
-                        rotations = 0;
-                    }
-
+                if(step == 0) {
+                    //do something
+                    step++;
                 }
-
-
-
+                else if(step == 1) {
+                    //do something else
+                    step++;
+                }
             }
 
 
@@ -179,23 +164,6 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
 
     }
 
-    public void goPosition(DcMotor motor1, DcMotor motor2, double distance, double power) {
-        //resets encoders
-        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //sets position
-        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*leftMultiplier));
-        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*rightMultiplier));
-
-        // run to position
-        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor1.setPower(power*leftMultiplier);
-        motor2.setPower(power*rightMultiplier);
-
-    }
-
     public void turn(DcMotor motor1, DcMotor motor2, boolean left, int degrees) {
         motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -207,12 +175,12 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
         turning = rotations < degrees;
         if(turning) {
             if(left){
-                motor1.setPower(-0.5);
-                motor2.setPower(0.3);
+                motor1.setPower(-0.45);
+                motor2.setPower(0.25);
             }
             else {
-                motor1.setPower(0.5);
-                motor2.setPower(-0.3);
+                motor1.setPower(0.45);
+                motor2.setPower(-0.25);
             }
 
         }
@@ -222,12 +190,10 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
         }
     }
 
-    public void shoot(int num) {
-        for(int i = 0; i < num; i++) {
-            launcherMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            launcherMotor.setTargetPosition(launcherMotor.getCurrentPosition()-1120);
-            launcherMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            launcherMotor.setPower(0.5);
+    public void shoot() {
+        if(startTime+0.42 < runtime.seconds()) launcherMotor.setPower(0.0);
+        else {
+            launcherMotor.setPower(-0.75);
         }
     }
 

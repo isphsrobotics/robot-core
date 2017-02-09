@@ -68,15 +68,11 @@ public class MainTeleOp extends OpMode {
     DcMotor motorExtenderL;
     DcMotor motorExtenderR;
 
+    Servo servo;
+
     boolean slow;
-    int position;
-
-    Servo gripLeft;
-    Servo gripRight;
-    //boolean toggle;
-    int toggleTimer;
-
     boolean bool;
+    int startingPos;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -98,19 +94,12 @@ public class MainTeleOp extends OpMode {
         motorHopper = hardwareMap.dcMotor.get("hMotor");
 
         motorLauncher = hardwareMap.dcMotor.get("launcher");
-        motorLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //position = motorLauncher.getCurrentPosition();
 
         motorExtenderL = hardwareMap.dcMotor.get("lExtender");
         motorExtenderR = hardwareMap.dcMotor.get("rExtender");
 
-        gripLeft = hardwareMap.servo.get("gLeft");
-        gripRight = hardwareMap.servo.get("gRight");
-        gripLeft.setPosition(1.0);
-        gripRight.setPosition(0.0);
-        toggleTimer = 0;
+        servo = hardwareMap.servo.get("servo");
+        servo.setPosition(0.0);
 
         slow = false;
 
@@ -124,6 +113,7 @@ public class MainTeleOp extends OpMode {
 
     @Override
     public void loop() {
+        telemetry.addData("test", null);
 
         //region WHEELS
         // ## WHEEL MOTORS ##
@@ -172,33 +162,32 @@ public class MainTeleOp extends OpMode {
             motorHopper.setPower(0.0);
         }
 
-        if(motorLauncher.isBusy()) {
 
+        if(gamepad2.y) {
+            motorLauncher.setPower(-0.65);
         }
         else {
-            if(gamepad2.y) {
-                motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                motorLauncher.setTargetPosition(motorLauncher.getCurrentPosition()-1120);
-                motorLauncher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorLauncher.setPower(0.7);
-            }
-            else {
-                motorLauncher.setPower(0.0);
-                motorLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            }
+            motorLauncher.setPower(0.0);
         }
+
 
         if(gamepad2.right_bumper) {
             motorExtenderL.setPower(0.9);
-            motorExtenderR.setPower(-0.9);
+            motorExtenderR.setPower(0.9);
         }
         else if(gamepad2.left_bumper) {
             motorExtenderL.setPower(-0.9);
-            motorExtenderR.setPower(0.9);
+            motorExtenderR.setPower(-0.9);
         }
         else {
             motorExtenderL.setPower(0.0);
             motorExtenderR.setPower(0.0);
+        }
+
+        if(gamepad2.a) {
+            if(bool) servo.setPosition(0.3);
+            else servo.setPosition(0.0);
+            bool = !bool;
         }
 
 
