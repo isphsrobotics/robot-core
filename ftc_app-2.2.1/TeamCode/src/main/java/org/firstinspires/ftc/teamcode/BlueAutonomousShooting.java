@@ -87,6 +87,7 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
     // data
     int step;
     boolean turning;
+    boolean shooting;
     double leftMultiplier;
     double rightMultiplier;
     double startTime;
@@ -112,8 +113,8 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
         colorSensor = hardwareMap.colorSensor.get("cSensor");
 
         step = 0;
-        leftMultiplier = 1.5;
-        rightMultiplier = 0.5;
+        leftMultiplier = 1.1;
+        rightMultiplier = 0.9;
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -149,7 +150,7 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
                     }
                 }
                 else if(step == 2) {
-                    goPosition(leftMotor, rightMotor, 1.5);
+                    goPosition(leftMotor, rightMotor, 1.75);
                     step++;
                 }
                 else if(step == 3) {
@@ -164,11 +165,23 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
                     step++;
                 }
                 else if(step == 5) {
+                    shoot();
+                    if(!shooting) step++;
+                }
+                else if(step == 6) {
                     startTime = runtime.seconds();
                     step++;
                 }
                 else if(step == 6) {
+                    if(startTime+4.0<runtime.seconds()) step++;
+                }
+                else if(step == 7) {
+                    startTime = runtime.seconds();
+                    step++;
+                }
+                else if(step == 8) {
                     shoot();
+                    if(!shooting) step++;
                 }
             }
 
@@ -184,14 +197,14 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //sets position
-        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*leftMultiplier));
-        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*rightMultiplier));
+        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*1.1/**leftMultiplier*/));
+        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*0.9/**rightMultiplier*/));
 
         // run to position
         motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor1.setPower(0.6*leftMultiplier);
-        motor2.setPower(0.6*rightMultiplier);
+        motor1.setPower(0.6*1.1/**leftMultiplier*/);
+        motor2.setPower(0.6*0.9/**rightMultiplier*/);
 
     }
 
@@ -206,12 +219,12 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
         turning = rotations < degrees;
         if(turning) {
             if(left){
-                motor1.setPower(-0.35);
-                motor2.setPower(0.15);
+                motor1.setPower(-0.45);
+                motor2.setPower(0.25);
             }
             else {
-                motor1.setPower(0.35);
-                motor2.setPower(-0.15);
+                motor1.setPower(0.45);
+                motor2.setPower(-0.25);
             }
 
         }
@@ -222,9 +235,13 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
     }
 
     public void shoot() {
-        if(startTime+0.42 < runtime.seconds()) launcherMotor.setPower(0.0);
+        if(startTime+0.42 < runtime.seconds()) {
+            launcherMotor.setPower(0.0);
+            shooting = false;
+        }
         else {
             launcherMotor.setPower(-0.75);
+            shooting = true;
         }
     }
 
@@ -233,10 +250,7 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
     }
 
     public boolean busy() {
-        if(launcherMotor.isBusy()) {
-            return true;
-        }
-        else if(leftMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)&&rightMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
+        if(leftMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)&&rightMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
             return leftMotor.isBusy() && rightMotor.isBusy();
         }
         else {
