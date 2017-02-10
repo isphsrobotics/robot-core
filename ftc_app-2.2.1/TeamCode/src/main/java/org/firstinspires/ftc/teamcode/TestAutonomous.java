@@ -83,13 +83,17 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
     DcMotor launcherMotor = null;
+    DcMotor motorHopper = null;
 
     // data
     int step;
     boolean turning;
+    boolean shooting;
     double leftMultiplier;
     double rightMultiplier;
     double startTime;
+    double waitTimer;
+    boolean flag;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -100,25 +104,27 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
 
-        leftMotor  = hardwareMap.dcMotor.get("lMotor");
-        rightMotor = hardwareMap.dcMotor.get("rMotor");
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        launcherMotor = hardwareMap.dcMotor.get("launcher");
-        launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        colorSensor = hardwareMap.colorSensor.get("cSensor");
+//        leftMotor  = hardwareMap.dcMotor.get("lMotor");
+//        rightMotor = hardwareMap.dcMotor.get("rMotor");
+//        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        launcherMotor = hardwareMap.dcMotor.get("launcher");
+//        launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        motorHopper = hardwareMap.dcMotor.get("hMotor");
+//
+//        colorSensor = hardwareMap.colorSensor.get("cSensor");
 
         step = 0;
         leftMultiplier = 1.1;
         rightMultiplier = 0.9;
+        flag = false;
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
         // leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        //rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -126,45 +132,18 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Raw", rawData.values[2]);
-            telemetry.addData("Rotations", rotations);
-            telemetry.addData("Turning", turning);
+            telemetry.addData("rotations", rotations);
+            telemetry.addData("turning", turning);
 
             telemetry.update();
-            if(busy()) {
+            if(false) {
                 telemetry.addData("busy", null);
             }
             else {
-                if (step == 0) {
-                    goPosition(leftMotor, rightMotor, 0.66);
-                    step++;
 
-                }
-                else if(step == 1) {
-                    turn(leftMotor, rightMotor, false, 45);
-                    if(!turning) {
-                        rotations = 0;
-                        step++;
-                    }
-                }
-                else if(step == 2) {
-                    goPosition(leftMotor, rightMotor, 1.75);
-                    step++;
-                }
-                else if(step == 3) {
-                    turn(leftMotor, rightMotor, false, 90);
-                    if(!turning) {
-                        rotations = 0;
-                        step++;
-                    }
-                }
-                else if(step == 4) {
-                    startTime = runtime.seconds();
-                    step++;
-                }
-                else if(step == 5) {
-                    shoot();
+                if(step == 0) {
+                    turn(true, 90);
+
                 }
             }
 
@@ -180,47 +159,51 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //sets position
-        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*1.1/**leftMultiplier*/));
-        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*0.9/**rightMultiplier*/));
+        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5610))/**leftMultiplier*/));
+        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*4590))/**rightMultiplier*/));
 
         // run to position
         motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor1.setPower(0.6*1.1/**leftMultiplier*/);
-        motor2.setPower(0.6*0.9/**rightMultiplier*/);
+        motor1.setPower(0.66/**leftMultiplier*/);
+        motor2.setPower(0.54/**rightMultiplier*/);
 
     }
 
-    public void turn(DcMotor motor1, DcMotor motor2, boolean left, int degrees) {
-        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    public void turn(boolean left, int degrees) {
+//        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         if(runtime.milliseconds()-timer >=10) {
-            rotations += (Math.abs(rawData.values[2])+0.015)/100*57.2958;
+            rotations += (Math.abs(rawData.values[1])+0.015)/100*57.2958;
             timer = runtime.milliseconds();
         }
         turning = rotations < degrees;
         if(turning) {
             if(left){
-                motor1.setPower(-0.45);
-                motor2.setPower(0.25);
+//                motor1.setPower(-0.45);
+//                motor2.setPower(0.25);
             }
             else {
-                motor1.setPower(0.45);
-                motor2.setPower(-0.25);
+//                motor1.setPower(0.45);
+//                motor2.setPower(-0.25);
             }
 
         }
         else {
-            motor1.setPower(0.0);
-            motor2.setPower(0.0);
+//            motor1.setPower(0.0);
+//            motor2.setPower(0.0);
         }
     }
 
     public void shoot() {
-        if(startTime+0.42 < runtime.seconds()) launcherMotor.setPower(0.0);
+        if(startTime+0.6 < runtime.seconds()) {
+            launcherMotor.setPower(0.0);
+            shooting = false;
+        }
         else {
             launcherMotor.setPower(-0.75);
+            shooting = true;
         }
     }
 
@@ -229,10 +212,7 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
     }
 
     public boolean busy() {
-        if(launcherMotor.isBusy()) {
-            return true;
-        }
-        else if(leftMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)&&rightMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
+        if(leftMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)&&rightMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
             return leftMotor.isBusy() && rightMotor.isBusy();
         }
         else {

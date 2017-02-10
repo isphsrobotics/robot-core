@@ -84,6 +84,7 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
     DcMotor launcherMotor = null;
+    DcMotor motorHopper = null;
 
     Servo servo;
 
@@ -110,6 +111,8 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         launcherMotor = hardwareMap.dcMotor.get("launcher");
         launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        motorHopper = hardwareMap.dcMotor.get("hMotor");
 
         servo = hardwareMap.servo.get("servo");
         servo.setPosition(0.0);
@@ -178,21 +181,20 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener 
                     }
                 }
                 else if(step == 6){
-                    goPosition(leftMotor, rightMotor, 0.1, 0.2);
-                    step++;
+//                    goPosition(leftMotor, rightMotor, 0.1, 0.2);
+//                    step++;
+                    leftMotor.setPower(0.3);
+                    rightMotor.setPower(0.3);
+                    if(colorSensor.blue()>6) step++;
                 }
                 else if(step ==7){
-                    servo.setPosition(0.3);
+                    leftMotor.setPower(0.0);
+                    rightMotor.setPower(0.0);
                     step++;
                 }
-//                else if (step == 5){
-//                    if(colorSensor.blue() > 4){
-//
-//                    }
-//                    else{
-//                        goPosition(leftMotor, rightMotor, 0.13, 0.2);
-//                    }
-//                }
+                else if(step == 8) {
+
+                }
 
             }
 

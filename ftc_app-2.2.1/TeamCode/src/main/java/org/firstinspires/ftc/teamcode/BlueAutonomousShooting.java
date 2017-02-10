@@ -59,7 +59,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue Autonomous Shooting", group="Autonomous")
+@Autonomous(name="Blue Shooting", group="Autonomous")
 //@Disabled
 public class BlueAutonomousShooting extends LinearOpMode implements SensorEventListener {
 
@@ -83,6 +83,7 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
     DcMotor launcherMotor = null;
+    DcMotor motorHopper = null;
 
     // data
     int step;
@@ -91,6 +92,8 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
     double leftMultiplier;
     double rightMultiplier;
     double startTime;
+    double waitTimer;
+    boolean flag;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -109,12 +112,14 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         launcherMotor = hardwareMap.dcMotor.get("launcher");
         launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorHopper = hardwareMap.dcMotor.get("hMotor");
 
         colorSensor = hardwareMap.colorSensor.get("cSensor");
 
         step = 0;
         leftMultiplier = 1.1;
         rightMultiplier = 0.9;
+        flag = false;
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -127,10 +132,7 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Raw", rawData.values[2]);
-            telemetry.addData("Rotations", rotations);
-            telemetry.addData("Turning", turning);
+            telemetry.addData("flag", flag);
 
             telemetry.update();
             if(busy()) {
@@ -169,17 +171,21 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
                     if(!shooting) step++;
                 }
                 else if(step == 6) {
-                    startTime = runtime.seconds();
+                    waitTimer = runtime.seconds();
+                    motorHopper.setPower(-0.8);
                     step++;
-                }
-                else if(step == 6) {
-                    if(startTime+4.0<runtime.seconds()) step++;
                 }
                 else if(step == 7) {
+                    if(waitTimer+4.0<runtime.seconds()) {
+                        motorHopper.setPower(0.0);
+                        step++;
+                    }
+                }
+                else if(step == 8) {
                     startTime = runtime.seconds();
                     step++;
                 }
-                else if(step == 8) {
+                else if(step == 9) {
                     shoot();
                     if(!shooting) step++;
                 }
@@ -197,14 +203,14 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //sets position
-        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*1.1/**leftMultiplier*/));
-        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*0.9/**rightMultiplier*/));
+        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5100))*leftMultiplier));
+        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*5100))*rightMultiplier));
 
         // run to position
         motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor1.setPower(0.6*1.1/**leftMultiplier*/);
-        motor2.setPower(0.6*0.9/**rightMultiplier*/);
+        motor1.setPower(0.6*leftMultiplier);
+        motor2.setPower(0.6*rightMultiplier);
 
     }
 
@@ -213,7 +219,7 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
         motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         if(runtime.milliseconds()-timer >=10) {
-            rotations += (Math.abs(rawData.values[2])+0.015)/100*57.2958;
+            rotations += (Math.abs(rawData.values[1])+0.015)/100*57.2958;
             timer = runtime.milliseconds();
         }
         turning = rotations < degrees;
@@ -235,7 +241,7 @@ public class BlueAutonomousShooting extends LinearOpMode implements SensorEventL
     }
 
     public void shoot() {
-        if(startTime+0.42 < runtime.seconds()) {
+        if(startTime+0.6 < runtime.seconds()) {
             launcherMotor.setPower(0.0);
             shooting = false;
         }

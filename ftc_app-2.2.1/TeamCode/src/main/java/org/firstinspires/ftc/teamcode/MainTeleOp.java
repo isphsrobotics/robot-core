@@ -99,7 +99,7 @@ public class MainTeleOp extends OpMode {
         motorExtenderR = hardwareMap.dcMotor.get("rExtender");
 
         servo = hardwareMap.servo.get("servo");
-        servo.setPosition(0.0);
+        servo.setPosition(0.3);
 
         slow = false;
 
@@ -170,14 +170,24 @@ public class MainTeleOp extends OpMode {
             motorLauncher.setPower(0.0);
         }
 
+        if(gamepad2.a) {
+            servo.setPosition(0.3);
+        }
+        else {
+            servo.setPosition(0.0);
+        }
 
         if(gamepad2.right_bumper) {
-            motorExtenderL.setPower(0.9);
             motorExtenderR.setPower(0.9);
         }
         else if(gamepad2.left_bumper) {
-            motorExtenderL.setPower(-0.9);
+            motorExtenderL.setPower(0.9);
+        }
+        else if(gamepad2.right_trigger>0.1) {
             motorExtenderR.setPower(-0.9);
+        }
+        else if(gamepad2.left_trigger>0.1) {
+            motorExtenderL.setPower(-0.9);
         }
         else {
             motorExtenderL.setPower(0.0);
