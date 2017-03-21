@@ -44,6 +44,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -61,65 +62,27 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Test", group="Autonomous")
 //@Disabled
-public class TestAutonomous extends LinearOpMode implements SensorEventListener {
+public class TestAutonomous extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
 
-    // sensor stuff
-    SensorManager sensorManager;
-    Sensor sensor;
-    SensorEvent rawData;
-    ColorSensor colorSensor;
-
-    double average;
-    double tempAverage;
-
-    double timer;
-    double timer2;
-    double rotations;
-
-    // motors
-    DcMotor leftMotor = null;
-    DcMotor rightMotor = null;
-    DcMotor launcherMotor = null;
-    DcMotor motorHopper = null;
-
-    // data
-    int step;
-    boolean turning;
-    boolean shooting;
-    double leftMultiplier;
-    double rightMultiplier;
-    double startTime;
-    double waitTimer;
-    boolean flag;
+    DcMotor front;
+    DcMotor back;
+    DcMotor left;
+    DcMotor right;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        telemetry.addData("Status", "Initialized");
+        telemetry.addData("test", "Initialized");
         telemetry.update();
 
-        sensorManager = (SensorManager) hardwareMap.appContext.getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
-
-//        leftMotor  = hardwareMap.dcMotor.get("lMotor");
-//        rightMotor = hardwareMap.dcMotor.get("rMotor");
-//        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        launcherMotor = hardwareMap.dcMotor.get("launcher");
-//        launcherMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        motorHopper = hardwareMap.dcMotor.get("hMotor");
-//
-//        colorSensor = hardwareMap.colorSensor.get("cSensor");
-
-        step = 0;
-        leftMultiplier = 1.1;
-        rightMultiplier = 0.9;
-        flag = false;
+        front = hardwareMap.dcMotor.get("front");
+        back = hardwareMap.dcMotor.get("back");
+        left = hardwareMap.dcMotor.get("left");
+        right = hardwareMap.dcMotor.get("right");
+        left.setDirection(DcMotorSimple.Direction.REVERSE);
+        back.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -128,106 +91,22 @@ public class TestAutonomous extends LinearOpMode implements SensorEventListener 
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            telemetry.addData("rotations", rotations);
-            telemetry.addData("turning", turning);
+        if(opModeIsActive()) {
 
-            telemetry.update();
-            if(false) {
-                telemetry.addData("busy", null);
+            int targetL = left.getCurrentPosition() + 500;
+            int targetR = right.getCurrentPosition() + 500;
+
+            while(left.getCurrentPosition()<targetL && right.getCurrentPosition()<targetR) {
+                left.setPower(0.5);
+                right.setPower(0.5);
             }
-            else {
-
-                if(step == 0) {
-                    turn(true, 90);
-
-                }
-            }
-
-
-
-            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
-        }
-    }
-
-    public void goPosition(DcMotor motor1, DcMotor motor2, double distance) {
-        //resets encoders
-        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //sets position
-        motor1.setTargetPosition((int)((motor1.getCurrentPosition()+(distance*5610))/**leftMultiplier*/));
-        motor2.setTargetPosition((int)((motor2.getCurrentPosition()+(distance*4590))/**rightMultiplier*/));
-
-        // run to position
-        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor1.setPower(0.66/**leftMultiplier*/);
-        motor2.setPower(0.54/**rightMultiplier*/);
-
-    }
-
-    public void turn(boolean left, int degrees) {
-//        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        if(runtime.milliseconds()-timer >=10) {
-            rotations += (Math.abs(rawData.values[1])+0.015)/100*57.2958;
-            timer = runtime.milliseconds();
-        }
-        turning = rotations < degrees;
-        if(turning) {
-            if(left){
-//                motor1.setPower(-0.45);
-//                motor2.setPower(0.25);
-            }
-            else {
-//                motor1.setPower(0.45);
-//                motor2.setPower(-0.25);
+            if(opModeIsActive()) {
+                left.setPower(0.0);
+                right.setPower(0.0);
             }
 
         }
-        else {
-//            motor1.setPower(0.0);
-//            motor2.setPower(0.0);
-        }
-    }
-
-    public void shoot() {
-        if(startTime+0.6 < runtime.seconds()) {
-            launcherMotor.setPower(0.0);
-            shooting = false;
-        }
-        else {
-            launcherMotor.setPower(-0.75);
-            shooting = true;
-        }
-    }
-
-    public boolean color(int color) {
-        return colorSensor.red() > 5;
-    }
-
-    public boolean busy() {
-        if(leftMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)&&rightMotor.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
-            return leftMotor.isBusy() && rightMotor.isBusy();
-        }
-        else {
-            return false;
-        }
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent e) {
-        this.rawData = e;
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 
 

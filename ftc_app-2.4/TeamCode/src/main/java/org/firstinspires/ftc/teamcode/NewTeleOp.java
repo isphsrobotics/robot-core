@@ -32,13 +32,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -55,24 +54,20 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Main TeleOp", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Main Teleop", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class MainTeleOp extends OpMode {
+public class NewTeleOp extends OpMode {
 
-    DcMotor motorRight;
-    DcMotor motorLeft;
+    DcMotor front;
+    DcMotor back;
+    DcMotor left;
+    DcMotor right;
 
-    DcMotor motorHopper;
-    DcMotor motorLauncher;
+    DcMotor hopper;
 
-    DcMotor motorExtenderL;
-    DcMotor motorExtenderR;
-
-    Servo servo;
-
-    boolean slow;
-    boolean bool;
-    int startingPos;
+    Servo gate;
+    boolean moving;
+    double time;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -84,125 +79,79 @@ public class MainTeleOp extends OpMode {
      */
     @Override
     public void init() {
-        // Launcher encoder positions
-
         // Main motors (wheels) -- reverse one of them
-        motorLeft = hardwareMap.dcMotor.get("lMotor");
-        motorRight = hardwareMap.dcMotor.get("rMotor");
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
-        motorHopper = hardwareMap.dcMotor.get("hMotor");
+        telemetry.addData("test", null);
 
-        motorLauncher = hardwareMap.dcMotor.get("launcher");
+        front = hardwareMap.dcMotor.get("front");
+        back = hardwareMap.dcMotor.get("back");
+        left = hardwareMap.dcMotor.get("left");
+        right = hardwareMap.dcMotor.get("right");
+        left.setDirection(DcMotorSimple.Direction.REVERSE);
+        back.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        motorExtenderL = hardwareMap.dcMotor.get("lExtender");
-        motorExtenderR = hardwareMap.dcMotor.get("rExtender");
+        hopper = hardwareMap.dcMotor.get("hopper");
 
-        servo = hardwareMap.servo.get("servo");
-        servo.setPosition(0.3);
+        gate = hardwareMap.servo.get("gate");
+        gate.setPosition(0.4);
+        moving = false;
+        time = 0;
 
-        slow = false;
-
-        bool = true;
-
-        //ballLoader = hardwareMap.servo.get("loader");
-        //ballLoader.setPosition(openPos);
     }
     //endregion
 
 
     @Override
     public void loop() {
-        telemetry.addData("test", null);
 
-        //region WHEELS
-        // ## WHEEL MOTORS ##
-        // Gets values from joysticks
-        float right1;
-        float left1;
+        float turn = gamepad1.left_stick_x;
+        float northSouth = gamepad1.right_stick_y;
+        float eastWest = gamepad1.right_stick_x;
 
-        if (slow) {
-            right1 = gamepad1.right_stick_y * (float) 0.5;
-            right1 *= 0.9;
-            left1 = gamepad1.left_stick_y * (float) 0.5;
-            left1 *= 1;
-        } else {
-            right1 = gamepad1.right_stick_y;
-            right1 *= 0.9;
-            left1 = gamepad1.left_stick_y;
-            left1 *= 1;
+        turn = Range.clip(turn, -1, 1);
+        northSouth = Range.clip(northSouth, -1, 1);
+        eastWest = Range.clip(eastWest, -1, 1);
+
+        if(turn!=0 && (northSouth!=0 || eastWest!=0)) {
+            front.setPower(eastWest);
+            back.setPower(eastWest);
+            left.setPower(northSouth-turn);
+            right.setPower(northSouth+turn);
         }
-
-
-        // clip the right/left values so that the values never exceed +/- 1
-        if (gamepad1.dpad_up) {
-            slow = false;
-        } else if (gamepad1.dpad_down) {
-            slow = true;
-        }
-
-        right1 = Range.clip(right1, -1, 1);
-        left1 = Range.clip(left1, (float) -1.0, (float) 1.0);
-
-        // scale the joystick value with custom method to make it easier to control
-        // the robot more precisely at slower speeds.
-        right1 = (float) scaleInput(right1);
-        left1 = (float) scaleInput(left1);
-
-        // write values from vars to the motors
-        motorRight.setPower(right1);
-        motorLeft.setPower(left1);
-
-        // activates hopper motors
-        if (gamepad1.right_bumper) {
-            motorHopper.setPower(0.6);
-        } else if (gamepad1.left_bumper) {
-            motorHopper.setPower(-0.6);
-        } else {
-            motorHopper.setPower(0.0);
-        }
-
-
-        if(gamepad2.y) {
-            motorLauncher.setPower(-0.65);
+        else if(turn!=0) {
+            left.setPower(turn);
+            front.setPower(turn);
+            back.setPower(-turn);
+            right.setPower(-turn);
         }
         else {
-            motorLauncher.setPower(0.0);
+            left.setPower(northSouth);
+            front.setPower(eastWest);
+            back.setPower(eastWest);
+            right.setPower(northSouth);
         }
 
-        if(gamepad2.a) {
-            servo.setPosition(0.3);
+        if(gamepad1.right_bumper) {
+            hopper.setPower(0.8);
+        }
+        else if(gamepad1.left_bumper) {
+            hopper.setPower(-0.8);
         }
         else {
-            servo.setPosition(0.0);
+            hopper.setPower(0);
         }
 
-        if(gamepad2.right_bumper) {
-            motorExtenderR.setPower(0.9);
-        }
-        else if(gamepad2.left_bumper) {
-            motorExtenderL.setPower(0.9);
-        }
-        else if(gamepad2.right_trigger>0.1) {
-            motorExtenderR.setPower(-0.9);
-        }
-        else if(gamepad2.left_trigger>0.1) {
-            motorExtenderL.setPower(-0.9);
-        }
-        else {
-            motorExtenderL.setPower(0.0);
-            motorExtenderR.setPower(0.0);
+        if(gamepad1.a) {
+            gate.setPosition(0.1);
+            time = runtime.seconds();
+
         }
 
-        if(gamepad2.a) {
-            if(bool) servo.setPosition(0.3);
-            else servo.setPosition(0.0);
-            bool = !bool;
+        if(gate.getPosition()==0.1 && time+0.35 <= runtime.seconds()) {
+            gate.setPosition(0.4);
+            time = 0;
         }
 
-
-
-        //endregion
     }
 
     /*
