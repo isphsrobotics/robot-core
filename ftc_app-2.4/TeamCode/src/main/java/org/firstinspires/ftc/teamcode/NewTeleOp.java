@@ -81,7 +81,7 @@ public class NewTeleOp extends OpMode {
     public void init() {
         // Main motors (wheels) -- reverse one of them
 
-        telemetry.addData("test", null);
+        telemetry.addData("test2", null);
 
         front = hardwareMap.dcMotor.get("front");
         back = hardwareMap.dcMotor.get("back");
@@ -119,10 +119,10 @@ public class NewTeleOp extends OpMode {
             right.setPower(northSouth+turn);
         }
         else if(turn!=0) {
-            left.setPower(turn);
+            left.setPower(-turn);
             front.setPower(turn);
             back.setPower(-turn);
-            right.setPower(-turn);
+            right.setPower(turn);
         }
         else {
             left.setPower(northSouth);

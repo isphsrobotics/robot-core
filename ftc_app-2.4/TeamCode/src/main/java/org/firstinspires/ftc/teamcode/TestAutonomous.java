@@ -45,6 +45,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -67,6 +68,8 @@ public class TestAutonomous extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
 
+    GyroSensor sensor;
+
     DcMotor front;
     DcMotor back;
     DcMotor left;
@@ -78,10 +81,14 @@ public class TestAutonomous extends LinearOpMode {
         telemetry.update();
 
         front = hardwareMap.dcMotor.get("front");
+        front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         back = hardwareMap.dcMotor.get("back");
+        back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         left = hardwareMap.dcMotor.get("left");
+        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right = hardwareMap.dcMotor.get("right");
-        left.setDirection(DcMotorSimple.Direction.REVERSE);
+        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right.setDirection(DcMotorSimple.Direction.REVERSE);
         back.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // eg: Set the drive motor directions:
@@ -93,13 +100,30 @@ public class TestAutonomous extends LinearOpMode {
         waitForStart();
 
         if(opModeIsActive()) {
+            double powerL = 0.5;
+            double powerR = 0.5;
 
-            int targetL = left.getCurrentPosition() + 500;
-            int targetR = right.getCurrentPosition() + 500;
+            int targetL = left.getCurrentPosition() + 20000;
+            int targetR = right.getCurrentPosition() + 20000;
 
-            while(left.getCurrentPosition()<targetL && right.getCurrentPosition()<targetR) {
-                left.setPower(0.5);
-                right.setPower(0.5);
+            while((left.getCurrentPosition()<targetL && right.getCurrentPosition()<targetR)&&opModeIsActive()) {
+                telemetry.addData("LeftPos", left.getCurrentPosition());
+                telemetry.addData("RightPos", right.getCurrentPosition());
+                telemetry.addData("LeftPower", powerL);
+                telemetry.addData("RightPower", powerR);
+                telemetry.update();
+
+                if(left.getCurrentPosition()>right.getCurrentPosition()) {
+                    powerL -= 0.01;
+                    powerL += 0.01;
+                }
+                if(left.getCurrentPosition()<right.getCurrentPosition()) {
+                    powerL += 0.01;
+                    powerL -= 0.01;
+                }
+                left.setPower(powerL);
+                right.setPower(powerR);
+
             }
             if(opModeIsActive()) {
                 left.setPower(0.0);
