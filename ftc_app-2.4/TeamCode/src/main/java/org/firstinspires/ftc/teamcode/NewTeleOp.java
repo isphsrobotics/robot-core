@@ -64,10 +64,12 @@ public class NewTeleOp extends OpMode {
     DcMotor right;
 
     DcMotor hopper;
+    DcMotor shooter;
 
     Servo gate;
     boolean moving;
     double time;
+    int target;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -91,11 +93,13 @@ public class NewTeleOp extends OpMode {
         back.setDirection(DcMotorSimple.Direction.REVERSE);
 
         hopper = hardwareMap.dcMotor.get("hopper");
+        shooter = hardwareMap.dcMotor.get("shooter");
 
         gate = hardwareMap.servo.get("gate");
         gate.setPosition(0.4);
         moving = false;
         time = 0;
+        target = 0;
 
     }
     //endregion
@@ -103,6 +107,9 @@ public class NewTeleOp extends OpMode {
 
     @Override
     public void loop() {
+
+        telemetry.addData("Position", shooter.getCurrentPosition());
+        telemetry.update();
 
         float turn = gamepad1.left_stick_x;
         float northSouth = gamepad1.right_stick_y;
@@ -139,6 +146,16 @@ public class NewTeleOp extends OpMode {
         }
         else {
             hopper.setPower(0);
+        }
+
+        if(!shooter.isBusy()) {
+            shooter.setPower(0.0);
+            if(gamepad2.y) {
+                target = shooter.getTargetPosition()+3360;
+                shooter.setTargetPosition(target);
+                shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                shooter.setPower(0.8);
+            }
         }
 
         if(gamepad1.a) {

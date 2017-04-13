@@ -46,6 +46,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.PWMOutput;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -70,26 +71,12 @@ public class TestAutonomous extends LinearOpMode {
 
     GyroSensor sensor;
 
-    DcMotor front;
-    DcMotor back;
-    DcMotor left;
-    DcMotor right;
-
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("test", "Initialized");
         telemetry.update();
 
-        front = hardwareMap.dcMotor.get("front");
-        front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        back = hardwareMap.dcMotor.get("back");
-        back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        left = hardwareMap.dcMotor.get("left");
-        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        right = hardwareMap.dcMotor.get("right");
-        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        right.setDirection(DcMotorSimple.Direction.REVERSE);
-        back.setDirection(DcMotorSimple.Direction.REVERSE);
+        sensor = hardwareMap.gyroSensor.get("sensor");
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -100,36 +87,13 @@ public class TestAutonomous extends LinearOpMode {
         waitForStart();
 
         if(opModeIsActive()) {
-            double powerL = 0.5;
-            double powerR = 0.5;
-
-            int targetL = left.getCurrentPosition() + 20000;
-            int targetR = right.getCurrentPosition() + 20000;
-
-            while((left.getCurrentPosition()<targetL && right.getCurrentPosition()<targetR)&&opModeIsActive()) {
-                telemetry.addData("LeftPos", left.getCurrentPosition());
-                telemetry.addData("RightPos", right.getCurrentPosition());
-                telemetry.addData("LeftPower", powerL);
-                telemetry.addData("RightPower", powerR);
+            sensor.calibrate();
+            while(opModeIsActive()) {
+                telemetry.addData("Status",sensor.status());
+                telemetry.addData("Calibrating",sensor.isCalibrating());
+                telemetry.addData("Rotation Fraction",sensor.getRotationFraction());
                 telemetry.update();
-
-                if(left.getCurrentPosition()>right.getCurrentPosition()) {
-                    powerL -= 0.01;
-                    powerL += 0.01;
-                }
-                if(left.getCurrentPosition()<right.getCurrentPosition()) {
-                    powerL += 0.01;
-                    powerL -= 0.01;
-                }
-                left.setPower(powerL);
-                right.setPower(powerR);
-
             }
-            if(opModeIsActive()) {
-                left.setPower(0.0);
-                right.setPower(0.0);
-            }
-
         }
     }
 
