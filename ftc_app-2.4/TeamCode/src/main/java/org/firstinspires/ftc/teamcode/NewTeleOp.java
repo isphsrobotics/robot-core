@@ -148,14 +148,22 @@ public class NewTeleOp extends OpMode {
             hopper.setPower(0);
         }
 
-        if(!shooter.isBusy()) {
+//        if(!shooter.isBusy()) {
+//            shooter.setPower(0.0);
+//            if(gamepad2.y) {
+//                target = shooter.getTargetPosition()+3360;
+//                shooter.setTargetPosition(target);
+//                shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                shooter.setPower(0.8);
+//            }
+//        }
+
+
+        if(gamepad2.y) {
+            shooter.setPower(0.8);
+        }
+        else {
             shooter.setPower(0.0);
-            if(gamepad2.y) {
-                target = shooter.getTargetPosition()+3360;
-                shooter.setTargetPosition(target);
-                shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                shooter.setPower(0.8);
-            }
         }
 
         if(gamepad1.a) {

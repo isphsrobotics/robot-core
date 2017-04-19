@@ -68,15 +68,23 @@ public class TestAutonomous extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
+    DcMotor front;
+    DcMotor back;
+    DcMotor left;
+    DcMotor right;
 
-    GyroSensor sensor;
 
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("test", "Initialized");
         telemetry.update();
+        front = hardwareMap.dcMotor.get("front");
+        back = hardwareMap.dcMotor.get("back");
+        left = hardwareMap.dcMotor.get("left");
+        right = hardwareMap.dcMotor.get("right");
+        right.setDirection(DcMotorSimple.Direction.REVERSE);
+        back.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        sensor = hardwareMap.gyroSensor.get("sensor");
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -87,15 +95,34 @@ public class TestAutonomous extends LinearOpMode {
         waitForStart();
 
         if(opModeIsActive()) {
-            sensor.calibrate();
-            while(opModeIsActive()) {
-                telemetry.addData("Status",sensor.status());
-                telemetry.addData("Calibrating",sensor.isCalibrating());
-                telemetry.addData("Rotation Fraction",sensor.getRotationFraction());
-                telemetry.update();
-            }
+            forwards(1, 0.5);
         }
     }
 
-
+    void forwards(float meters, double power) {
+        int target = (int)(meters*4690.882533);
+        left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        double powerL = power;
+        double powerR = power;
+        while(opModeIsActive() && (right.getCurrentPosition()<target)) {
+            telemetry.addData("Left", left.getCurrentPosition());
+            telemetry.addData("Right", right.getCurrentPosition());
+            telemetry.update();
+            if(left.getCurrentPosition() > right.getCurrentPosition()) {
+                powerL -= 0.01;
+                powerR += 0.01;
+            }
+            else if(left.getCurrentPosition() < right.getCurrentPosition()) {
+                powerL += 0.01;
+                powerR -= 0.01;
+            }
+            left.setPower(powerL);
+            right.setPower(powerR);
+        }
+        left.setPower(0d);
+        right.setPower(0d);
+    }
 }
