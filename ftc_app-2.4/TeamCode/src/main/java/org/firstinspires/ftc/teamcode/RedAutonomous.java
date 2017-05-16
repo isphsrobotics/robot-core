@@ -63,9 +63,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="BlueAutonomous", group="Autonomous")
+@Autonomous(name="RedAutonomous", group="Autonomous")
 //@Disabled
-public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
+public class RedAutonomous extends LinearOpMode implements SensorEventListener{
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -123,34 +123,31 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        double left = 1.2;
-        double right = 0.8;
-
         if(opModeIsActive()) {
-//            shoot(2);
-            northSouth(1.1f, 0.75, 4000, left, right, 1);
-            eastWest(1.16f,0.8,4000, left, right, 1);
-            northSouthBlue(0.22f, 0.5, 1700, left, right, 1);
-            eastWest(0.1f,0.6,2000, left, right, 1);
-            eastWest(0.07f,0.6,2000, left, right, -1);
-            turn(false, 4, 0.5, 1700);
-            northSouth(1f, 0.75, 4000, left, right, 1);
-            northSouthBlue(0.22f, 0.5, 1700, left, right, 1);
-            eastWest(0.1f,0.6,2000, left, right, 1);
-            eastWest(0.1f,0.6,2000, left, right, -1);
+            shoot(2);
+            northSouth(1f, 0.75, 4000, 1, 1, 1);
+            turn(true, 178, 0.6, 2500);
+            eastWest(1.275f,0.8,4000, 1, 1, 1);
+            northSouthRed(0.22f, 0.5, 1700, 1, 1, -1);
+            eastWest(0.1f,0.6,2000, 1, 1, 1);
+            eastWest(0.07f,0.6,2000, 1, 1, -1);
+            northSouth(.8f, 0.75, 4000, 1, 1, -1);
+            northSouthRed(0.22f, 0.5, 1700, 1, 1, -1);
+            eastWest(0.2f,0.6,2000, 1, 1, 1);
+            eastWest(0.1f,0.6,2000, 1, 1, -1);
         }
     }
 
-    void northSouthBlue(float meters, double power, int speed, double leftMultiplier, double rightMultiplier, int direction) {
+    void northSouthRed(float meters, double power, int speed, double leftMultiplier, double rightMultiplier, int direction) {
         //direction 1 = right, direction -1 = left
-        int blue = 2;
+        int red = 2;
 
         int target = (int)(meters*4690.882533);
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        while(opModeIsActive() && (cSensor.blue() <= blue)) {
+        while(opModeIsActive() && (cSensor.red() <= red)) {
             left.setMaxSpeed((int)(speed));
             left.setPower(power*direction);
             right.setMaxSpeed((int)(speed));
@@ -158,10 +155,9 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
             telemetry.addData("Target", Math.abs(target));
             telemetry.addData("Left", Math.abs(left.getCurrentPosition()));
             telemetry.addData("Right", Math.abs(right.getCurrentPosition()));
-            telemetry.addData("Blue", cSensor.blue());
+            telemetry.addData("Red", cSensor.red());
             telemetry.update();
         }
-        northSouth(.015f, 0.75, 4000, 1.1, 1, 1);
         left.setPower(0.0);
         right.setPower(0.0);
     }
@@ -177,11 +173,6 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
             left.setMaxSpeed((int)(speed));
             left.setPower(power*direction);
             right.setMaxSpeed((int)(speed));
-            right.setPower(power*direction);
-            telemetry.addData("Target", Math.abs(target));
-            telemetry.addData("Left", Math.abs(left.getCurrentPosition()));
-            telemetry.addData("Right", Math.abs(right.getCurrentPosition()));
-            telemetry.update();
         }
         left.setPower(0.0);
         right.setPower(0.0);

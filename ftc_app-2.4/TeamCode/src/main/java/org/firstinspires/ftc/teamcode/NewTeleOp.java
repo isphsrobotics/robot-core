@@ -65,8 +65,12 @@ public class NewTeleOp extends OpMode {
 
     DcMotor hopper;
     DcMotor shooter;
+    DcMotor liftL;
+    DcMotor liftR;
 
     Servo gate;
+    Servo extendL;
+    Servo extendR;
     boolean moving;
     double time;
     int target;
@@ -94,9 +98,15 @@ public class NewTeleOp extends OpMode {
 
         hopper = hardwareMap.dcMotor.get("hopper");
         shooter = hardwareMap.dcMotor.get("shooter");
+        liftL = hardwareMap.dcMotor.get("liftL");
+        liftR = hardwareMap.dcMotor.get("liftR");
 
         gate = hardwareMap.servo.get("gate");
+        extendL = hardwareMap.servo.get("extendL");
+        extendR = hardwareMap.servo.get("extendR");
         gate.setPosition(0.4);
+        extendL.setPosition(1.0);
+        extendR.setPosition(0.0);
         moving = false;
         time = 0;
         target = 0;
@@ -107,9 +117,8 @@ public class NewTeleOp extends OpMode {
 
     @Override
     public void loop() {
-
-        telemetry.addData("Position", shooter.getCurrentPosition());
-        telemetry.update();
+        float extendUp = gamepad2.right_trigger;
+        float extendDown = gamepad2.left_trigger;
 
         float turn = gamepad1.left_stick_x;
         float northSouth = gamepad1.right_stick_y;
@@ -119,11 +128,50 @@ public class NewTeleOp extends OpMode {
         northSouth = Range.clip(northSouth, -1, 1);
         eastWest = Range.clip(eastWest, -1, 1);
 
+        extendUp = Range.clip(extendUp, -1, 1);
+        extendDown = Range.clip(extendDown, -1, 1);
+
+//        if(extendUp!=0.0 && extendDown==0) {
+//            liftL.setPower(extendUp);
+//            liftR.setPower(-extendUp);
+//        }
+//        else if(extendUp==0 && extendDown!=0) {
+//            liftL.setPower(-extendDown);
+//            liftR.setPower(extendDown);
+//        }
+//        else {
+//            liftL.setPower(0.0);
+//            liftR.setPower(0.0);
+//        }
+
+
+        //EXTENDER--------------------------
+        if(gamepad2.right_bumper) {
+            liftR.setPower(0.8);
+        }
+        else if(gamepad2.right_trigger!=0) {
+            liftR.setPower(-0.8);
+        }
+        else {
+            liftR.setPower(0.0);
+        }
+
+        if(gamepad2.left_bumper) {
+            liftL.setPower(-0.8);
+        }
+        else if(gamepad2.left_trigger!=0) {
+            liftL.setPower(0.8);
+        }
+        else {
+            liftL.setPower(0.0);
+        }
+
+
         if(turn!=0 && (northSouth!=0 || eastWest!=0)) {
-            front.setPower(eastWest);
-            back.setPower(eastWest);
-            left.setPower(northSouth-turn);
-            right.setPower(northSouth+turn);
+            front.setPower(turn);
+            back.setPower(-turn);
+            left.setPower(northSouth);
+            right.setPower(northSouth);
         }
         else if(turn!=0) {
             left.setPower(-turn);
@@ -169,13 +217,13 @@ public class NewTeleOp extends OpMode {
         if(gamepad1.a) {
             gate.setPosition(0.1);
             time = runtime.seconds();
-
         }
 
         if(gate.getPosition()==0.1 && time+0.35 <= runtime.seconds()) {
             gate.setPosition(0.4);
             time = 0;
         }
+
 
     }
 
