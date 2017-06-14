@@ -39,14 +39,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.GyroSensor;
-import com.qualcomm.robotcore.hardware.PWMOutput;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -63,9 +59,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="BlueAutonomous", group="Autonomous")
+@Autonomous(name="Blue Shooting", group="Autonomous")
 //@Disabled
-public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
+public class BlueShooting extends LinearOpMode implements SensorEventListener{
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -127,13 +123,13 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
 
         if(opModeIsActive()) {
             shoot(2);
-            eastWest(.17f,0.8,2000, left, right, 1);
-            northSouth(1.1f, 0.75, 4000, left, right, 1);
-            turn(true, 360, 0.7, 4000);
-            eastWest(.87f,0.8,2000, left, right, 1);
-            northSouthBlue(0.22f, 0.5, 1700, left, right, 1, 2.5);
-            eastWest(0.1f,0.6,2000, left, right, 1);
-            eastWest(0.07f,0.6,2000, left, right, -1);
+//            eastWest(.17f,0.8,2000, left, right, 1);
+//            northSouth(1.1f, 0.75, 4000, left, right, 1);
+//            turn(true, 360, 0.7, 4000);
+//            eastWest(.96f,0.8,2000, left, right, 1);
+//            northSouthBlue(0.22f, 0.5, 1700, left, right, 1, 2.5);
+//            eastWest(0.1f,0.6,2000, left, right, 1);
+//            eastWest(0.07f,0.6,2000, left, right, -1);
         }
     }
 

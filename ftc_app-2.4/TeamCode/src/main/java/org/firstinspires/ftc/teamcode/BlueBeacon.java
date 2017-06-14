@@ -39,14 +39,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.GyroSensor;
-import com.qualcomm.robotcore.hardware.PWMOutput;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -63,9 +59,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="BlueAutonomous", group="Autonomous")
+@Autonomous(name="Blue Beacon", group="Autonomous")
 //@Disabled
-public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
+public class BlueBeacon extends LinearOpMode implements SensorEventListener{
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -126,7 +122,7 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
         double right = 1;
 
         if(opModeIsActive()) {
-            shoot(2);
+//            shoot(2);
             eastWest(.17f,0.8,2000, left, right, 1);
             northSouth(1.1f, 0.75, 4000, left, right, 1);
             turn(true, 360, 0.7, 4000);

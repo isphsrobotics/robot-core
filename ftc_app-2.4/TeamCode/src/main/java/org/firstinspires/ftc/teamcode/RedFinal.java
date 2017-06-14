@@ -39,14 +39,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.GyroSensor;
-import com.qualcomm.robotcore.hardware.PWMOutput;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -63,9 +59,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="BlueAutonomous", group="Autonomous")
+@Autonomous(name="RedAutonomous", group="Autonomous")
 //@Disabled
-public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
+public class RedFinal extends LinearOpMode implements SensorEventListener{
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -91,6 +87,7 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
     double timer;
     double rotations;
     boolean turning;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -122,24 +119,19 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        double left = 1;
-        double right = 1;
-
         if(opModeIsActive()) {
             shoot(2);
-            eastWest(.17f,0.8,2000, left, right, 1);
-            northSouth(1.1f, 0.75, 4000, left, right, 1);
-            turn(true, 360, 0.7, 4000);
-            eastWest(.87f,0.8,2000, left, right, 1);
-            northSouthBlue(0.22f, 0.5, 1700, left, right, 1, 2.5);
-            eastWest(0.1f,0.6,2000, left, right, 1);
-            eastWest(0.07f,0.6,2000, left, right, -1);
+            eastWest(0.4f,0.6,2000, 1, 1, -1);
+            northSouth(1f, 0.75, 4000, 1, 1, 1);
+            turn(false, 182, 0.6, 3000);
+            eastWest(0.875f,0.8,4000, 1, 1, 1);
+            northSouthRed(0.22f, 0.5, 1700, 1, 1, -1, 2.3);
         }
     }
 
-    void northSouthBlue(float meters, double power, int speed, double leftMultiplier, double rightMultiplier, int direction, double cutoff) {
+    void northSouthRed(float meters, double power, int speed, double leftMultiplier, double rightMultiplier, int direction, double cutoff) {
         //direction 1 = right, direction -1 = left
-        int blue = 2;
+        int red = 2;
 
         int target = (int)(meters*4690.882533);
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -149,7 +141,7 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
 
         double start = runtime.seconds();
 
-        while(opModeIsActive() && (cSensor.blue() <= blue)) {
+        while(opModeIsActive() && (cSensor.red() <= red)) {
             left.setMaxSpeed((int)(speed));
             left.setPower(power*direction);
             right.setMaxSpeed((int)(speed));
@@ -157,16 +149,13 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
             telemetry.addData("Target", Math.abs(target));
             telemetry.addData("Left", Math.abs(left.getCurrentPosition()));
             telemetry.addData("Right", Math.abs(right.getCurrentPosition()));
-            telemetry.addData("Blue", cSensor.blue());
+            telemetry.addData("Red", cSensor.red());
             telemetry.update();
-
             if(runtime.seconds() > start + cutoff) {
                 left.setPower(0.0);
                 right.setPower(0.0);
             }
-
         }
-        northSouth(.015f, 0.75, 4000, 1.1, 1, 1);
         left.setPower(0.0);
         right.setPower(0.0);
     }
@@ -225,10 +214,11 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
         back.setPower(0.0);
     }
 
+
     void shoot(int shots) {
 
         shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        target = shooter.getTargetPosition() + 3360;
+        target = shooter.getTargetPosition() + 3330;
         shooter.setTargetPosition(target);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         shooter.setPower(0.8);
@@ -268,6 +258,7 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
         right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         turning = true;
+
         double turningOffset = 1.8;
 
         while(turning && opModeIsActive()) {

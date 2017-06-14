@@ -58,22 +58,29 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class NewTeleOp extends OpMode {
 
+    //main driving motors
     DcMotor front;
     DcMotor back;
     DcMotor left;
     DcMotor right;
 
+    // shooting and lifting
     DcMotor hopper;
     DcMotor shooter;
     DcMotor liftL;
     DcMotor liftR;
 
+    //servos
     Servo gate;
     Servo extendL;
     Servo extendR;
+
+    //data
+    boolean freemode;
     boolean moving;
     double time;
     int target;
+    int ticks;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -87,8 +94,9 @@ public class NewTeleOp extends OpMode {
     public void init() {
         // Main motors (wheels) -- reverse one of them
 
-        telemetry.addData("test2", null);
+        telemetry.addData("Initialized", null);
 
+        // main driving motors
         front = hardwareMap.dcMotor.get("front");
         back = hardwareMap.dcMotor.get("back");
         left = hardwareMap.dcMotor.get("left");
@@ -96,20 +104,26 @@ public class NewTeleOp extends OpMode {
         left.setDirection(DcMotorSimple.Direction.REVERSE);
         back.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        // shooting and lifting
         hopper = hardwareMap.dcMotor.get("hopper");
         shooter = hardwareMap.dcMotor.get("shooter");
         liftL = hardwareMap.dcMotor.get("liftL");
         liftR = hardwareMap.dcMotor.get("liftR");
 
+        // servos
         gate = hardwareMap.servo.get("gate");
         extendL = hardwareMap.servo.get("extendL");
         extendR = hardwareMap.servo.get("extendR");
         gate.setPosition(0.4);
         extendL.setPosition(1.0);
         extendR.setPosition(0.0);
+
+        // data
         moving = false;
         time = 0;
         target = 0;
+        freemode = false;
+        ticks = 0;
 
     }
     //endregion
@@ -117,33 +131,35 @@ public class NewTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        float extendUp = gamepad2.right_trigger;
-        float extendDown = gamepad2.left_trigger;
-
-        float turn = gamepad1.left_stick_x;
+        // MAIN DRIVING MOTORS-------------------
+        float turnR = gamepad1.right_trigger;
+        float turnL = gamepad1.left_trigger;
         float northSouth = gamepad1.right_stick_y;
-        float eastWest = gamepad1.right_stick_x;
+        float eastWest = gamepad1.left_stick_x;
 
-        turn = Range.clip(turn, -1, 1);
         northSouth = Range.clip(northSouth, -1, 1);
         eastWest = Range.clip(eastWest, -1, 1);
+        turnL = Range.clip(turnL, -1, 1);
+        turnR = Range.clip(turnR, -1, 1);
 
-        extendUp = Range.clip(extendUp, -1, 1);
-        extendDown = Range.clip(extendDown, -1, 1);
-
-//        if(extendUp!=0.0 && extendDown==0) {
-//            liftL.setPower(extendUp);
-//            liftR.setPower(-extendUp);
-//        }
-//        else if(extendUp==0 && extendDown!=0) {
-//            liftL.setPower(-extendDown);
-//            liftR.setPower(extendDown);
-//        }
-//        else {
-//            liftL.setPower(0.0);
-//            liftR.setPower(0.0);
-//        }
-
+        if(turnR!=0 && turnL==0) {
+            left.setPower(-turnR);
+            front.setPower(turnR);
+            back.setPower(-turnR);
+            right.setPower(turnR);
+        }
+        else if(turnR==0 && turnL!=0) {
+            left.setPower(turnL);
+            front.setPower(-turnL);
+            back.setPower(turnL);
+            right.setPower(-turnL);
+        }
+        else {
+            left.setPower(northSouth);
+            front.setPower(eastWest);
+            back.setPower(eastWest);
+            right.setPower(northSouth);
+        }
 
         //EXTENDER--------------------------
         if(gamepad2.right_bumper) {
@@ -166,26 +182,6 @@ public class NewTeleOp extends OpMode {
             liftL.setPower(0.0);
         }
 
-
-        if(turn!=0 && (northSouth!=0 || eastWest!=0)) {
-            front.setPower(turn);
-            back.setPower(-turn);
-            left.setPower(northSouth);
-            right.setPower(northSouth);
-        }
-        else if(turn!=0) {
-            left.setPower(-turn);
-            front.setPower(turn);
-            back.setPower(-turn);
-            right.setPower(turn);
-        }
-        else {
-            left.setPower(northSouth);
-            front.setPower(eastWest);
-            back.setPower(eastWest);
-            right.setPower(northSouth);
-        }
-
         if(gamepad1.right_bumper) {
             hopper.setPower(0.8);
         }
@@ -196,13 +192,22 @@ public class NewTeleOp extends OpMode {
             hopper.setPower(0);
         }
 
-//        if(!shooter.isBusy()) {
-//            shooter.setPower(0.0);
-//            if(gamepad2.y) {
-//                target = shooter.getTargetPosition()+3360;
+
+
+
+//        if(shooter.isBusy()) {
+//
+//        }
+//        else {
+//            if(gamepad2.b) {
+//                shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                target = shooter.getTargetPosition() + 3340;
 //                shooter.setTargetPosition(target);
 //                shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //                shooter.setPower(0.8);
+//            }
+//            else {
+//                shooter.setPower(0.0);
 //            }
 //        }
 
@@ -214,6 +219,19 @@ public class NewTeleOp extends OpMode {
             shooter.setPower(0.0);
         }
 
+//        if(gamepad2.start) {
+//            ticks++;
+//            if(ticks == 1) {
+//                freemode = !freemode;
+//                if(freemode) {
+//                    shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                }
+//            }
+//        }
+//        else {
+//            ticks = 0;
+//        }
+
         if(gamepad1.a) {
             gate.setPosition(0.1);
             time = runtime.seconds();
@@ -222,6 +240,16 @@ public class NewTeleOp extends OpMode {
         if(gate.getPosition()==0.1 && time+0.35 <= runtime.seconds()) {
             gate.setPosition(0.4);
             time = 0;
+        }
+
+        if(gamepad2.x) {
+            extendL.setPosition(0.0);
+            extendR.setPosition(1.0);
+        }
+
+        if(gamepad2.a) {
+            extendL.setPosition(0.5);
+            extendR.setPosition(0.5);
         }
 
 
