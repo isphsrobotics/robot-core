@@ -29,13 +29,11 @@ $ git clone https://github.com/isphsrobotics/robot-core.git
 ## 02 - Contributors with push access
 
 * @isphsrobotics
-    * This is the account used on school computers. Any robotics member can use it, however usually it is used by Alex (insightdev).
-* @insightdev
-    * Alex
+    * This is the account used on school computers. Any robotics member can use it
 * @DanielHamill
     * Daniel
-* @champaru
-	* Roman
+* @daniqueidoo
+    * Danique
 
 ## 03 - Where stuff is
 
