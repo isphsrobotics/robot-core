@@ -150,9 +150,7 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
         double start = runtime.seconds();
 
         while(opModeIsActive() && (cSensor.blue() <= blue)) {
-            left.setMaxSpeed((int)(speed));
             left.setPower(power*direction);
-            right.setMaxSpeed((int)(speed));
             right.setPower(power*direction);
             telemetry.addData("Target", Math.abs(target));
             telemetry.addData("Left", Math.abs(left.getCurrentPosition()));
@@ -189,9 +187,7 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
             if(speedR < speed) {
                 speedR += (speed*rightMultiplier)/400;
             }
-            left.setMaxSpeed((int)(speedL));
             left.setPower(power*direction);
-            right.setMaxSpeed((int)(speedR));
             right.setPower(power*direction);
         }
         left.setPower(0.0);
@@ -206,19 +202,17 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
         front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        double speedL = (speed*leftMultiplier)/40;
-        double speedR = (speed*rightMultiplier)/40;
+        double powerL = (power*leftMultiplier)/40;
+        double powerR = (power*rightMultiplier)/40;
 
         while(opModeIsActive() && ((Math.abs(front.getCurrentPosition())<target)||Math.abs(back.getCurrentPosition())<target)) {
-            if(speedL < speed) {
-                speedL += (speed*leftMultiplier)/400;
+            if(powerL < power) {
+                powerL += (power*leftMultiplier)/400;
             }
-            if(speedR < speed) {
-                speedR += (speed*rightMultiplier)/400;
+            if(powerR < power) {
+                powerR += (power*rightMultiplier)/400;
             }
-            front.setMaxSpeed((int)(speedL));
             front.setPower(power*direction);
-            back.setMaxSpeed((int)(speedR));
             back.setPower(power*direction);
         }
         front.setPower(0.0);
@@ -279,10 +273,10 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
                 timer = runtime.milliseconds();
             }
             turning = rotations < degrees;
-            front.setMaxSpeed(speed);
-            back.setMaxSpeed(speed);
-            left.setMaxSpeed(speed);
-            right.setMaxSpeed(speed);
+//            front.setMaxSpeed(speed);
+//            back.setMaxSpeed(speed);
+//            left.setMaxSpeed(speed);
+//            right.setMaxSpeed(speed);
             if(turnLeft){
                 front.setPower(-power);
                 back.setPower(power);
@@ -301,10 +295,10 @@ public class BlueAutonomous extends LinearOpMode implements SensorEventListener{
         back.setPower(0.0);
         left.setPower(0.0);
         right.setPower(0.0);
-        front.setMaxSpeed(0);
-        back.setMaxSpeed(0);
-        left.setMaxSpeed(0);
-        right.setMaxSpeed(0);
+//        front.setMaxSpeed(0);
+//        back.setMaxSpeed(0);
+//        left.setMaxSpeed(0);
+//        right.setMaxSpeed(0);
     }
 
     public void wait(double seconds) {

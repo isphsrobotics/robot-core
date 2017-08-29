@@ -146,9 +146,9 @@ public class BlueShooting extends LinearOpMode implements SensorEventListener{
         double start = runtime.seconds();
 
         while(opModeIsActive() && (cSensor.blue() <= blue)) {
-            left.setMaxSpeed((int)(speed));
+//            left.setMaxSpeed((int)(speed));
             left.setPower(power*direction);
-            right.setMaxSpeed((int)(speed));
+//            right.setMaxSpeed((int)(speed));
             right.setPower(power*direction);
             telemetry.addData("Target", Math.abs(target));
             telemetry.addData("Left", Math.abs(left.getCurrentPosition()));
@@ -185,9 +185,9 @@ public class BlueShooting extends LinearOpMode implements SensorEventListener{
             if(speedR < speed) {
                 speedR += (speed*rightMultiplier)/400;
             }
-            left.setMaxSpeed((int)(speedL));
+//            left.setMaxSpeed((int)(speedL));
             left.setPower(power*direction);
-            right.setMaxSpeed((int)(speedR));
+//            right.setMaxSpeed((int)(speedR));
             right.setPower(power*direction);
         }
         left.setPower(0.0);
@@ -212,9 +212,9 @@ public class BlueShooting extends LinearOpMode implements SensorEventListener{
             if(speedR < speed) {
                 speedR += (speed*rightMultiplier)/400;
             }
-            front.setMaxSpeed((int)(speedL));
+//            front.setMaxSpeed((int)(speedL));
             front.setPower(power*direction);
-            back.setMaxSpeed((int)(speedR));
+//            back.setMaxSpeed((int)(speedR));
             back.setPower(power*direction);
         }
         front.setPower(0.0);
@@ -275,10 +275,10 @@ public class BlueShooting extends LinearOpMode implements SensorEventListener{
                 timer = runtime.milliseconds();
             }
             turning = rotations < degrees;
-            front.setMaxSpeed(speed);
-            back.setMaxSpeed(speed);
-            left.setMaxSpeed(speed);
-            right.setMaxSpeed(speed);
+//            front.setMaxSpeed(speed);
+//            back.setMaxSpeed(speed);
+//            left.setMaxSpeed(speed);
+//            right.setMaxSpeed(speed);
             if(turnLeft){
                 front.setPower(-power);
                 back.setPower(power);
@@ -297,10 +297,10 @@ public class BlueShooting extends LinearOpMode implements SensorEventListener{
         back.setPower(0.0);
         left.setPower(0.0);
         right.setPower(0.0);
-        front.setMaxSpeed(0);
-        back.setMaxSpeed(0);
-        left.setMaxSpeed(0);
-        right.setMaxSpeed(0);
+//        front.setMaxSpeed(0);
+//        back.setMaxSpeed(0);
+//        left.setMaxSpeed(0);
+//        right.setMaxSpeed(0);
     }
 
     public void wait(double seconds) {
