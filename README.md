@@ -1,11 +1,11 @@
 # robot-core - FTC Robotics Prague
 ----
 
-#  There were some major SDK updates for the new season, please read all READMEs/documentation before pushing to master.
+#  Please read all READMEs/documentation before pushing to master.
 
 ## 00 - Intro
 
-This is the main code repository for the FTC Robotics team at the International School of Prague. This repo contains the main Android Studio project, as well as other team files files.
+This is the main code repository for the FTC Robotics teams at the International School of Prague. This repo contains the main Android Studio project, as well as other team files files.
 
 The main android studio code can be found under /ftc_app_master/. The main programming will be going on under the `opmodes/` folder ([direct link](ftc_app-master/FtcRobotController/src/main/java/com/qualcomm/ftcrobotcontroller/opmodes)), while minor changes will be found in the other folders.
 
@@ -30,12 +30,10 @@ $ git clone https://github.com/isphsrobotics/robot-core.git
 
 * @isphsrobotics
     * This is the account used on school computers. Any robotics member can use it, however usually it is used by Alex (insightdev).
-* @insightdev
-    * Alex
 * @DanielHamill
     * Daniel
-* @champaru
-	* Roman
+* @daniqueidoo
+    * Danique
 
 ## 03 - Where stuff is
 
@@ -48,7 +46,7 @@ This will be found under the Issues tab in github (press `g` `i`)
 
 ###### Other links
 
-* [This year's challenge](https://www.youtube.com/watch?v=iQLrcQbm8cg)
+* [This year's challenge](https://youtu.be/nRsu7bRFhx4?t=3m45s)
 * [Official FTC SDK (Github)](https://github.com/ftctechnh/ftc_app)
 * [FTC subreddit](https://www.reddit.com/r/ftc)
 * [Incremental servo movement code snippet](https://gist.github.com/insightdev/9ec8d15a31d9c179d5895650be30d060)
