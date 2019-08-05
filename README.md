@@ -5,10 +5,10 @@
 
 ## Table of Contents
    ###  [Intro](#intro)
-   ###  [Downloading the Repository](#how-to-'download'-this-repository)
-   ###  [Contributors]
-   ###  [Links to key places]
-   ###  [Code Formatting]
+   ###  [Downloading the Repository](#01---how-to-download-this-repository)
+   ###  [Contributors](#02---contributors-with-push-access)
+   ###  [Links to key places](#03---Where-stuff-is)
+   ###  [Code Formatting](#04---Contributing)
 
 ## 00 - Intro 
 
