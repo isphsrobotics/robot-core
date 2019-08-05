@@ -5,11 +5,12 @@
 ----
 
 # Table of Contents
+----
    ##  [Intro](#intro)
    ##  [Downloading the Repository](#01---how-to-download-this-repository)
    ##  [Contributors](#02---contributors-with-push-access)
    ##  [Links to key places](#03---Where-stuff-is)
-      -  ##[Guides to writing code](#guide-to-robotics)
+   * ##[Guides to writing code](#guide-to-robotics)
    ##  [Code Formatting](#04---Contributing)
 
 ## 00 - Intro 
