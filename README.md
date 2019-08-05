@@ -47,7 +47,7 @@ $ git clone https://github.com/isphsrobotics/robot-core.git
 
 ## 03 - Where stuff is
 
-_#### Guide to Robotics_
+#### Guide to Robotics
 Alex wrote a (albeit very basic) guide to how all of this works, you can find it in the root directory of the repo. The file is called robotics-guide.pdf. You can also [follow this link](https://github.com/isphsrobotics/robot-core/blob/master/robotics-guide.pdf).  
 Feel free to edit it if you know LaTeX.
 
