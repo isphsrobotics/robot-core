@@ -10,7 +10,7 @@
    ##  [Downloading the Repository](#01---how-to-download-this-repository)
    ##  [Contributors](#02---contributors-with-push-access)
    ##  [Links to key places](#03---Where-stuff-is)
-   * ##[Guides to writing code](#guide-to-robotics)
+   *   [Guides to writing code](#guide-to-robotics)
    ##  [Code Formatting](#04---Contributing)
 
 ## 00 - Intro 
@@ -47,14 +47,14 @@ $ git clone https://github.com/isphsrobotics/robot-core.git
 
 ## 03 - Where stuff is
 
-###### Guide to Robotics
+_#### Guide to Robotics_
 Alex wrote a (albeit very basic) guide to how all of this works, you can find it in the root directory of the repo. The file is called robotics-guide.pdf. You can also [follow this link](https://github.com/isphsrobotics/robot-core/blob/master/robotics-guide.pdf).  
 Feel free to edit it if you know LaTeX.
 
-###### Bugs, issues, and checklists
+#### Bugs, issues, and checklists
 This will be found under the Issues tab in github (press `g` `i`)
 
-###### Other links
+#### Other links
 
 * [This year's challenge](https://youtu.be/nRsu7bRFhx4?t=3m45s)
 * [Official FTC SDK (Github)](https://github.com/ftctechnh/ftc_app)
