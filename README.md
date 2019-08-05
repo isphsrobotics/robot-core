@@ -2,7 +2,12 @@
 ----
 
 #  Please read all READMEs/documentation before pushing to master.
-
+## Table of Contents
+#### *  Intro
+#### *  Downloading the Repository
+#### *  Contributors
+#### *  Links to key places
+#### *  Code Formatting
 ## 00 - Intro
 
 This is the main code repository for the FTC Robotics teams at the International School of Prague. This repo contains the main Android Studio project, as well as other team files files.
