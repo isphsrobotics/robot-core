@@ -11,7 +11,9 @@
    ##  [Contributors](#02---contributors-with-push-access)
    ##  [Links to key places](#03---Where-stuff-is)
    *   [Guides to writing code](#guide-to-robotics)
-   ##  [Code Formatting](#04---Contributing)
+   ##  [Useful Classes](#04---useful-classes)
+   ##  [Code Formatting](#05---Contributing)
+
 
 ## 00 - Intro 
 
@@ -62,7 +64,10 @@ This will be found under the Issues tab in github (press `g` `i`)
 * [Incremental servo movement code snippet](https://gist.github.com/insightdev/9ec8d15a31d9c179d5895650be30d060)
 * [How to use the color sensor](https://github.com/ftctechnh/ftc_app/blob/master/FtcRobotController/src/main/java/com/qualcomm/ftcrobotcontroller/opmodes/HTRGBExample.java)
 
-## 04 - Contributing
+## 04 - Useful Classes
+Petr created this folder where you can gather and share classes to make future programming easier. These can then be shared with other generations of programmers.
+
+## 05 - Contributing
 
 If you want to contribute, please read the [CONTRIBUTING](CONTRIBUTING.md) document.
 
