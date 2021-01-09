@@ -1,82 +1,73 @@
-package org.firstinspires.ftc.teamcode;
-
-import java.util.ArrayList;
-
+import java.lang.StackTraceElement;
+import java.util.HashMap;
 /**
  * Created by petr-konstantin on 6/24/19.
  */
 
-class Toggle{
-    ArrayList<Boolean> previousState = new ArrayList<Boolean>();
-    static int counter;
+class Toggle {
+    private HashMap<Integer, Boolean> previousState = new HashMap<Integer, Boolean>();
 
     /* Constructor */
-    public void Toggle(){
-        counter = 0;
+    public Toggle() {
     }
 
-    // Description of the functionality of the automatic toggle
-    /** This toggle method works by automatically assigning a index to the method call inside your code.
-    * For this toggle method to work it needs to be used in a loop which is always reset in the end,
-    * otherwise you will not be able to read/write to previously stored items. If you want to do a toggle for
-    * changing out put such as moving a servo from max to a min nest these conditional statements inside of a if
-    * statement calling the toggle method. When calling the toggle method in if conditionals DO NOT call it inside a
-    * else if statement. As the else if statement might skip some of the method calls breaking the method's logic.
-    *
-    *
-    * e.g.
-    * loop
-    *
-    *   if method call 1
-    *       // your code
-    *   end if
-    *
-    *   if method call 2
-    *       if condition1
-    *           // your code
-    *       end if
-    *       else if condition 2
-    *           // your code
-    *       end else if
-    *   end if
-    *
-    *   reset
-    * end loop
-    *
-    * endregion
-    */
+    /* WHAT DOES TOGGLE DO */
+    /*
+     * The toggle class enables you to toggle a controller button. For a button to be toggled
+     *       it must be pressed and then released. This way only one true statement is returned
+     *       instead of a true statement for every time the robot code loops over your condition.
+     */
 
-    //todo update so that it locates bool using hashmap instead of arraylist
-    public boolean toggle(boolean button){
-        boolean lastPress;
-        boolean result = false;
+    /* TOGGLE EXAMPLE */
+    /*
+     *
+     * Toggle tgg = new Toggle();
+     * loop running robot code
+     *
+     *   if tgg.toggle(gamepad1.x)
+     *       // your code
+     *   end if
+     *
+     *
+     *   if tgg.toggle(gamepad1.a)
+     *       if condition 1
+     *           // your code
+     *       end if
+     *       else if condition 2
+     *           // your code
+     *       end else if
+     *   end if
+     *
+     * end loop
+     *
+     * endregion
+     */
 
-        try{
-            lastPress = previousState.get(counter);
-        }catch(IndexOutOfBoundsException e){
-            previousState.add(counter, button);
-            lastPress = previousState.get(counter);
+
+    public boolean toggle(boolean button) {
+        boolean lastPress, result;
+        // gets all calls that took place to get here 
+        StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+        int callId = trace[trace.length - 1].hashCode(); // generates unique id based on first method call
+
+        // checks if callId exists, if not then it puts it in the hashmap
+        try {
+            lastPress = previousState.get(callId);
+        } catch (Exception e) {
+            previousState.put(callId, button);
+            lastPress = button; // since it's just created laspress and current are the same 
         }
 
-        if(button && !lastPress){
-            previousState.remove(counter);
-            previousState.add(counter, button);
+        if (button && !lastPress) { // is true when button is pressed, if the button is held then this is false
+            previousState.replace(callId, true);
             result = true;
-        }else if(!button && lastPress){
-            // does not need to change result since default is false
-            previousState.remove(counter);
-            previousState.add(counter, button);
+        } else if (!button && lastPress) { // is true when button is released after being pressed
+            previousState.replace(callId, false);
+            result = false;
+        } else {
+            result = false;
         }
-        counter++;
         return result;
     }
-
-    // this is used with the automatic toggle method
-    public void reset(){
-        counter = 0;
-        System.out.println("Counter has been reset");
-    }
-
-    //todo add button length pressed to activate method
 }
 
