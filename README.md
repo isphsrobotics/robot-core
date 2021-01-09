@@ -65,7 +65,7 @@ This will be found under the Issues tab in github (press `g` `i`)
 * [How to use the color sensor](https://github.com/ftctechnh/ftc_app/blob/master/FtcRobotController/src/main/java/com/qualcomm/ftcrobotcontroller/opmodes/HTRGBExample.java)
 
 ## 04 - Useful Classes
-Petr created this folder where you can gather and share classes to make future programming easier. These can then be shared with other generations of programmers.
+This folder was created so that over time you can gather and share useful code/classes to make future programming easier. Each successive year the programmers will by more prepared by creating a library of future code.
 
 ## 05 - Contributing
 
