@@ -40,7 +40,6 @@ class Toggle {
      *
      * end loop
      *
-     * endregion
      */
 
 
