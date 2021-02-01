@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 /**
- * Created by petr-konstantin on 6/24/19.
+ * Created by petr-konstantin on 1/02/2021.
  */
 
 class Hold {
@@ -74,7 +74,7 @@ class Hold {
         try{
             holdTimes.remove(callId);
         }catch(Exception e){
-            System.out.println(e.toString());
+            System.out.println("Button already unmounted or doesn't exist");
         }
     }
 }
