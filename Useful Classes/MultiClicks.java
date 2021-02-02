@@ -15,6 +15,8 @@ public class MultiClicks {
     /*  The multiClick method allows for double, triple, quadruple (or as many as required) button clicks. This means
      *      that a true is return after the double click (or other number). However the multi click needs to be
      *      completed within a specific time frame set by the method's parameters.
+     *
+     *      REQUIRES YOU TO ALSO ADD TOGGLE CLASS TO YOUR TEAMCODE (OR OTHER WORKING DIRECTORY)
      */
 
     /* MULTICLICKS EXAMPLE */
