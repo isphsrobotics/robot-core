@@ -44,9 +44,10 @@ class Hold {
         // gets all calls that took place to get here
         StackTraceElement[] trace = Thread.currentThread().getStackTrace();
         int callId = trace[trace.length - 1].hashCode(); // generates unique id based on first method call
-
+        // main logic
         if(button){
             int startTime = mountTime(callId, currTime);
+            System.out.println(currTime - startTime);
             return (currTime - startTime) >= time; // return true if holding for more than hold time
         }else{
             unmountTime(callId);
@@ -66,6 +67,7 @@ class Hold {
             holdTimes.put(callId, currTime);
             startTime = currTime; // start new hold button timer
         }
+        System.out.println(holdTimes.toString());
         return startTime;
     }
 

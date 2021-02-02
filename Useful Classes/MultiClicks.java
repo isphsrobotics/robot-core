@@ -5,8 +5,11 @@ import java.util.HashMap;
  */
 
 public class MultiClicks {
-    private HashMap<Integer, MultiClicksData> allButtonClicked = new HashMap<Integer, MultiClicksData>();
+    private HashMap<Integer, MultiClicksData> allButtonClicked = new HashMap<>();
+    private HashMap<Integer, Integer> testData = new HashMap<>();
     private Toggle tgg = new Toggle();
+    private int numOfClicks = 2; // default is double click
+    private double timeForClicks = 1.5; //default seconds
 
     /* WHAT DOES MULTICLICKS DO */
     /*  The multiClick method allows for double, triple, quadruple (or as many as required) button clicks. This means
@@ -38,40 +41,47 @@ public class MultiClicks {
 
     /* Constructor */
     public MultiClicks(){}
+    public MultiClicks(int numOfClicks, double timeForClicks){
+        this.numOfClicks = numOfClicks;
+        this.timeForClicks = timeForClicks;
+    }
 
     //TODO add default variables, constructor and method if need be
 
     /* Methods */
-    public boolean multiClick(boolean button, int numOfClicks, int timeForClicks) {
+    public boolean multiClick(boolean button, int numOfClicks, double timeForClicks) {
         // get current time in seconds
-        int currTime = (int) (System.currentTimeMillis()/1000);
+        double currTime = (double) (System.currentTimeMillis()/1000);
         // gets all calls that took place to get here
         StackTraceElement[] trace = Thread.currentThread().getStackTrace();
         int callId = trace[trace.length - 1].hashCode(); // generates unique id based on first method call
-        // mounts button data onto hashmap
-        MultiClicksData buttonData = mountBtn(callId, numOfClicks, timeForClicks);
-
+        MultiClicksData buttonData = mountBtn(callId, numOfClicks, timeForClicks); // mounts button data onto hashmap
         if(currTime - buttonData.getClickStartTime() <= buttonData.getTimeForClicks()){ //time for double (or more) clicks
             if(tgg.toggle(button)){
-                    buttonData.setCurrentClicks(buttonData.getCurrentClicks() + 1);
-            }
-            if(buttonData.getCurrentClicks() == buttonData.getNumberOfClicks()){
-                unmountBtn(callId); // button data has competed it's task so unloaded
-                return true;
-            }
+                buttonData.setCurrentClicks(buttonData.getCurrentClicks() + 1);
+            // "else if" is so that the main code "return true" when the button is released (up stroke) from last click
+                // and not "return true" from pressing down (down stroke) of last click
+            }else if(buttonData.getCurrentClicks() == buttonData.getNumberOfClicks()){
+                 unmountBtn(callId); // button data has competed it's task so unloaded
+                 return true;
+             }
         }else{
+            System.out.println("timeout");
             unmountBtn(callId); // time for multi-clicks ran out so button is unmounted
         }
         return false; // if button is not clicked specifed number of times by time it returns false
     }
 
-    private MultiClicksData mountBtn(int callId, int numberOfClicks, int timeForClicks){
-        try{
-            return allButtonClicked.get(callId);
-        }catch (Exception e){
-            allButtonClicked.put(callId, new MultiClicksData(numberOfClicks, timeForClicks));
-            return allButtonClicked.get(callId);
+    public boolean multiClick(boolean button){ return multiClick(button, this.numOfClicks, this.timeForClicks); }
+
+    private MultiClicksData mountBtn(int callId, int numberOfClicks, double timeForClicks){
+        MultiClicksData buttonData = allButtonClicked.get(callId); // if value not found, null returned
+        if(buttonData == null){
+            System.out.println("create new");
+            allButtonClicked.put(callId, new MultiClicksData(numberOfClicks, timeForClicks)); // add btn if not in map
+            buttonData = allButtonClicked.get(callId);
         }
+        return buttonData;
     }
     private void unmountBtn(int callId){
         try{
@@ -83,13 +93,14 @@ public class MultiClicks {
 }
 
 class MultiClicksData{
-    private int numberOfClicks, currentClicks, timeForClicks, clickStartTime;
+    private int numberOfClicks, currentClicks;
+    private double timeForClicks, clickStartTime;
 
-    public MultiClicksData(int numberOfClicks, int timeForClicks){
+    public MultiClicksData(int numberOfClicks, double timeForClicks){
         this.numberOfClicks = numberOfClicks;
         this.currentClicks = 0;
         this.timeForClicks = timeForClicks;
-        this.clickStartTime = (int) (System.currentTimeMillis()/1000);
+        this.clickStartTime = (double) (System.currentTimeMillis()/1000);
     }
     /* GETTERS AND SETTERS */
     public int getNumberOfClicks() { return numberOfClicks; }
@@ -97,7 +108,7 @@ class MultiClicksData{
     public int getCurrentClicks() { return currentClicks; }
     public void setCurrentClicks(int currentClicks) { this.currentClicks = currentClicks; }
 
-    public int getTimeForClicks() { return timeForClicks; }
+    public double getTimeForClicks() { return timeForClicks; }
 
-    public int getClickStartTime() { return clickStartTime; }
+    public double getClickStartTime() { return clickStartTime; }
 }
